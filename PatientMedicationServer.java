@@ -33,16 +33,8 @@ public class PatientMedicationServer {
                 .build()
                 .start();
         System.out.println("Server started, listening on " + port);
- {
-            System.err.println("shutting down gRPC server with JVM");
-            try {
-                PatientMedicationServer.this.stop();
-            } catch (InterruptedException e) {
-                e.printStackTrace(System.err);
-            }
-            System.err.println("server has been shut down");
- }
-
+        
+ 
         // register the server with jmDNS
         JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
         // create serviceInfo obj, give it a type (grpc.tcp.loc) and a name (patientmedicationserv) then use the server (above) port and path are params
