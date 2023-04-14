@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.health.grpc";
+option java_outer_classname = "HealthProto";
+
+package health;
+
+service PatientMonitoring {
+  // RPC Method 1 - Add Patient
+  rpc AddPatient(AddPatientRequest) returns (AddPatientResponse) {}
+
+  // RPC Method 2 - Real-time Patient Info
+  rpc StreamPatientInfo(StreamPatientInfoRequest) returns (stream StreamPatientInfoResponse) {}
+
+  // RPC Method 3 - Medical Staff Alert
+  rpc StreamMedicalAlerts(StreamMedicalAlertsRequest) returns (stream StreamMedicalAlertsResponse) {}
+}
+
+// patient class to define patient object which will be added using addpatient
+message Patient {
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+  string gender = 4;
+  Address address = 5;
+  string bloodType = 6;
+  string insuranceProvider = 7;
+  string insuranceNumber = 8;
+}
+
+message AddPatientRequest {
+  // Request message for AddPatient method
+  string patientName = 1;
+  int32 age = 2;
+  string gender = 3;
+  // Add any other patient info here
+}
+
+message AddPatientResponse {
+  // Response message for AddPatient method
+  bool success = 1;
+  string message = 2;
+}
+
+message StreamPatientInfoRequest {
+  // Request message for StreamPatientInfo method
+  string patientId = 1;
+}
+
+message StreamPatientInfoResponse {
+  // Streamed response message for StreamPatientInfo method
+  double heartRate = 1;
+  double oxygenSaturation = 2;
+  double bloodPressure = 3;
+  // Add any other vital sign data here
+}
+
+message StreamMedicalAlertsRequest {
+  // Request message for StreamMedicalAlerts method
+  string patientId = 1;
+}
+
+message StreamMedicalAlertsResponse {
+  // Streamed response message for StreamMedicalAlerts method
+  string diagnosis = 1;
+  string treatment = 2;
+  bool confirmationRequired = 3;
+  // Add any other alert data here
+}
