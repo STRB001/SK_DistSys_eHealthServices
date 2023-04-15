@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.MedicationManagement.grpc";
+option java_outer_classname = "PatientMedicationImpl";
+
+package PatientMedicationManagement;
+
+service MedicationManagement {
+  // Unary RPC Method 1 - Add medication
+  rpc AddMedication(AddMedicationRequest) returns (AddMedicationResponse) {}
+
+  // Server Streaming RPC Method 2 - Medication Schedule
+  rpc GetMedicationSchedule(GetMedicationScheduleRequest) returns (stream GetMedicationScheduleResponse) {}
+
+  // Bi-directional Streaming RPC Method 3 - Confirm Medication
+  rpc ConfirmMedication(stream ConfirmMedicationRequest) returns (stream ConfirmMedicationResponse) {}
+}
+
+// Request message for AddMedication method
+message AddMedicationRequest {
+  string patient_id = 1;
+  string medication_name = 2;
+  string dosage = 3;
+  string side_effects = 4;
+}
+
+// Rresponse message for AddMedication method
+message AddMedicationResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Request message for GetMedicationSchedule method
+message GetMedicationScheduleRequest {
+  string patient_id = 1;
+  int32 days = 2;
+}
+
+// Streamed response message for GetMedicationSchedule method
+message GetMedicationScheduleResponse {
+  string medication_name = 1;
+  string scheduled_time = 2;
+}
+
+// streamed request message for ConfirmMedication method
+message ConfirmMedicationRequest {
+  string medication_name = 1;
+  string dosage = 2;
+}
+
+// Streamed response message for ConfirmMedication method
+message ConfirmMedicationResponse {
+  string message = 1;
+  string contraindications = 2;
+  string administration_instructions = 3;
+}

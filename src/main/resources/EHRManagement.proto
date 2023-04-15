@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.eHealthRecords.grpc";
+option java_outer_classname = "EHRManagementImpl";
+
+package EHRManagement;
+
+service EHRManagement {
+  // Unary RPC Method 1 - Search Patient Record
+  rpc SearchPatientRecord(SearchPatientRecordRequest) returns (SearchPatientRecordResponse) {}
+
+  // Unary RPC Method 2 - Update Patient Record
+  rpc UpdatePatientRecord(UpdatePatientRecordRequest) returns (UpdatePatientRecordResponse) {}
+
+  // Client Streaming RPC Method 3 - Share Patient Record
+  rpc SharePatientRecord(stream SharePatientRecordRequest) returns (SharePatientRecordResponse) {}
+}
+
+// Request message for SearchPatientRecord method
+message SearchPatientRecordRequest {
+  string patient_id = 1;
+}
+
+// response message for SearchPatientRecord method
+message SearchPatientRecordResponse {
+  string patient_id = 1;
+  string patient_name = 2;
+  string department = 3;
+  string diagnosis = 4;
+  string medication = 5;
+  string scheduled_operation = 6;
+}
+
+// Request message for UpdatePatientRecord method
+message UpdatePatientRecordRequest {
+  string patient_id = 1;
+  string updated_information = 2;
+}
+
+// Response message for UpdatePatientRecord method
+message UpdatePatientRecordResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// request message for SharePatientRecord method
+message SharePatientRecordRequest {
+  string patient_id = 1;
+  string record_part = 2;
+  string record_content = 3;
+}
+
+// Response message for SharePatientRecord method
+message SharePatientRecordResponse {
+  bool success = 1;
+  string message = 2;
+}

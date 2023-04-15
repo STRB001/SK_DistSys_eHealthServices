@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.RealTimeMonitoring.grpc";
+option java_outer_classname = "RealTimePatientImpl";
+
+package RealTimePatientMonitoring;
+
+service PatientMonitoring {
+
+  // Unary RPC Method 1 - Add Patient
+  rpc AddPatient(AddPatientRequest) returns (AddPatientResponse) {}
+
+  // Server Streaming RPC Method 2 - Real-time Patient Info
+  rpc StreamPatientInfo(StreamPatientInfoRequest) returns (stream StreamPatientInfoResponse) {}
+
+  // Server Streaming RPC Method 3 - Medical Staff Alert
+  rpc StreamMedicalAlerts(StreamMedicalAlertsRequest) returns (stream StreamMedicalAlertsResponse) {}
+}
+
+
+  // request message for AddPatient method
+message AddPatientRequest {
+  string patient_name = 1;
+  int32 patient_age = 2;
+  string patient_id = 3;
+}
+
+message AddPatientResponse {
+  // response message for AddPatient method
+  bool success = 1;
+  string message = 2;
+}
+
+message StreamPatientInfoRequest {
+  // Request message for StreamPatientInfo method
+  string patientId = 1;
+}
+
+message StreamPatientInfoResponse {
+  // streamed response message for StreamPatientInfo method
+  double heartRate = 1;
+  double oxygenSaturation = 2;
+  double bloodPressure = 3;
+
+}
+
+message StreamMedicalAlertsRequest {
+  // request message for StreamMedicalAlerts method
+  string patientId = 1;
+}
+
+message StreamMedicalAlertsResponse {
+  // Streamed response message for StreamMedicalAlerts method
+  string diagnosis = 1;
+  string treatment = 2;
+
+
+}
