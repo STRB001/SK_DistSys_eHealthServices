@@ -15,6 +15,7 @@ import javax.jmdns.ServiceListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -41,11 +42,21 @@ public class PatientMonitoringClient {
         blockingStub = PatientMonitoringGrpc.newBlockingStub(channel);
         asyncStub = PatientMonitoringGrpc.newStub(channel);
 
-        String patientName = "Shaun Kalagin";
-        int patientAge = 31;
-        String patientId = "P123";
+        // create Scanner obj to take in patient info
+        Scanner myInput = new Scanner(System.in);
+        
+        System.out.println("Please enter patient name:");
+        String patientName = myInput.nextLine();
+        System.out.println("Please enter patient age:");
+        int patientAge = myInput.nextInt();
+        myInput.nextLine(); // Consume the newline character
+        System.out.println("Enter patient ID:");
+        String patientId = myInput.nextLine();
 
         client.addPatient(patientName, patientAge, patientId);
+        
+        
+        
         client.streamPatientInfo(patientId);
         client.streamMedicalAlerts(patientId);
 
@@ -98,6 +109,7 @@ public class PatientMonitoringClient {
         }
     }
 
+    // addPatient taking in 3 parameters passed by Scanner 'myInput'
     public void addPatient(String patientName, int patientAge, String patientId) {
         AddPatientRequest request = AddPatientRequest.newBuilder()
                 .setPatientName(patientName)
