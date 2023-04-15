@@ -91,7 +91,7 @@ private static final long serialVersionUID = 0L;
   private boolean success_;
   /**
    * <pre>
-   * Response message for AddPatient method
+   * response message for AddPatient method
    * </pre>
    *
    * <code>bool success = 1;</code>
@@ -458,7 +458,7 @@ private static final long serialVersionUID = 0L;
     private boolean success_ ;
     /**
      * <pre>
-     * Response message for AddPatient method
+     * response message for AddPatient method
      * </pre>
      *
      * <code>bool success = 1;</code>
@@ -468,7 +468,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Response message for AddPatient method
+     * response message for AddPatient method
      * </pre>
      *
      * <code>bool success = 1;</code>
@@ -481,7 +481,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Response message for AddPatient method
+     * response message for AddPatient method
      * </pre>
      *
      * <code>bool success = 1;</code>

@@ -5,7 +5,7 @@ package com.example.eHealthRecords.grpc;
 
 /**
  * <pre>
- * Response message for SearchPatientRecord method
+ * response message for SearchPatientRecord method
  * </pre>
  *
  * Protobuf type {@code EHRManagement.SearchPatientRecordResponse}
@@ -531,7 +531,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Response message for SearchPatientRecord method
+   * response message for SearchPatientRecord method
    * </pre>
    *
    * Protobuf type {@code EHRManagement.SearchPatientRecordResponse}

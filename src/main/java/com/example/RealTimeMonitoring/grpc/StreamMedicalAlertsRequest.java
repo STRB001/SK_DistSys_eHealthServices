@@ -85,7 +85,7 @@ private static final long serialVersionUID = 0L;
   private volatile java.lang.Object patientId_;
   /**
    * <pre>
-   * Request message for StreamMedicalAlerts method
+   * request message for StreamMedicalAlerts method
    * </pre>
    *
    * <code>string patientId = 1;</code>
@@ -104,7 +104,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Request message for StreamMedicalAlerts method
+   * request message for StreamMedicalAlerts method
    * </pre>
    *
    * <code>string patientId = 1;</code>
@@ -429,7 +429,7 @@ private static final long serialVersionUID = 0L;
     private java.lang.Object patientId_ = "";
     /**
      * <pre>
-     * Request message for StreamMedicalAlerts method
+     * request message for StreamMedicalAlerts method
      * </pre>
      *
      * <code>string patientId = 1;</code>
@@ -448,7 +448,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Request message for StreamMedicalAlerts method
+     * request message for StreamMedicalAlerts method
      * </pre>
      *
      * <code>string patientId = 1;</code>
@@ -468,7 +468,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Request message for StreamMedicalAlerts method
+     * request message for StreamMedicalAlerts method
      * </pre>
      *
      * <code>string patientId = 1;</code>
@@ -485,7 +485,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Request message for StreamMedicalAlerts method
+     * request message for StreamMedicalAlerts method
      * </pre>
      *
      * <code>string patientId = 1;</code>
@@ -498,7 +498,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Request message for StreamMedicalAlerts method
+     * request message for StreamMedicalAlerts method
      * </pre>
      *
      * <code>string patientId = 1;</code>

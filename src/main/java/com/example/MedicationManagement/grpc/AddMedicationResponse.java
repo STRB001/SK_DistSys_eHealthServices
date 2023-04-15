@@ -5,7 +5,7 @@ package com.example.MedicationManagement.grpc;
 
 /**
  * <pre>
- * Response message for AddMedication method
+ * Rresponse message for AddMedication method
  * </pre>
  *
  * Protobuf type {@code PatientMedicationManagement.AddMedicationResponse}
@@ -303,7 +303,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Response message for AddMedication method
+   * Rresponse message for AddMedication method
    * </pre>
    *
    * Protobuf type {@code PatientMedicationManagement.AddMedicationResponse}

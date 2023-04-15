@@ -9,7 +9,7 @@ public interface StreamPatientInfoResponseOrBuilder extends
 
   /**
    * <pre>
-   * Streamed response message for StreamPatientInfo method
+   * streamed response message for StreamPatientInfo method
    * </pre>
    *
    * <code>double heartRate = 1;</code>

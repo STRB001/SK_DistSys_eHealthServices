@@ -5,7 +5,7 @@ package com.example.eHealthRecords.grpc;
 
 /**
  * <pre>
- * Request message for SharePatientRecord method
+ * request message for SharePatientRecord method
  * </pre>
  *
  * Protobuf type {@code EHRManagement.SharePatientRecordRequest}
@@ -378,7 +378,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Request message for SharePatientRecord method
+   * request message for SharePatientRecord method
    * </pre>
    *
    * Protobuf type {@code EHRManagement.SharePatientRecordRequest}

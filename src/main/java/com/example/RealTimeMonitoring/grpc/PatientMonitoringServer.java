@@ -82,12 +82,23 @@ public class PatientMonitoringServer {
 
         @Override
         public void streamMedicalAlerts(StreamMedicalAlertsRequest request, StreamObserver<StreamMedicalAlertsResponse> responseObserver) {
-            for (int i = 0; i < 3; i++) {
-                StreamMedicalAlertsResponse response = StreamMedicalAlertsResponse.newBuilder()
-                        .setDiagnosis("High blood pressure")
-                        .setTreatment("Lifestyle changes and medication")
-                        .build();
+            for (int i = 0; i < 5; i++) {
+                StreamMedicalAlertsResponse response;
+
+                if (i < 3) {
+                    response = StreamMedicalAlertsResponse.newBuilder()
+                            .setDiagnosis("Currently medical alert")
+                            .setTreatment("Patient is stable")
+                            .build();
+                } else {
+                    response = StreamMedicalAlertsResponse.newBuilder()
+                            .setDiagnosis("Alert! Diagnosis: Patient heart rate unstable!")
+                            .setTreatment("Deliver beta blockers asap!")
+                            .build();
+                }
+
                 responseObserver.onNext(response);
+
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {

@@ -152,7 +152,7 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Unary RPC Method 1 - Add Medication
+     * Unary RPC Method 1 - Add medication
      * </pre>
      */
     public void addMedication(com.example.MedicationManagement.grpc.AddMedicationRequest request,
@@ -227,7 +227,7 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Unary RPC Method 1 - Add Medication
+     * Unary RPC Method 1 - Add medication
      * </pre>
      */
     public void addMedication(com.example.MedicationManagement.grpc.AddMedicationRequest request,
@@ -279,7 +279,7 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Unary RPC Method 1 - Add Medication
+     * Unary RPC Method 1 - Add medication
      * </pre>
      */
     public com.example.MedicationManagement.grpc.AddMedicationResponse addMedication(com.example.MedicationManagement.grpc.AddMedicationRequest request) {
@@ -319,7 +319,7 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Unary RPC Method 1 - Add Medication
+     * Unary RPC Method 1 - Add medication
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.MedicationManagement.grpc.AddMedicationResponse> addMedication(

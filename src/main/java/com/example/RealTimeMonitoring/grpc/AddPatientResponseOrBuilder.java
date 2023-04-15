@@ -9,7 +9,7 @@ public interface AddPatientResponseOrBuilder extends
 
   /**
    * <pre>
-   * Response message for AddPatient method
+   * response message for AddPatient method
    * </pre>
    *
    * <code>bool success = 1;</code>

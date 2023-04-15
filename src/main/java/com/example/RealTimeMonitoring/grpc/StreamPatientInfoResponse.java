@@ -96,7 +96,7 @@ private static final long serialVersionUID = 0L;
   private double heartRate_;
   /**
    * <pre>
-   * Streamed response message for StreamPatientInfo method
+   * streamed response message for StreamPatientInfo method
    * </pre>
    *
    * <code>double heartRate = 1;</code>
@@ -472,7 +472,7 @@ private static final long serialVersionUID = 0L;
     private double heartRate_ ;
     /**
      * <pre>
-     * Streamed response message for StreamPatientInfo method
+     * streamed response message for StreamPatientInfo method
      * </pre>
      *
      * <code>double heartRate = 1;</code>
@@ -482,7 +482,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Streamed response message for StreamPatientInfo method
+     * streamed response message for StreamPatientInfo method
      * </pre>
      *
      * <code>double heartRate = 1;</code>
@@ -495,7 +495,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <pre>
-     * Streamed response message for StreamPatientInfo method
+     * streamed response message for StreamPatientInfo method
      * </pre>
      *
      * <code>double heartRate = 1;</code>

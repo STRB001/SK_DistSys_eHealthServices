@@ -5,7 +5,7 @@ package com.example.RealTimeMonitoring.grpc;
 
 /**
  * <pre>
- * Request message for AddPatient method
+ * request message for AddPatient method
  * </pre>
  *
  * Protobuf type {@code RealTimePatientMonitoring.AddPatientRequest}
@@ -353,7 +353,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Request message for AddPatient method
+   * request message for AddPatient method
    * </pre>
    *
    * Protobuf type {@code RealTimePatientMonitoring.AddPatientRequest}

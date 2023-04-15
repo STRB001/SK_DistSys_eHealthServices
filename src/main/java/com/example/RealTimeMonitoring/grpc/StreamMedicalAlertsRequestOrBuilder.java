@@ -9,7 +9,7 @@ public interface StreamMedicalAlertsRequestOrBuilder extends
 
   /**
    * <pre>
-   * Request message for StreamMedicalAlerts method
+   * request message for StreamMedicalAlerts method
    * </pre>
    *
    * <code>string patientId = 1;</code>
@@ -17,7 +17,7 @@ public interface StreamMedicalAlertsRequestOrBuilder extends
   java.lang.String getPatientId();
   /**
    * <pre>
-   * Request message for StreamMedicalAlerts method
+   * request message for StreamMedicalAlerts method
    * </pre>
    *
    * <code>string patientId = 1;</code>
