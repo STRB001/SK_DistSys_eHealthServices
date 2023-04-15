@@ -1,4 +1,4 @@
-package com.example.RealTimeMonitoring.grpc;
+package clientGUI;
 
 import java.awt.EventQueue;
 
