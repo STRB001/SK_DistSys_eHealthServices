@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
 
 public class PatientMedicationClient {
 
@@ -38,12 +39,22 @@ public class PatientMedicationClient {
         // async sends a request to server but still executes regardless of response
         asyncStub = MedicationManagementGrpc.newStub(channel);
 
-        String patientId = "P123";
-        client.addMedication(patientId, "Sample Medicine", "500mg", "Vomiting");
+        Scanner myInput = new Scanner(System.in);
+
+        System.out.println("Enter patient ID:");
+        String patientId = myInput.nextLine();
+        System.out.println("Enter medication name:");
+        String medicationName = myInput.nextLine();
+        System.out.println("Enter medication dosage:");
+        String dosage = myInput.nextLine();
+        System.out.println("Enter medication side effects:");
+        String sideEffects = myInput.nextLine();
+
+        client.addMedication(patientId, medicationName, dosage, sideEffects);
         client.getMedicationSchedule(patientId, 1);
         client.confirmMedication();
 
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+        channel.shutdown().awaitTermination(10, TimeUnit.SECONDS);
     }
 
     // creates the jmDNS instance  
