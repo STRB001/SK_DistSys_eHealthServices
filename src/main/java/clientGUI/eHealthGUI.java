@@ -61,6 +61,7 @@ public class eHealthGUI extends JFrame {
 			
 	}
 	   public static ServiceInfo medicationManagementServiceInfo;
+	   private JTextField textField;
 	
 	// Discover Patient Medication jmDNS
 	   private void discoverPatientMedicationService(String service_type) {
@@ -190,6 +191,17 @@ public class eHealthGUI extends JFrame {
 		// ------------------ COMPONENTS OF MEDICINE MANAGER TAB -----------------------------------------
 		JPanel medicationSchedule = new JPanel();
 		medicationManagerTabsContainer.addTab("Medication Schedule Service", null, medicationSchedule, null);
+		medicationSchedule.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(224, 24, 276, 280);
+		textField.setHorizontalAlignment(SwingConstants.LEFT);
+		textField.setColumns(10);
+		medicationSchedule.add(textField);
+		
+		JLabel addMedicineOutputLb_1 = new JLabel("Output:");
+		addMedicineOutputLb_1.setBounds(299, 11, 47, 14);
+		medicationSchedule.add(addMedicineOutputLb_1);
 		
 		JPanel confirmMedication = new JPanel();
 		medicationManagerTabsContainer.addTab("Confirm Medication", null, confirmMedication, null);
@@ -268,10 +280,6 @@ public class eHealthGUI extends JFrame {
 		        }
 		    }
 		});
-		
-		
+
 	}
-	
-	
-	
 }
