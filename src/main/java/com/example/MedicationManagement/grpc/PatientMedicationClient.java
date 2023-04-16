@@ -92,8 +92,7 @@ public class PatientMedicationClient {
 
                 }
             });
-         // set to 2000ms to give jmDNS more time to discover. stops random failure of methods sometimes
-            Thread.sleep(2000);
+            Thread.sleep(500);
             jmdns.close();
 
         } catch (UnknownHostException e) {
