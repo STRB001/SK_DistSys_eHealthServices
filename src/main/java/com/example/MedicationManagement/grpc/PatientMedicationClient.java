@@ -15,23 +15,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
 
 public class PatientMedicationClient {
+
     private static MedicationManagementGrpc.MedicationManagementBlockingStub blockingStub;
     private static MedicationManagementGrpc.MedicationManagementStub asyncStub;
     private static ServiceInfo medicationManagementServiceInfo;
 
-    public PatientMedicationClient() {
-    }
-
-    public PatientMedicationClient(ManagedChannel channel) {
-        blockingStub = MedicationManagementGrpc.newBlockingStub(channel);
-        asyncStub = MedicationManagementGrpc.newStub(channel);
-    }
-
-
-
     public static void main(String[] args) throws InterruptedException {
-    	
-
         PatientMedicationClient client = new PatientMedicationClient();
 
         String medicationManagement_service_type = "_grpc._tcp.local.";
@@ -51,55 +40,46 @@ public class PatientMedicationClient {
         asyncStub = MedicationManagementGrpc.newStub(channel);
 
         Scanner myInput = new Scanner(System.in);
-        
-        // take in user input to assign a new medicine to a patient
-        System.out.println("Please enter patient ID:");
-        String patientId = myInput.nextLine();
-        System.out.println("Please enter medication name:");
-        String medicationName = myInput.nextLine();
-        System.out.println("Please enter medication dosage:");
-        String dosage = myInput.nextLine();
-        System.out.println("Please enter medication side effects:");
-        String sideEffects = myInput.nextLine();
-        client.addMedication(patientId, medicationName, dosage, sideEffects);
-        
-    
-        // take user input (patientID) to receive the medicine schedule
-        System.out.println("Please enter patient ID in order to receive medication schedule");
-        patientId = myInput.nextLine();
-        client.getMedicationSchedule(patientId, 1);
-        
 
+        System.out.println("Enter patient ID:");
+        String patientId = myInput.nextLine();
+        System.out.println("Enter medication name:");
+        String medicationName = myInput.nextLine();
+        System.out.println("Enter medication dosage:");
+        String dosage = myInput.nextLine();
+        System.out.println("Enter medication side effects:");
+        String sideEffects = myInput.nextLine();
+
+        client.addMedication(patientId, medicationName, dosage, sideEffects);
+        client.getMedicationSchedule(patientId, 1);
         client.confirmMedication();
 
         channel.shutdown().awaitTermination(10, TimeUnit.SECONDS);
     }
 
     // creates the jmDNS instance  
-    public void discoverMedicationManagementService(String service_type) {
+    private void discoverMedicationManagementService(String service_type) {
         try {
             JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
             // create a 'Service Listener' which listens for service events (service is added removed or resolved)
             // also takes info about the connection
             jmdns.addServiceListener(service_type, new ServiceListener() {
             	// service revolved event presents all of the info below describing the discovered service
-            	@Override
-            	public void serviceResolved(ServiceEvent event) {
-     
+                @Override
+                public void serviceResolved(ServiceEvent event) {
 
-            	    medicationManagementServiceInfo = event.getInfo();
+                	// mmServiceInfo is used to obtain the service host address and port #
+                    medicationManagementServiceInfo = event.getInfo();
 
-            	    int port = medicationManagementServiceInfo.getPort();
-            	    String host = medicationManagementServiceInfo.getHostAddresses()[0];
+                    int port = medicationManagementServiceInfo.getPort();
+                    String host = medicationManagementServiceInfo.getHostAddresses()[0];
 
-            	    // Create the PatientMedicationClient instance with the host and port
-
-            	    System.out.println("Resolving with properties:");
-            	    System.out.println("Port: " + port);
-            	    System.out.println("Type: " + event.getType());
-            	    System.out.println("Name: " + event.getName());
-            	    System.out.println("Host: " + host);
-            	}
+                    System.out.println("resolving " + service_type + " with properties ...");
+                    System.out.println("port: " + port);
+                    System.out.println("type:" + event.getType());
+                    System.out.println("name: " + event.getName());
+                    System.out.println("host: " + host);
+                }
 
                 @Override
                 public void serviceRemoved(ServiceEvent event) {
@@ -113,7 +93,7 @@ public class PatientMedicationClient {
                 }
             });
          // set to 2000ms to give jmDNS more time to discover. stops random failure of methods sometimes
-            Thread.sleep(500);
+            Thread.sleep(2000);
             jmdns.close();
 
         } catch (UnknownHostException e) {
@@ -125,7 +105,7 @@ public class PatientMedicationClient {
         }
     }
 
-    public String addMedication(String patientId, String medicationName, String dosage, String sideEffects) {
+    public void addMedication(String patientId, String medicationName, String dosage, String sideEffects) {
         AddMedicationRequest request = AddMedicationRequest.newBuilder()
                 .setPatientId(patientId)
                 .setMedicationName(medicationName)
@@ -135,10 +115,9 @@ public class PatientMedicationClient {
 
         AddMedicationResponse response = blockingStub.addMedication(request);
 
+        System.out.println("Add medication response: " + response.getMessage());
         if (response.getSuccess()) {
-            return "PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription.";
-        } else {
-            return "Failed to add medicine for patient ID: " + patientId;
+            System.out.println("PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription.");
         }
     }
 
@@ -149,7 +128,7 @@ public class PatientMedicationClient {
                 .build();
 
         blockingStub.getMedicationSchedule(request).forEachRemaining(response ->
-                System.out.println("Medication schedule for Patient " + patientId + ": take " + response.getMedicationName() + " at " + response.getScheduledTime())
+                System.out.println("Medication schedule: " + response.getMedicationName() + " at " + response.getScheduledTime())
         );
     }
     

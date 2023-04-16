@@ -26,7 +26,7 @@ public class PatientMedicationServer {
     }
 
     	// build server
-    public void start() throws IOException {
+    private void start() throws IOException {
         int port = 50053;
         server = ServerBuilder.forPort(port)
                 .addService(new MedicationManagementImpl())
@@ -74,17 +74,12 @@ public class PatientMedicationServer {
         @Override
         public void getMedicationSchedule(GetMedicationScheduleRequest request, StreamObserver<GetMedicationScheduleResponse> responseObserver) {
             // made up medication schedule - to be updated later
-            String[] times = {"08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00"};
-            // for each loop taking the array of times and passing it to responseObserver.onNext
-            for (String time : times) {
-                GetMedicationScheduleResponse response = GetMedicationScheduleResponse.newBuilder()
-                        .setMedicationName("Paracetamol")
-                        .setScheduledTime(time)
-                        .build();
-
-                responseObserver.onNext(response);
-            }
-
+            Stream.of("08:00", "12:00", "20:00")
+                    .map(time -> GetMedicationScheduleResponse.newBuilder()
+                            .setMedicationName("Sample Medication")
+                            .setScheduledTime(time)
+                            .build())
+                    .forEach(responseObserver::onNext);
             responseObserver.onCompleted();
         }
 
