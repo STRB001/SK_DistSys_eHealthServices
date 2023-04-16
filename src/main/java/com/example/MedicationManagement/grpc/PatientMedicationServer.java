@@ -26,7 +26,7 @@ public class PatientMedicationServer {
     }
 
     	// build server
-    private void start() throws IOException {
+    public void start() throws IOException {
         int port = 50053;
         server = ServerBuilder.forPort(port)
                 .addService(new MedicationManagementImpl())
@@ -41,7 +41,7 @@ public class PatientMedicationServer {
         ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "PatientMedicationServer", port, "path=/");
         jmdns.registerService(serviceInfo);
         // println to show it was created correctly
-        System.out.printf("Registered jmDNS service with type" + serviceInfo.getType() + " and name " + serviceInfo.getName());
+        System.out.println("Registered jmDNS service with type" + serviceInfo.getType() + " and name " + serviceInfo.getName());
 
     }
 
@@ -74,12 +74,17 @@ public class PatientMedicationServer {
         @Override
         public void getMedicationSchedule(GetMedicationScheduleRequest request, StreamObserver<GetMedicationScheduleResponse> responseObserver) {
             // made up medication schedule - to be updated later
-            Stream.of("08:00", "12:00", "20:00")
-                    .map(time -> GetMedicationScheduleResponse.newBuilder()
-                            .setMedicationName("Sample Medication")
-                            .setScheduledTime(time)
-                            .build())
-                    .forEach(responseObserver::onNext);
+            String[] times = {"08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00"};
+            // for each loop taking the array of times and passing it to responseObserver.onNext
+            for (String time : times) {
+                GetMedicationScheduleResponse response = GetMedicationScheduleResponse.newBuilder()
+                        .setMedicationName("Paracetamol")
+                        .setScheduledTime(time)
+                        .build();
+
+                responseObserver.onNext(response);
+            }
+
             responseObserver.onCompleted();
         }
 
