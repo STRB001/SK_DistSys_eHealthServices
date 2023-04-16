@@ -63,60 +63,59 @@ public class eHealthGUI extends JFrame {
 	   public static ServiceInfo medicationManagementServiceInfo;
 	
 	// Discover Patient Medication jmDNS
-	private void discoverPatientMedicationService(String service_type) {
-	 
-		try {
-	        // Create a JmDNS instance
-	        JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+	   private void discoverPatientMedicationService(String service_type) {
+		    try {
+		        // Create a JmDNS instance
+		        JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 
-	        jmdns.addServiceListener(service_type, new ServiceListener() {
+		        ServiceListener listener = new ServiceListener() {
+		            @Override
+		            public void serviceResolved(ServiceEvent event) {
+		                medicationManagementServiceInfo = event.getInfo();
 
-	        	@Override
-	        	public void serviceResolved(ServiceEvent event) {
-	        	    System.out.println("Patient Medication jmDNS Service discovered!");
+		                int port = medicationManagementServiceInfo.getPort();
+		                String host = medicationManagementServiceInfo.getHostAddresses()[0];
 
-	        	    medicationManagementServiceInfo = event.getInfo();
-
-	        	    int port = medicationManagementServiceInfo.getPort();
-	        	    String host = medicationManagementServiceInfo.getHostAddresses()[0];
-
-	        	    // Create the PatientMedicationClient instance with the host and port
-	        	    ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-	        	    client = new PatientMedicationClient(channel);
-
-	        	    System.out.println("Resolving " + service_type + " with properties ...");
-	        	    System.out.println("Port: " + port);
-	        	    System.out.println("Type: " + event.getType());
-	        	    System.out.println("Name: " + event.getName());
-	        	    System.out.println("Host: " + host);
-	        	}
-
-	            @Override
-	            public void serviceRemoved(ServiceEvent event) {
-	                System.out.println("Patient Medication Service removed: " + event.getInfo());
-
-	            }
-
-	            @Override
-	            public void serviceAdded(ServiceEvent event) {
-	                System.out.println("Patient Medication Service added: " + event.getInfo());
-	                jmdns.requestServiceInfo(event.getType(), event.getName());
-
-	            }
-	        });
+		                // Create the PatientMedicationClient instance with the host and port
+		                ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		                client = new PatientMedicationClient(channel);
 
 
+		            }
 
-	    } catch (UnknownHostException e) {
-	        System.out.println(e.getMessage());
-	    } catch (IOException e) {
-	        System.out.println(e.getMessage());
-	    }
-	}
+		            @Override
+		            public void serviceRemoved(ServiceEvent event) {
+		                System.out.println("Patient Medication Service removed");
+		            }
+
+		            @Override
+		            public void serviceAdded(ServiceEvent event) {
+		                System.out.println("Patient Medication Service added!");
+		                jmdns.requestServiceInfo(event.getType(), event.getName());
+		            }
+		        };
+
+		        jmdns.addServiceListener(service_type, listener);
+
+		        // Print out service information once when the service is resolved
+		        Thread.sleep(500);
+		        System.out.println("Resolving Patient Medication jmDNS with properties:");
+		        System.out.println("Port: " + medicationManagementServiceInfo.getPort());
+		        System.out.println("Type: " + medicationManagementServiceInfo.getType());
+		        System.out.println("Name: " + medicationManagementServiceInfo.getName());
+		        System.out.println("Host: " + medicationManagementServiceInfo.getHostAddresses()[0]);
+
+		        jmdns.removeServiceListener(service_type, listener);
+		        jmdns.close();
+		    } catch (UnknownHostException e) {
+		        System.out.println(e.getMessage());
+		    } catch (IOException e) {
+		        System.out.println(e.getMessage());
+		    } catch (InterruptedException e) {
+		        System.out.println(e.getMessage());
+		    }
+		}
 		
-
-	
-
     // create gui and title it
 	public eHealthGUI() {
 		
@@ -135,7 +134,6 @@ public class eHealthGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-
 		// add in 1st tabbed pane to hold the three different services
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 14, 836, 393);
