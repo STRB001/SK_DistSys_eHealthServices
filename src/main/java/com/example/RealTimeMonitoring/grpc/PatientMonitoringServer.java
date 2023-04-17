@@ -56,7 +56,7 @@ public class PatientMonitoringServer {
 
             AddPatientResponse response = AddPatientResponse.newBuilder()
                     .setSuccess(true)
-                    .setMessage("Patient added successfully.")
+                    .setMessage("Patient " + request.getPatientName() + ", " + request.getPatientAge() + ", " + request.getPatientId() + " added to Patients successfully.")
                     .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();

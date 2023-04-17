@@ -35,12 +35,10 @@ public class PatientMedicationClient {
 
 
     public static void main(String[] args) throws InterruptedException {
-    	
 
         PatientMedicationClient client = new PatientMedicationClient();
-
+        
         String medicationManagement_service_type = "_grpc._tcp.local.";
-
         client.discoverMedicationManagementService(medicationManagement_service_type);
 
         String host = medicationManagementServiceInfo.getHostAddresses()[0];

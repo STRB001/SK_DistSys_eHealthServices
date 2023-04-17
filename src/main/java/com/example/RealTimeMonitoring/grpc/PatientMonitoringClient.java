@@ -22,25 +22,37 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class PatientMonitoringClient {
-
   private static PatientMonitoringGrpc.PatientMonitoringBlockingStub blockingStub;
   private static PatientMonitoringGrpc.PatientMonitoringStub asyncStub;
   private static ServiceInfo patientMonitoringServiceInfo;
-
+  
+  public PatientMonitoringClient(){
+  }
+  
+  public PatientMonitoringClient (ManagedChannel patientMonitorChannel) {
+	  blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
+	  asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
+  }
+  
+  
   public static void main(String[] args) throws InterruptedException, java.util.concurrent.TimeoutException {
-    PatientMonitoringClient client = new PatientMonitoringClient();
+    PatientMonitoringClient patientMonitorClient = new PatientMonitoringClient();
 
     String patientMonitoring_service_type = "_grpc._tcp.local.";
-
-    client.discoverPatientMonitoringService(patientMonitoring_service_type);
-
+    patientMonitorClient.discoverPatientMonitoringService(patientMonitoring_service_type);
+    
     String host = patientMonitoringServiceInfo.getHostAddresses()[0];
     int port = patientMonitoringServiceInfo.getPort();
+    
+    // managed channel is created using the host and port
+    final ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 
-    final ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 
-    blockingStub = PatientMonitoringGrpc.newBlockingStub(channel);
-    asyncStub = PatientMonitoringGrpc.newStub(channel);
+    
+    // stubs created using the already generated Grpc class
+    // blocking stub sends request to client and waits for response until proceeding
+    blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
+    asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
 
     // create Scanner obj to take in patient info
     Scanner myInput = new Scanner(System.in);
@@ -53,12 +65,12 @@ public class PatientMonitoringClient {
     System.out.println("Enter patient ID:");
     String patientId = myInput.nextLine();
 
-    client.addPatient(patientName, patientAge, patientId);
+    patientMonitorClient.addPatient(patientName, patientAge, patientId);
 
     // Ask for patientID to receive patient info stream
     System.out.println("Enter patient ID to stream patient info:");
     patientId = myInput.nextLine();
-    client.streamPatientInfo(patientId);
+    patientMonitorClient.streamPatientInfo(patientId);
 
     // added a timer to commence after patientinfo stream, so the prompt for medicalAlert stream is at the correct time
     // not very robust, i considered using CompleteableFuture as below but this is much simpler implementation
@@ -72,9 +84,9 @@ public class PatientMonitoringClient {
     // enter patientID again to receive medical alerts stream
     System.out.println("Enter patient ID to stream medical alerts:");
     patientId = myInput.nextLine();
-    client.streamMedicalAlerts(patientId);
+    patientMonitorClient.streamMedicalAlerts(patientId);
 
-    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    patientMonitorChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
   private void discoverPatientMonitoringService(String service_type) {
@@ -108,8 +120,8 @@ public class PatientMonitoringClient {
           // TODO Auto-generated method stub
         }
       });
-      // set to 2000ms to give jmDNS more time to discover. stops random failure of methods sometimes
-      Thread.sleep(2000);
+
+      Thread.sleep(500);
       jmdns.close();
 
     } catch (UnknownHostException e) {
@@ -121,21 +133,22 @@ public class PatientMonitoringClient {
     }
   }
 
-  // addPatient taking in 3 parameters passed by Scanner 'myInput'
-  public void addPatient(String patientName, int patientAge, String patientId) {
-    AddPatientRequest request = AddPatientRequest.newBuilder()
-      .setPatientName(patientName)
-      .setPatientAge(patientAge)
-      .setPatientId(patientId)
-      .build();
-    AddPatientResponse response;
-    try {
-      response = blockingStub.addPatient(request);
-      System.out.println("Add patient response: " + response.getMessage());
-    } catch (StatusRuntimeException e) {
-      System.err.println("RPC failed: " + e.getStatus());
-    }
-  }
+  
+  
+  public String addPatient(String patientName, int patientAge, String patientId) {
+	    AddPatientRequest request = AddPatientRequest.newBuilder()
+	      .setPatientName(patientName)
+	      .setPatientAge(patientAge)
+	      .setPatientId(patientId)
+	      .build();
+	    AddPatientResponse response;
+	    try {
+	        response = blockingStub.addPatient(request);
+	        return "Add patient response: " + response.getMessage() + "\n";
+	    } catch (StatusRuntimeException e) {
+	        return "RPC failed: " + e.getStatus() + "\n";
+	    }
+	}
 
   public void streamPatientInfo(String patientId) throws InterruptedException, java.util.concurrent.TimeoutException {
     StreamPatientInfoRequest request = StreamPatientInfoRequest.newBuilder()

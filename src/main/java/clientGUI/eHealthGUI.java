@@ -10,6 +10,7 @@ import com.example.MedicationManagement.grpc.AdjustDosageResponse;
 import com.example.MedicationManagement.grpc.ConfirmMedicationResponse;
 import com.example.MedicationManagement.grpc.PatientMedicationClient;
 import com.example.MedicationManagement.grpc.PatientMedicationServer;
+import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
 
 import java.awt.EventQueue;
 
@@ -25,6 +26,7 @@ import javax.swing.JButton;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -51,6 +53,7 @@ public class eHealthGUI extends JFrame {
 	private JTextField addMedicineMedicationSideEffectsTF;
 
 	private PatientMedicationClient client;
+	private PatientMonitoringClient patientMonitorClient;
 	
 	
 	
@@ -78,6 +81,9 @@ public class eHealthGUI extends JFrame {
 	   private JTextField medicationDosage1TF;
 	   private JTextField medicationDosage2TF;
 	   private JTextField medicationDosage3TF;
+	   private JTextField patientNameTF;
+	   private JTextField patientAgeTF;
+	   private JTextField patientIdTF;
 	
 	// Discover Patient Medication jmDNS
 	   private void discoverPatientMedicationService(String service_type) {
@@ -96,7 +102,11 @@ public class eHealthGUI extends JFrame {
 		                // Create the PatientMedicationClient instance with the host and port
 		                ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 		                client = new PatientMedicationClient(channel);
-
+		                
+		                
+		                // Create the AddPatientClient instance with the host and port
+		                ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		                patientMonitorClient = new PatientMonitoringClient(patientMonitorChannel);
 
 		            }
 
@@ -165,11 +175,59 @@ public class eHealthGUI extends JFrame {
 		patientMonitoringManager.setLayout(null);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(0, 11, 481, 343);
+		tabbedPane_1.setBounds(0, 11, 821, 343);
 		patientMonitoringManager.add(tabbedPane_1);
 		
 		JPanel addPatientService = new JPanel();
 		tabbedPane_1.addTab("Add Patient", null, addPatientService, null);
+		addPatientService.setLayout(null);
+		
+		JLabel patientNameLb = new JLabel("Patient Name:");
+		patientNameLb.setBounds(10, 32, 88, 14);
+		addPatientService.add(patientNameLb);
+		
+		JLabel patientAgeLb = new JLabel("Patient Age:");
+		patientAgeLb.setBounds(10, 101, 88, 14);
+		addPatientService.add(patientAgeLb);
+		
+		JLabel patientIdLb = new JLabel("Patient ID:");
+		patientIdLb.setBounds(10, 176, 88, 14);
+		addPatientService.add(patientIdLb);
+		
+		patientNameTF = new JTextField();
+		patientNameTF.setBounds(10, 48, 167, 20);
+		addPatientService.add(patientNameTF);
+		patientNameTF.setColumns(10);
+		
+		patientAgeTF = new JTextField();
+		patientAgeTF.setColumns(10);
+		patientAgeTF.setBounds(10, 118, 167, 20);
+		addPatientService.add(patientAgeTF);
+		
+		patientIdTF = new JTextField();
+		patientIdTF.setColumns(10);
+		patientIdTF.setBounds(10, 193, 167, 20);
+		addPatientService.add(patientIdTF);
+		
+		
+		// ADD PATIENT BUTTON
+		JButton addPatientBt = new JButton("Add Patient");
+		addPatientBt.setBounds(10, 246, 141, 23);
+		addPatientService.add(addPatientBt);
+		
+		
+		
+		JTextArea addPatientOutputTA = new JTextArea();
+		addPatientOutputTA.setBounds(215, 46, 591, 258);
+		addPatientService.add(addPatientOutputTA);
+		
+		JLabel addPatientOutputLb = new JLabel("Output:");
+		addPatientOutputLb.setBounds(221, 32, 46, 14);
+		addPatientService.add(addPatientOutputLb);
+		
+		
+
+		
 		
 		JPanel realTimePatientInfo = new JPanel();
 		tabbedPane_1.addTab("Real Time Patient Info", null, realTimePatientInfo, null);
@@ -260,18 +318,17 @@ public class eHealthGUI extends JFrame {
 		
 		
 		// add medicine unary method
-		addMedicineBt.addActionListener(new ActionListener() {
+		addPatientBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        String patientId = addMedicinePatientIdTF.getText();
-		        String medicationName = addMedicineMedicationNameTF.getText();
-		        String dosage = addMedicineMedicationDosageTF.getText();
-		        String sideEffects = addMedicineMedicationSideEffectsTF.getText();
+		        String patientName = patientNameTF.getText();
+		        int patientAge = Integer.parseInt(patientAgeTF.getText());
+		        String patientId = patientIdTF.getText();
 
-		        if (client != null) {
-		            String result = client.addMedication(patientId, medicationName, dosage, sideEffects);
-		            addMedicineOutputTA.setText(result);
-		        } else {
-		            addMedicineOutputTA.setText("Patient Medication Service not found. Please try again.");
+		        try {
+		            String addPatientMessage = patientMonitorClient.addPatient(patientName, patientAge, patientId);
+		            addPatientOutputTA.append(addPatientMessage);
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "Error while adding patient. Please check the input values.");
 		        }
 		    }
 		});
