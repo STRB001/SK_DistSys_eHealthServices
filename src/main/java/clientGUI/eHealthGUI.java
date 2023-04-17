@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import com.example.MedicationManagement.*;
 import com.example.MedicationManagement.grpc.AdjustDosageResponse;
+import com.example.MedicationManagement.grpc.ConfirmMedicationResponse;
 import com.example.MedicationManagement.grpc.PatientMedicationClient;
 import com.example.MedicationManagement.grpc.PatientMedicationServer;
 
@@ -36,6 +37,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -342,12 +344,37 @@ public class eHealthGUI extends JFrame {
 		confirmMedication.add(confirmMedicationOutputTA);
 		
 		JButton confirmMedicationBt = new JButton("Confirm Medication");
-		confirmMedicationBt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		confirmMedicationBt.setBounds(10, 270, 134, 23);
+		confirmMedicationBt.setBounds(10, 270, 179, 23);
 		confirmMedication.add(confirmMedicationBt);
+		
+		confirmMedicationBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            String medicationName1 = medicationName1TF.getText();
+		            String medicationDosage1 = medicationDosage1TF.getText();
+		            String medicationName2 = medicationName2TF.getText();
+		            String medicationDosage2 = medicationDosage2TF.getText();
+		            String medicationName3 = medicationName3TF.getText();
+		            String medicationDosage3 = medicationDosage3TF.getText();
+
+		            List<String> outputMessages1 = client.confirmMedication(medicationName1, medicationDosage1);
+		            List<String> outputMessages2 = client.confirmMedication(medicationName2, medicationDosage2);
+		            List<String> outputMessages3 = client.confirmMedication(medicationName3, medicationDosage3);
+
+		            List<String> allOutputMessages = new ArrayList<>();
+		            allOutputMessages.addAll(outputMessages1);
+		            allOutputMessages.addAll(outputMessages2);
+		            allOutputMessages.addAll(outputMessages3);
+
+		            for (String outputMessage : allOutputMessages) {
+		                confirmMedicationOutputTA.append(outputMessage);
+		            }
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "Error while confirming medication. Please check the input values.");
+		        }
+		    }
+		});
+		
 		
 		
 		// ------------------ COMPONENTS OF MEDICINE MANAGER TAB -----------------------------------------
@@ -383,7 +410,7 @@ public class eHealthGUI extends JFrame {
 		
 // Adjust dosage bi-directional stream
 		adjustDosageStreamBt.addActionListener(new ActionListener() {
-		    @Override
+		    
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            float bloodSugarLevel = Float.parseFloat(bloodSugarTF.getText());

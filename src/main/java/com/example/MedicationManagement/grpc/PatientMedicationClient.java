@@ -201,7 +201,9 @@ public class PatientMedicationClient {
     }
 
     
-    public void confirmMedication(String name, String dosage) {
+    public List<String> confirmMedication(String name, String dosage) {
+        List<String> outputMessages = new ArrayList<>();
+
         ConfirmMedicationRequest request = ConfirmMedicationRequest.newBuilder()
                 .setMedicationName(name)
                 .setDosage(dosage)
@@ -210,9 +212,9 @@ public class PatientMedicationClient {
         StreamObserver<ConfirmMedicationRequest> requestObserver = asyncStub.confirmMedication(new StreamObserver<ConfirmMedicationResponse>() {
             @Override
             public void onNext(ConfirmMedicationResponse response) {
-                System.out.println("Confirm medication response: " + response.getMessage());
-                System.out.println("Contraindications: " + response.getContraindications());
-                System.out.println("Administration instructions: " + response.getAdministrationInstructions());
+                outputMessages.add("Confirm medication response: " + response.getMessage() + "\n");
+                outputMessages.add("Contraindications: " + response.getContraindications() + "\n");
+                outputMessages.add("Administration instructions: " + response.getAdministrationInstructions() + "\n");
             }
 
             @Override
@@ -223,18 +225,22 @@ public class PatientMedicationClient {
             @Override
             public void onCompleted() {
                 System.out.println("Confirm medication completed.");
-    
             }
         });
 
         // Send medication request to the server
         requestObserver.onNext(request);
+        requestObserver.onCompleted();
 
         // Wait for the server to send back the response
         try {
-        	Thread.sleep(1000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        return outputMessages;
     }
-}
+    }
+    
+

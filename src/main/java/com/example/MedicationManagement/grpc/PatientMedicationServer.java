@@ -123,12 +123,23 @@ public class PatientMedicationServer {
                 @Override
                 public void onCompleted() {
                     // Process medication requests, check contraindications and provide administration instructions
-                    String message = "Medication confirmation completed.";
-                    String contraindications = "Example contraindications.";
-                    String administrationInstructions = "Example administration instructions.";
+                    List<String> contraindicationsList = new ArrayList<>();
+                    List<String> administrationInstructionsList = new ArrayList<>();
+
+                    for (ConfirmMedicationRequest request : medicationRequests) {
+                        String medicationName = request.getMedicationName();
+                        String dosage = request.getDosage();
+
+                        // Add contraindications and administration instructions for each medication
+                        contraindicationsList.add("For " + medicationName + ": Example contraindications.");
+                        administrationInstructionsList.add("For " + medicationName + ": Example administration instructions.");
+                    }
+
+                    String contraindications = String.join("\n", contraindicationsList);
+                    String administrationInstructions = String.join("\n", administrationInstructionsList);
 
                     ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
-                            .setMessage(message)
+                            .setMessage("Medication confirmation completed.")
                             .setContraindications(contraindications)
                             .setAdministrationInstructions(administrationInstructions)
                             .build();
@@ -140,3 +151,4 @@ public class PatientMedicationServer {
         }
     }
 }
+
