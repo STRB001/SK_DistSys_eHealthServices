@@ -1,5 +1,8 @@
 package com.example.MedicationManagement.grpc;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -11,6 +14,7 @@ import javax.jmdns.ServiceListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
 
@@ -64,15 +68,16 @@ public class PatientMedicationClient {
         client.addMedication(patientId, medicationName, dosage, sideEffects);
         
     
-        // take user input (patientID) to receive the medicine schedule
-        System.out.println("Please enter patient ID in order to receive medication schedule");
-        patientId = myInput.nextLine();
-        client.getMedicationSchedule(patientId, 1);
-        
+        // Take user input for blood sugar level readings and call adjustDosage method
+        System.out.println("Enter the number of blood sugar level readings:");
+        int bloodSugarLevelReadings = myInput.nextInt();
+        myInput.nextLine(); // To consume the newline character
+        client.adjustDosage(bloodSugarLevelReadings);
 
-        client.confirmMedication();
+    //    client.confirmMedication();
 
         channel.shutdown().awaitTermination(10, TimeUnit.SECONDS);
+    
     }
 
     // creates the jmDNS instance  
@@ -136,22 +141,62 @@ public class PatientMedicationClient {
         AddMedicationResponse response = blockingStub.addMedication(request);
 
         if (response.getSuccess()) {
-            return "PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription.";
+            String successMessage = "PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription.";
+            System.out.println(successMessage);
+            return successMessage;
         } else {
-            return "Failed to add medicine for patient ID: " + patientId;
+            String failureMessage = "Failed to add medicine for patient ID: " + patientId;
+            System.out.println(failureMessage);
+            return failureMessage;
         }
     }
 
-    public void getMedicationSchedule(String patientId, int days) {
-        GetMedicationScheduleRequest request = GetMedicationScheduleRequest.newBuilder()
-                .setPatientId(patientId)
-                .setDays(days)
-                .build();
+    
+    public List<String> adjustDosage(float initialBloodSugarLevel) {
+        List<String> outputMessages = new ArrayList<>();
 
-        blockingStub.getMedicationSchedule(request).forEachRemaining(response ->
-                System.out.println("Medication schedule for Patient " + patientId + ": take " + response.getMedicationName() + " at " + response.getScheduledTime())
-        );
+        StreamObserver<AdjustDosageRequest> requestObserver = asyncStub.adjustDosage(new StreamObserver<AdjustDosageResponse>() {
+            @Override
+            public void onNext(AdjustDosageResponse response) {
+                float adjustedInsulin = response.getAdjustedInsulin();
+                float adjustedBloodSugar = response.getAdjustedBloodSugar();
+                String adjustedInsulinText = "Adjusted insulin value: " + adjustedInsulin;
+                String adjustedBloodSugarText = "Adjusted blood sugar value: " + adjustedBloodSugar;
+                outputMessages.add(adjustedInsulinText + "\n" + adjustedBloodSugarText + "\n");
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.err.println("Error in dynamic adjustDosage method: " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Dynamic dosage adjustment completed!");
+            }
+        });
+     // iterate 15 times
+        float bloodSugarLevel = initialBloodSugarLevel;
+        for (int i = 0; i < 15; i++) { 
+        	// math.random plus logic to give random blood sugar results based off initial input
+        	// made up values, patient would be very dead in real life
+            bloodSugarLevel += (Math.random() * 3) - 1.5; 
+            requestObserver.onNext(AdjustDosageRequest.newBuilder()
+                    .setBloodSugarLevel(bloodSugarLevel)
+                    .build());
+
+            try {
+            	// short delay between requests
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        requestObserver.onCompleted();
+        return outputMessages;
     }
+
     
     public void confirmMedication() {
    

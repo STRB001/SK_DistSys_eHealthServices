@@ -71,39 +71,29 @@ public class PatientMedicationServer {
             responseObserver.onCompleted();
         }
 
+    
         @Override
-        public void getMedicationSchedule(GetMedicationScheduleRequest request, StreamObserver<GetMedicationScheduleResponse> responseObserver) {
-            // made up medication schedule - to be updated later
-            String[] times = {"08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00"};
-            // for each loop taking the array of times and passing it to responseObserver.onNext
-            for (String time : times) {
-                GetMedicationScheduleResponse response = GetMedicationScheduleResponse.newBuilder()
-                        .setMedicationName("Paracetamol")
-                        .setScheduledTime(time)
-                        .build();
-
-                responseObserver.onNext(response);
-            }
-
-            responseObserver.onCompleted();
-        }
-
-        @Override
-        public StreamObserver<ConfirmMedicationRequest> confirmMedication(StreamObserver<ConfirmMedicationResponse> responseObserver) {
-            return new StreamObserver<ConfirmMedicationRequest>() {
+        public StreamObserver<AdjustDosageRequest> adjustDosage(StreamObserver<AdjustDosageResponse> responseObserver) {
+            return new StreamObserver<AdjustDosageRequest>() {
                 @Override
-                public void onNext(ConfirmMedicationRequest request) {
-                    ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
-                            .setMessage("Confirmation for " + request.getMedicationName())
-                            .setContraindications("No contraindications")
-                            .setAdministrationInstructions("Take with a glass of water and not on an empty stomach")
+                public void onNext(AdjustDosageRequest request) {
+                    float bloodSugarLevel = request.getBloodSugarLevel();
+                 // using a made up formula to adjust insulin dosage based off of the input for blood sugar level (just using 10% value)
+                    float adjustedDosage = bloodSugarLevel * 0.1f;
+                    // logic for adjusting blood sugar .random() is a decimal between 0-1, random()*3 is decimal between 0-3
+                    // .random() * 3) - 1.5 shifts the range between -1.5 and 1.5 instead. now bloodsugar can be +/- 1.5 off of the user input value
+                    float adjustedBloodSugar = bloodSugarLevel + (float) ((Math.random() * 3) - 1.5);
+
+                    AdjustDosageResponse response = AdjustDosageResponse.newBuilder()
+                            .setAdjustedInsulin(adjustedDosage)
+                            .setAdjustedBloodSugar(adjustedBloodSugar)
                             .build();
                     responseObserver.onNext(response);
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    System.err.println("Error in confirmMedication: " + t.getMessage());
+                    System.err.println("Error in adjustDosage: " + t.getMessage());
                 }
 
                 @Override
@@ -111,6 +101,33 @@ public class PatientMedicationServer {
                     responseObserver.onCompleted();
                 }
             };
+        }
+    
+        
+        
+    public StreamObserver<ConfirmMedicationRequest> confirmMedication(StreamObserver<ConfirmMedicationResponse> responseObserver) {
+        return new StreamObserver<ConfirmMedicationRequest>() {
+            @Override
+            public void onNext(ConfirmMedicationRequest request) {
+                ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
+                        .setMessage("Confirmation for " + request.getMedicationName())
+                        .setContraindications("No contraindications")
+                        .setAdministrationInstructions("Take with a glass of water and not on an empty stomach")
+                        .build();
+                responseObserver.onNext(response);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.err.println("Error in confirmMedication: " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                responseObserver.onCompleted();
+            }
+        };
+    
         }
     }
 }

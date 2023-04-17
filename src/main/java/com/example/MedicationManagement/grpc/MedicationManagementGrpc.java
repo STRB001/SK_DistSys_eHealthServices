@@ -59,36 +59,36 @@ public final class MedicationManagementGrpc {
      return getAddMedicationMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.GetMedicationScheduleRequest,
-      com.example.MedicationManagement.grpc.GetMedicationScheduleResponse> getGetMedicationScheduleMethod;
+  private static volatile io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.AdjustDosageRequest,
+      com.example.MedicationManagement.grpc.AdjustDosageResponse> getAdjustDosageMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetMedicationSchedule",
-      requestType = com.example.MedicationManagement.grpc.GetMedicationScheduleRequest.class,
-      responseType = com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.GetMedicationScheduleRequest,
-      com.example.MedicationManagement.grpc.GetMedicationScheduleResponse> getGetMedicationScheduleMethod() {
-    io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.GetMedicationScheduleRequest, com.example.MedicationManagement.grpc.GetMedicationScheduleResponse> getGetMedicationScheduleMethod;
-    if ((getGetMedicationScheduleMethod = MedicationManagementGrpc.getGetMedicationScheduleMethod) == null) {
+      fullMethodName = SERVICE_NAME + '/' + "AdjustDosage",
+      requestType = com.example.MedicationManagement.grpc.AdjustDosageRequest.class,
+      responseType = com.example.MedicationManagement.grpc.AdjustDosageResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+  public static io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.AdjustDosageRequest,
+      com.example.MedicationManagement.grpc.AdjustDosageResponse> getAdjustDosageMethod() {
+    io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.AdjustDosageRequest, com.example.MedicationManagement.grpc.AdjustDosageResponse> getAdjustDosageMethod;
+    if ((getAdjustDosageMethod = MedicationManagementGrpc.getAdjustDosageMethod) == null) {
       synchronized (MedicationManagementGrpc.class) {
-        if ((getGetMedicationScheduleMethod = MedicationManagementGrpc.getGetMedicationScheduleMethod) == null) {
-          MedicationManagementGrpc.getGetMedicationScheduleMethod = getGetMedicationScheduleMethod = 
-              io.grpc.MethodDescriptor.<com.example.MedicationManagement.grpc.GetMedicationScheduleRequest, com.example.MedicationManagement.grpc.GetMedicationScheduleResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+        if ((getAdjustDosageMethod = MedicationManagementGrpc.getAdjustDosageMethod) == null) {
+          MedicationManagementGrpc.getAdjustDosageMethod = getAdjustDosageMethod = 
+              io.grpc.MethodDescriptor.<com.example.MedicationManagement.grpc.AdjustDosageRequest, com.example.MedicationManagement.grpc.AdjustDosageResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
               .setFullMethodName(generateFullMethodName(
-                  "PatientMedicationManagement.MedicationManagement", "GetMedicationSchedule"))
+                  "PatientMedicationManagement.MedicationManagement", "AdjustDosage"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.MedicationManagement.grpc.GetMedicationScheduleRequest.getDefaultInstance()))
+                  com.example.MedicationManagement.grpc.AdjustDosageRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new MedicationManagementMethodDescriptorSupplier("GetMedicationSchedule"))
+                  com.example.MedicationManagement.grpc.AdjustDosageResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new MedicationManagementMethodDescriptorSupplier("AdjustDosage"))
                   .build();
           }
         }
      }
-     return getGetMedicationScheduleMethod;
+     return getAdjustDosageMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.ConfirmMedicationRequest,
@@ -162,12 +162,12 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Server Streaming RPC Method 2 - Medication Schedule
+     * Bi-directional Streaming RPC Method 2 - Adjust Dosage
      * </pre>
      */
-    public void getMedicationSchedule(com.example.MedicationManagement.grpc.GetMedicationScheduleRequest request,
-        io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.GetMedicationScheduleResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetMedicationScheduleMethod(), responseObserver);
+    public io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.AdjustDosageRequest> adjustDosage(
+        io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.AdjustDosageResponse> responseObserver) {
+      return asyncUnimplementedStreamingCall(getAdjustDosageMethod(), responseObserver);
     }
 
     /**
@@ -190,12 +190,12 @@ public final class MedicationManagementGrpc {
                 com.example.MedicationManagement.grpc.AddMedicationResponse>(
                   this, METHODID_ADD_MEDICATION)))
           .addMethod(
-            getGetMedicationScheduleMethod(),
-            asyncServerStreamingCall(
+            getAdjustDosageMethod(),
+            asyncBidiStreamingCall(
               new MethodHandlers<
-                com.example.MedicationManagement.grpc.GetMedicationScheduleRequest,
-                com.example.MedicationManagement.grpc.GetMedicationScheduleResponse>(
-                  this, METHODID_GET_MEDICATION_SCHEDULE)))
+                com.example.MedicationManagement.grpc.AdjustDosageRequest,
+                com.example.MedicationManagement.grpc.AdjustDosageResponse>(
+                  this, METHODID_ADJUST_DOSAGE)))
           .addMethod(
             getConfirmMedicationMethod(),
             asyncBidiStreamingCall(
@@ -238,13 +238,13 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Server Streaming RPC Method 2 - Medication Schedule
+     * Bi-directional Streaming RPC Method 2 - Adjust Dosage
      * </pre>
      */
-    public void getMedicationSchedule(com.example.MedicationManagement.grpc.GetMedicationScheduleRequest request,
-        io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.GetMedicationScheduleResponse> responseObserver) {
-      asyncServerStreamingCall(
-          getChannel().newCall(getGetMedicationScheduleMethod(), getCallOptions()), request, responseObserver);
+    public io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.AdjustDosageRequest> adjustDosage(
+        io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.AdjustDosageResponse> responseObserver) {
+      return asyncBidiStreamingCall(
+          getChannel().newCall(getAdjustDosageMethod(), getCallOptions()), responseObserver);
     }
 
     /**
@@ -286,17 +286,6 @@ public final class MedicationManagementGrpc {
       return blockingUnaryCall(
           getChannel(), getAddMedicationMethod(), getCallOptions(), request);
     }
-
-    /**
-     * <pre>
-     * Server Streaming RPC Method 2 - Medication Schedule
-     * </pre>
-     */
-    public java.util.Iterator<com.example.MedicationManagement.grpc.GetMedicationScheduleResponse> getMedicationSchedule(
-        com.example.MedicationManagement.grpc.GetMedicationScheduleRequest request) {
-      return blockingServerStreamingCall(
-          getChannel(), getGetMedicationScheduleMethod(), getCallOptions(), request);
-    }
   }
 
   /**
@@ -330,7 +319,7 @@ public final class MedicationManagementGrpc {
   }
 
   private static final int METHODID_ADD_MEDICATION = 0;
-  private static final int METHODID_GET_MEDICATION_SCHEDULE = 1;
+  private static final int METHODID_ADJUST_DOSAGE = 1;
   private static final int METHODID_CONFIRM_MEDICATION = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
@@ -354,10 +343,6 @@ public final class MedicationManagementGrpc {
           serviceImpl.addMedication((com.example.MedicationManagement.grpc.AddMedicationRequest) request,
               (io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.AddMedicationResponse>) responseObserver);
           break;
-        case METHODID_GET_MEDICATION_SCHEDULE:
-          serviceImpl.getMedicationSchedule((com.example.MedicationManagement.grpc.GetMedicationScheduleRequest) request,
-              (io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.GetMedicationScheduleResponse>) responseObserver);
-          break;
         default:
           throw new AssertionError();
       }
@@ -368,6 +353,9 @@ public final class MedicationManagementGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_ADJUST_DOSAGE:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.adjustDosage(
+              (io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.AdjustDosageResponse>) responseObserver);
         case METHODID_CONFIRM_MEDICATION:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.confirmMedication(
               (io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.ConfirmMedicationResponse>) responseObserver);
@@ -423,7 +411,7 @@ public final class MedicationManagementGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new MedicationManagementFileDescriptorSupplier())
               .addMethod(getAddMedicationMethod())
-              .addMethod(getGetMedicationScheduleMethod())
+              .addMethod(getAdjustDosageMethod())
               .addMethod(getConfirmMedicationMethod())
               .build();
         }

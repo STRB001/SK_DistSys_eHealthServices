@@ -5,7 +5,7 @@ package com.example.MedicationManagement.grpc;
 
 /**
  * <pre>
- * streamed request message for ConfirmMedication method
+ * Streamed request message for ConfirmMedication method
  * </pre>
  *
  * Protobuf type {@code PatientMedicationManagement.ConfirmMedicationRequest}
@@ -327,7 +327,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * streamed request message for ConfirmMedication method
+   * Streamed request message for ConfirmMedication method
    * </pre>
    *
    * Protobuf type {@code PatientMedicationManagement.ConfirmMedicationRequest}

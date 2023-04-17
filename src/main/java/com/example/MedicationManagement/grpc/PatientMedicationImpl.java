@@ -25,15 +25,15 @@ public final class PatientMedicationImpl {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_PatientMedicationManagement_AddMedicationResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PatientMedicationManagement_GetMedicationScheduleRequest_descriptor;
+    internal_static_PatientMedicationManagement_AdjustDosageRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PatientMedicationManagement_GetMedicationScheduleRequest_fieldAccessorTable;
+      internal_static_PatientMedicationManagement_AdjustDosageRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_descriptor;
+    internal_static_PatientMedicationManagement_AdjustDosageResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_fieldAccessorTable;
+      internal_static_PatientMedicationManagement_AdjustDosageResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_PatientMedicationManagement_ConfirmMedicationRequest_descriptor;
   static final 
@@ -58,28 +58,27 @@ public final class PatientMedicationImpl {
       "nRequest\022\022\n\npatient_id\030\001 \001(\t\022\027\n\017medicati" +
       "on_name\030\002 \001(\t\022\016\n\006dosage\030\003 \001(\t\022\024\n\014side_ef" +
       "fects\030\004 \001(\t\"9\n\025AddMedicationResponse\022\017\n\007" +
-      "success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"@\n\034GetMed" +
-      "icationScheduleRequest\022\022\n\npatient_id\030\001 \001" +
-      "(\t\022\014\n\004days\030\002 \001(\005\"P\n\035GetMedicationSchedul" +
-      "eResponse\022\027\n\017medication_name\030\001 \001(\t\022\026\n\016sc" +
-      "heduled_time\030\002 \001(\t\"C\n\030ConfirmMedicationR" +
-      "equest\022\027\n\017medication_name\030\001 \001(\t\022\016\n\006dosag" +
-      "e\030\002 \001(\t\"l\n\031ConfirmMedicationResponse\022\017\n\007" +
-      "message\030\001 \001(\t\022\031\n\021contraindications\030\002 \001(\t" +
-      "\022#\n\033administration_instructions\030\003 \001(\t2\260\003" +
-      "\n\024MedicationManagement\022x\n\rAddMedication\022" +
-      "1.PatientMedicationManagement.AddMedicat" +
-      "ionRequest\0322.PatientMedicationManagement" +
-      ".AddMedicationResponse\"\000\022\222\001\n\025GetMedicati" +
-      "onSchedule\0229.PatientMedicationManagement" +
-      ".GetMedicationScheduleRequest\032:.PatientM" +
-      "edicationManagement.GetMedicationSchedul" +
-      "eResponse\"\0000\001\022\210\001\n\021ConfirmMedication\0225.Pa" +
-      "tientMedicationManagement.ConfirmMedicat" +
-      "ionRequest\0326.PatientMedicationManagement" +
-      ".ConfirmMedicationResponse\"\000(\0010\001B@\n%com." +
-      "example.MedicationManagement.grpcB\025Patie" +
-      "ntMedicationImplP\001b\006proto3"
+      "success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"D\n\023Adjust" +
+      "DosageRequest\022\022\n\npatient_id\030\001 \001(\t\022\031\n\021blo" +
+      "od_sugar_level\030\002 \001(\002\"K\n\024AdjustDosageResp" +
+      "onse\022\027\n\017adjustedInsulin\030\001 \001(\002\022\032\n\022adjuste" +
+      "dBloodSugar\030\002 \001(\002\"C\n\030ConfirmMedicationRe" +
+      "quest\022\027\n\017medication_name\030\001 \001(\t\022\016\n\006dosage" +
+      "\030\002 \001(\t\"l\n\031ConfirmMedicationResponse\022\017\n\007m" +
+      "essage\030\001 \001(\t\022\031\n\021contraindications\030\002 \001(\t\022" +
+      "#\n\033administration_instructions\030\003 \001(\t2\226\003\n" +
+      "\024MedicationManagement\022x\n\rAddMedication\0221" +
+      ".PatientMedicationManagement.AddMedicati" +
+      "onRequest\0322.PatientMedicationManagement." +
+      "AddMedicationResponse\"\000\022y\n\014AdjustDosage\022" +
+      "0.PatientMedicationManagement.AdjustDosa" +
+      "geRequest\0321.PatientMedicationManagement." +
+      "AdjustDosageResponse\"\000(\0010\001\022\210\001\n\021ConfirmMe" +
+      "dication\0225.PatientMedicationManagement.C" +
+      "onfirmMedicationRequest\0326.PatientMedicat" +
+      "ionManagement.ConfirmMedicationResponse\"" +
+      "\000(\0010\001B@\n%com.example.MedicationManagemen" +
+      "t.grpcB\025PatientMedicationImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -105,18 +104,18 @@ public final class PatientMedicationImpl {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PatientMedicationManagement_AddMedicationResponse_descriptor,
         new java.lang.String[] { "Success", "Message", });
-    internal_static_PatientMedicationManagement_GetMedicationScheduleRequest_descriptor =
+    internal_static_PatientMedicationManagement_AdjustDosageRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_PatientMedicationManagement_GetMedicationScheduleRequest_fieldAccessorTable = new
+    internal_static_PatientMedicationManagement_AdjustDosageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PatientMedicationManagement_GetMedicationScheduleRequest_descriptor,
-        new java.lang.String[] { "PatientId", "Days", });
-    internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_descriptor =
+        internal_static_PatientMedicationManagement_AdjustDosageRequest_descriptor,
+        new java.lang.String[] { "PatientId", "BloodSugarLevel", });
+    internal_static_PatientMedicationManagement_AdjustDosageResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_fieldAccessorTable = new
+    internal_static_PatientMedicationManagement_AdjustDosageResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_descriptor,
-        new java.lang.String[] { "MedicationName", "ScheduledTime", });
+        internal_static_PatientMedicationManagement_AdjustDosageResponse_descriptor,
+        new java.lang.String[] { "AdjustedInsulin", "AdjustedBloodSugar", });
     internal_static_PatientMedicationManagement_ConfirmMedicationRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_PatientMedicationManagement_ConfirmMedicationRequest_fieldAccessorTable = new

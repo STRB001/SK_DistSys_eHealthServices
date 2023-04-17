@@ -5,23 +5,23 @@ package com.example.MedicationManagement.grpc;
 
 /**
  * <pre>
- * Streamed response message for GetMedicationSchedule method
+ * Streamed request message for AdjustDosage method
  * </pre>
  *
- * Protobuf type {@code PatientMedicationManagement.GetMedicationScheduleResponse}
+ * Protobuf type {@code PatientMedicationManagement.AdjustDosageRequest}
  */
-public  final class GetMedicationScheduleResponse extends
+public  final class AdjustDosageRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:PatientMedicationManagement.GetMedicationScheduleResponse)
-    GetMedicationScheduleResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:PatientMedicationManagement.AdjustDosageRequest)
+    AdjustDosageRequestOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use GetMedicationScheduleResponse.newBuilder() to construct.
-  private GetMedicationScheduleResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use AdjustDosageRequest.newBuilder() to construct.
+  private AdjustDosageRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private GetMedicationScheduleResponse() {
-    medicationName_ = "";
-    scheduledTime_ = "";
+  private AdjustDosageRequest() {
+    patientId_ = "";
+    bloodSugarLevel_ = 0F;
   }
 
   @java.lang.Override
@@ -29,7 +29,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private GetMedicationScheduleResponse(
+  private AdjustDosageRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -51,13 +51,12 @@ private static final long serialVersionUID = 0L;
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            medicationName_ = s;
+            patientId_ = s;
             break;
           }
-          case 18: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 21: {
 
-            scheduledTime_ = s;
+            bloodSugarLevel_ = input.readFloat();
             break;
           }
           default: {
@@ -81,83 +80,58 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_descriptor;
+    return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_AdjustDosageRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_fieldAccessorTable
+    return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_AdjustDosageRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.class, com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.Builder.class);
+            com.example.MedicationManagement.grpc.AdjustDosageRequest.class, com.example.MedicationManagement.grpc.AdjustDosageRequest.Builder.class);
   }
 
-  public static final int MEDICATION_NAME_FIELD_NUMBER = 1;
-  private volatile java.lang.Object medicationName_;
+  public static final int PATIENT_ID_FIELD_NUMBER = 1;
+  private volatile java.lang.Object patientId_;
   /**
-   * <code>string medication_name = 1;</code>
+   * <code>string patient_id = 1;</code>
    */
-  public java.lang.String getMedicationName() {
-    java.lang.Object ref = medicationName_;
+  public java.lang.String getPatientId() {
+    java.lang.Object ref = patientId_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      medicationName_ = s;
+      patientId_ = s;
       return s;
     }
   }
   /**
-   * <code>string medication_name = 1;</code>
+   * <code>string patient_id = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getMedicationNameBytes() {
-    java.lang.Object ref = medicationName_;
+      getPatientIdBytes() {
+    java.lang.Object ref = patientId_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      medicationName_ = b;
+      patientId_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
   }
 
-  public static final int SCHEDULED_TIME_FIELD_NUMBER = 2;
-  private volatile java.lang.Object scheduledTime_;
+  public static final int BLOOD_SUGAR_LEVEL_FIELD_NUMBER = 2;
+  private float bloodSugarLevel_;
   /**
-   * <code>string scheduled_time = 2;</code>
+   * <code>float blood_sugar_level = 2;</code>
    */
-  public java.lang.String getScheduledTime() {
-    java.lang.Object ref = scheduledTime_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      scheduledTime_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string scheduled_time = 2;</code>
-   */
-  public com.google.protobuf.ByteString
-      getScheduledTimeBytes() {
-    java.lang.Object ref = scheduledTime_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      scheduledTime_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public float getBloodSugarLevel() {
+    return bloodSugarLevel_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -174,11 +148,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getMedicationNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, medicationName_);
+    if (!getPatientIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, patientId_);
     }
-    if (!getScheduledTimeBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, scheduledTime_);
+    if (bloodSugarLevel_ != 0F) {
+      output.writeFloat(2, bloodSugarLevel_);
     }
     unknownFields.writeTo(output);
   }
@@ -189,11 +163,12 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getMedicationNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, medicationName_);
+    if (!getPatientIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, patientId_);
     }
-    if (!getScheduledTimeBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, scheduledTime_);
+    if (bloodSugarLevel_ != 0F) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeFloatSize(2, bloodSugarLevel_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -205,16 +180,18 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.example.MedicationManagement.grpc.GetMedicationScheduleResponse)) {
+    if (!(obj instanceof com.example.MedicationManagement.grpc.AdjustDosageRequest)) {
       return super.equals(obj);
     }
-    com.example.MedicationManagement.grpc.GetMedicationScheduleResponse other = (com.example.MedicationManagement.grpc.GetMedicationScheduleResponse) obj;
+    com.example.MedicationManagement.grpc.AdjustDosageRequest other = (com.example.MedicationManagement.grpc.AdjustDosageRequest) obj;
 
     boolean result = true;
-    result = result && getMedicationName()
-        .equals(other.getMedicationName());
-    result = result && getScheduledTime()
-        .equals(other.getScheduledTime());
+    result = result && getPatientId()
+        .equals(other.getPatientId());
+    result = result && (
+        java.lang.Float.floatToIntBits(getBloodSugarLevel())
+        == java.lang.Float.floatToIntBits(
+            other.getBloodSugarLevel()));
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -226,78 +203,79 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + MEDICATION_NAME_FIELD_NUMBER;
-    hash = (53 * hash) + getMedicationName().hashCode();
-    hash = (37 * hash) + SCHEDULED_TIME_FIELD_NUMBER;
-    hash = (53 * hash) + getScheduledTime().hashCode();
+    hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPatientId().hashCode();
+    hash = (37 * hash) + BLOOD_SUGAR_LEVEL_FIELD_NUMBER;
+    hash = (53 * hash) + java.lang.Float.floatToIntBits(
+        getBloodSugarLevel());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(byte[] data)
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(java.io.InputStream input)
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseDelimitedFrom(java.io.InputStream input)
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseDelimitedFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parseFrom(
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -310,7 +288,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.example.MedicationManagement.grpc.GetMedicationScheduleResponse prototype) {
+  public static Builder newBuilder(com.example.MedicationManagement.grpc.AdjustDosageRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -327,29 +305,29 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Streamed response message for GetMedicationSchedule method
+   * Streamed request message for AdjustDosage method
    * </pre>
    *
-   * Protobuf type {@code PatientMedicationManagement.GetMedicationScheduleResponse}
+   * Protobuf type {@code PatientMedicationManagement.AdjustDosageRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:PatientMedicationManagement.GetMedicationScheduleResponse)
-      com.example.MedicationManagement.grpc.GetMedicationScheduleResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:PatientMedicationManagement.AdjustDosageRequest)
+      com.example.MedicationManagement.grpc.AdjustDosageRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_descriptor;
+      return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_AdjustDosageRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_fieldAccessorTable
+      return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_AdjustDosageRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.class, com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.Builder.class);
+              com.example.MedicationManagement.grpc.AdjustDosageRequest.class, com.example.MedicationManagement.grpc.AdjustDosageRequest.Builder.class);
     }
 
-    // Construct using com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.newBuilder()
+    // Construct using com.example.MedicationManagement.grpc.AdjustDosageRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -367,9 +345,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      medicationName_ = "";
+      patientId_ = "";
 
-      scheduledTime_ = "";
+      bloodSugarLevel_ = 0F;
 
       return this;
     }
@@ -377,17 +355,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_GetMedicationScheduleResponse_descriptor;
+      return com.example.MedicationManagement.grpc.PatientMedicationImpl.internal_static_PatientMedicationManagement_AdjustDosageRequest_descriptor;
     }
 
     @java.lang.Override
-    public com.example.MedicationManagement.grpc.GetMedicationScheduleResponse getDefaultInstanceForType() {
-      return com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.getDefaultInstance();
+    public com.example.MedicationManagement.grpc.AdjustDosageRequest getDefaultInstanceForType() {
+      return com.example.MedicationManagement.grpc.AdjustDosageRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.example.MedicationManagement.grpc.GetMedicationScheduleResponse build() {
-      com.example.MedicationManagement.grpc.GetMedicationScheduleResponse result = buildPartial();
+    public com.example.MedicationManagement.grpc.AdjustDosageRequest build() {
+      com.example.MedicationManagement.grpc.AdjustDosageRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -395,10 +373,10 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.example.MedicationManagement.grpc.GetMedicationScheduleResponse buildPartial() {
-      com.example.MedicationManagement.grpc.GetMedicationScheduleResponse result = new com.example.MedicationManagement.grpc.GetMedicationScheduleResponse(this);
-      result.medicationName_ = medicationName_;
-      result.scheduledTime_ = scheduledTime_;
+    public com.example.MedicationManagement.grpc.AdjustDosageRequest buildPartial() {
+      com.example.MedicationManagement.grpc.AdjustDosageRequest result = new com.example.MedicationManagement.grpc.AdjustDosageRequest(this);
+      result.patientId_ = patientId_;
+      result.bloodSugarLevel_ = bloodSugarLevel_;
       onBuilt();
       return result;
     }
@@ -437,23 +415,22 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.example.MedicationManagement.grpc.GetMedicationScheduleResponse) {
-        return mergeFrom((com.example.MedicationManagement.grpc.GetMedicationScheduleResponse)other);
+      if (other instanceof com.example.MedicationManagement.grpc.AdjustDosageRequest) {
+        return mergeFrom((com.example.MedicationManagement.grpc.AdjustDosageRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.example.MedicationManagement.grpc.GetMedicationScheduleResponse other) {
-      if (other == com.example.MedicationManagement.grpc.GetMedicationScheduleResponse.getDefaultInstance()) return this;
-      if (!other.getMedicationName().isEmpty()) {
-        medicationName_ = other.medicationName_;
+    public Builder mergeFrom(com.example.MedicationManagement.grpc.AdjustDosageRequest other) {
+      if (other == com.example.MedicationManagement.grpc.AdjustDosageRequest.getDefaultInstance()) return this;
+      if (!other.getPatientId().isEmpty()) {
+        patientId_ = other.patientId_;
         onChanged();
       }
-      if (!other.getScheduledTime().isEmpty()) {
-        scheduledTime_ = other.scheduledTime_;
-        onChanged();
+      if (other.getBloodSugarLevel() != 0F) {
+        setBloodSugarLevel(other.getBloodSugarLevel());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -470,11 +447,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.example.MedicationManagement.grpc.GetMedicationScheduleResponse parsedMessage = null;
+      com.example.MedicationManagement.grpc.AdjustDosageRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.example.MedicationManagement.grpc.GetMedicationScheduleResponse) e.getUnfinishedMessage();
+        parsedMessage = (com.example.MedicationManagement.grpc.AdjustDosageRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -484,140 +461,97 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object medicationName_ = "";
+    private java.lang.Object patientId_ = "";
     /**
-     * <code>string medication_name = 1;</code>
+     * <code>string patient_id = 1;</code>
      */
-    public java.lang.String getMedicationName() {
-      java.lang.Object ref = medicationName_;
+    public java.lang.String getPatientId() {
+      java.lang.Object ref = patientId_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        medicationName_ = s;
+        patientId_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <code>string patient_id = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getMedicationNameBytes() {
-      java.lang.Object ref = medicationName_;
+        getPatientIdBytes() {
+      java.lang.Object ref = patientId_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        medicationName_ = b;
+        patientId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <code>string patient_id = 1;</code>
      */
-    public Builder setMedicationName(
+    public Builder setPatientId(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      medicationName_ = value;
+      patientId_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <code>string patient_id = 1;</code>
      */
-    public Builder clearMedicationName() {
+    public Builder clearPatientId() {
       
-      medicationName_ = getDefaultInstance().getMedicationName();
+      patientId_ = getDefaultInstance().getPatientId();
       onChanged();
       return this;
     }
     /**
-     * <code>string medication_name = 1;</code>
+     * <code>string patient_id = 1;</code>
      */
-    public Builder setMedicationNameBytes(
+    public Builder setPatientIdBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      medicationName_ = value;
+      patientId_ = value;
       onChanged();
       return this;
     }
 
-    private java.lang.Object scheduledTime_ = "";
+    private float bloodSugarLevel_ ;
     /**
-     * <code>string scheduled_time = 2;</code>
+     * <code>float blood_sugar_level = 2;</code>
      */
-    public java.lang.String getScheduledTime() {
-      java.lang.Object ref = scheduledTime_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        scheduledTime_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    public float getBloodSugarLevel() {
+      return bloodSugarLevel_;
     }
     /**
-     * <code>string scheduled_time = 2;</code>
+     * <code>float blood_sugar_level = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getScheduledTimeBytes() {
-      java.lang.Object ref = scheduledTime_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        scheduledTime_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string scheduled_time = 2;</code>
-     */
-    public Builder setScheduledTime(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      scheduledTime_ = value;
+    public Builder setBloodSugarLevel(float value) {
+      
+      bloodSugarLevel_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string scheduled_time = 2;</code>
+     * <code>float blood_sugar_level = 2;</code>
      */
-    public Builder clearScheduledTime() {
+    public Builder clearBloodSugarLevel() {
       
-      scheduledTime_ = getDefaultInstance().getScheduledTime();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string scheduled_time = 2;</code>
-     */
-    public Builder setScheduledTimeBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      scheduledTime_ = value;
+      bloodSugarLevel_ = 0F;
       onChanged();
       return this;
     }
@@ -634,41 +568,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:PatientMedicationManagement.GetMedicationScheduleResponse)
+    // @@protoc_insertion_point(builder_scope:PatientMedicationManagement.AdjustDosageRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:PatientMedicationManagement.GetMedicationScheduleResponse)
-  private static final com.example.MedicationManagement.grpc.GetMedicationScheduleResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:PatientMedicationManagement.AdjustDosageRequest)
+  private static final com.example.MedicationManagement.grpc.AdjustDosageRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.example.MedicationManagement.grpc.GetMedicationScheduleResponse();
+    DEFAULT_INSTANCE = new com.example.MedicationManagement.grpc.AdjustDosageRequest();
   }
 
-  public static com.example.MedicationManagement.grpc.GetMedicationScheduleResponse getDefaultInstance() {
+  public static com.example.MedicationManagement.grpc.AdjustDosageRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GetMedicationScheduleResponse>
-      PARSER = new com.google.protobuf.AbstractParser<GetMedicationScheduleResponse>() {
+  private static final com.google.protobuf.Parser<AdjustDosageRequest>
+      PARSER = new com.google.protobuf.AbstractParser<AdjustDosageRequest>() {
     @java.lang.Override
-    public GetMedicationScheduleResponse parsePartialFrom(
+    public AdjustDosageRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new GetMedicationScheduleResponse(input, extensionRegistry);
+      return new AdjustDosageRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<GetMedicationScheduleResponse> parser() {
+  public static com.google.protobuf.Parser<AdjustDosageRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GetMedicationScheduleResponse> getParserForType() {
+  public com.google.protobuf.Parser<AdjustDosageRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.example.MedicationManagement.grpc.GetMedicationScheduleResponse getDefaultInstanceForType() {
+  public com.example.MedicationManagement.grpc.AdjustDosageRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
