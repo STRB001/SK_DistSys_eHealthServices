@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
 
@@ -69,14 +70,16 @@ public class PatientMedicationClient {
         
     
         // Take user input for blood sugar level readings and call adjustDosage method
-        System.out.println("Enter the number of blood sugar level readings:");
+        System.out.println("Please enter the patient initial blood sugar level:");
         int bloodSugarLevelReadings = myInput.nextInt();
         myInput.nextLine(); // To consume the newline character
         client.adjustDosage(bloodSugarLevelReadings);
 
-    //    client.confirmMedication();
+        
+ 
+      client.confirmMedication(medicationName, dosage);
 
-        channel.shutdown().awaitTermination(10, TimeUnit.SECONDS);
+        channel.shutdown().awaitTermination(30, TimeUnit.SECONDS);
     
     }
 
@@ -198,42 +201,40 @@ public class PatientMedicationClient {
     }
 
     
-    public void confirmMedication() {
-   
+    public void confirmMedication(String name, String dosage) {
+        ConfirmMedicationRequest request = ConfirmMedicationRequest.newBuilder()
+                .setMedicationName(name)
+                .setDosage(dosage)
+                .build();
+
         StreamObserver<ConfirmMedicationRequest> requestObserver = asyncStub.confirmMedication(new StreamObserver<ConfirmMedicationResponse>() {
-        	@Override
-        	public void onNext(ConfirmMedicationResponse response) {
+            @Override
+            public void onNext(ConfirmMedicationResponse response) {
                 System.out.println("Confirm medication response: " + response.getMessage());
                 System.out.println("Contraindications: " + response.getContraindications());
                 System.out.println("Administration instructions: " + response.getAdministrationInstructions());
             }
-    
+
             @Override
             public void onError(Throwable t) {
                 System.err.println("Error in confirmMedication: " + t.getMessage());
             }
-    
+
             @Override
             public void onCompleted() {
                 System.out.println("Confirm medication completed.");
+    
             }
         });
 
-        // Send sample medications for confirmation - counter i is used in place of medicine names for now, so it's just medicine 1, medicine 2... etc.
-        for (int i = 1; i <= 3; i++) {
-            requestObserver.onNext(ConfirmMedicationRequest.newBuilder()
-                    .setMedicationName("Medication " + i)
-                    .setDosage("500mg")
-                    .build());
-        }
-    
-        // allow time for the server to process requests and send back responses
+        // Send medication request to the server
+        requestObserver.onNext(request);
+
+        // Wait for the server to send back the response
         try {
-            Thread.sleep(2000);
+        	Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    
-        requestObserver.onCompleted();
     }
 }

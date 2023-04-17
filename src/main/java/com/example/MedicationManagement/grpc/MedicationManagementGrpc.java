@@ -98,7 +98,7 @@ public final class MedicationManagementGrpc {
       fullMethodName = SERVICE_NAME + '/' + "ConfirmMedication",
       requestType = com.example.MedicationManagement.grpc.ConfirmMedicationRequest.class,
       responseType = com.example.MedicationManagement.grpc.ConfirmMedicationResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
   public static io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.ConfirmMedicationRequest,
       com.example.MedicationManagement.grpc.ConfirmMedicationResponse> getConfirmMedicationMethod() {
     io.grpc.MethodDescriptor<com.example.MedicationManagement.grpc.ConfirmMedicationRequest, com.example.MedicationManagement.grpc.ConfirmMedicationResponse> getConfirmMedicationMethod;
@@ -107,7 +107,7 @@ public final class MedicationManagementGrpc {
         if ((getConfirmMedicationMethod = MedicationManagementGrpc.getConfirmMedicationMethod) == null) {
           MedicationManagementGrpc.getConfirmMedicationMethod = getConfirmMedicationMethod = 
               io.grpc.MethodDescriptor.<com.example.MedicationManagement.grpc.ConfirmMedicationRequest, com.example.MedicationManagement.grpc.ConfirmMedicationResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "PatientMedicationManagement.MedicationManagement", "ConfirmMedication"))
               .setSampledToLocalTracing(true)
@@ -172,7 +172,7 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Bi-directional Streaming RPC Method 3 - Confirm Medication
+     * Client Streaming RPC Method 3 - Confirm Medication
      * </pre>
      */
     public io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.ConfirmMedicationRequest> confirmMedication(
@@ -198,7 +198,7 @@ public final class MedicationManagementGrpc {
                   this, METHODID_ADJUST_DOSAGE)))
           .addMethod(
             getConfirmMedicationMethod(),
-            asyncBidiStreamingCall(
+            asyncClientStreamingCall(
               new MethodHandlers<
                 com.example.MedicationManagement.grpc.ConfirmMedicationRequest,
                 com.example.MedicationManagement.grpc.ConfirmMedicationResponse>(
@@ -249,12 +249,12 @@ public final class MedicationManagementGrpc {
 
     /**
      * <pre>
-     * Bi-directional Streaming RPC Method 3 - Confirm Medication
+     * Client Streaming RPC Method 3 - Confirm Medication
      * </pre>
      */
     public io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.ConfirmMedicationRequest> confirmMedication(
         io.grpc.stub.StreamObserver<com.example.MedicationManagement.grpc.ConfirmMedicationResponse> responseObserver) {
-      return asyncBidiStreamingCall(
+      return asyncClientStreamingCall(
           getChannel().newCall(getConfirmMedicationMethod(), getCallOptions()), responseObserver);
     }
   }

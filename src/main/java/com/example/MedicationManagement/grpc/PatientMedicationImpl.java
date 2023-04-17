@@ -66,19 +66,19 @@ public final class PatientMedicationImpl {
       "quest\022\027\n\017medication_name\030\001 \001(\t\022\016\n\006dosage" +
       "\030\002 \001(\t\"l\n\031ConfirmMedicationResponse\022\017\n\007m" +
       "essage\030\001 \001(\t\022\031\n\021contraindications\030\002 \001(\t\022" +
-      "#\n\033administration_instructions\030\003 \001(\t2\226\003\n" +
+      "#\n\033administration_instructions\030\003 \001(\t2\224\003\n" +
       "\024MedicationManagement\022x\n\rAddMedication\0221" +
       ".PatientMedicationManagement.AddMedicati" +
       "onRequest\0322.PatientMedicationManagement." +
       "AddMedicationResponse\"\000\022y\n\014AdjustDosage\022" +
       "0.PatientMedicationManagement.AdjustDosa" +
       "geRequest\0321.PatientMedicationManagement." +
-      "AdjustDosageResponse\"\000(\0010\001\022\210\001\n\021ConfirmMe" +
+      "AdjustDosageResponse\"\000(\0010\001\022\206\001\n\021ConfirmMe" +
       "dication\0225.PatientMedicationManagement.C" +
       "onfirmMedicationRequest\0326.PatientMedicat" +
       "ionManagement.ConfirmMedicationResponse\"" +
-      "\000(\0010\001B@\n%com.example.MedicationManagemen" +
-      "t.grpcB\025PatientMedicationImplP\001b\006proto3"
+      "\000(\001B@\n%com.example.MedicationManagement." +
+      "grpcB\025PatientMedicationImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

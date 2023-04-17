@@ -105,29 +105,38 @@ public class PatientMedicationServer {
     
         
         
-    public StreamObserver<ConfirmMedicationRequest> confirmMedication(StreamObserver<ConfirmMedicationResponse> responseObserver) {
-        return new StreamObserver<ConfirmMedicationRequest>() {
-            @Override
-            public void onNext(ConfirmMedicationRequest request) {
-                ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
-                        .setMessage("Confirmation for " + request.getMedicationName())
-                        .setContraindications("No contraindications")
-                        .setAdministrationInstructions("Take with a glass of water and not on an empty stomach")
-                        .build();
-                responseObserver.onNext(response);
-            }
+        @Override
+        public StreamObserver<ConfirmMedicationRequest> confirmMedication(StreamObserver<ConfirmMedicationResponse> responseObserver) {
+            List<ConfirmMedicationRequest> medicationRequests = new ArrayList<>();
 
-            @Override
-            public void onError(Throwable t) {
-                System.err.println("Error in confirmMedication: " + t.getMessage());
-            }
+            return new StreamObserver<ConfirmMedicationRequest>() {
+                @Override
+                public void onNext(ConfirmMedicationRequest request) {
+                    medicationRequests.add(request);
+                }
 
-            @Override
-            public void onCompleted() {
-                responseObserver.onCompleted();
-            }
-        };
-    
+                @Override
+                public void onError(Throwable t) {
+                    System.err.println("Error in confirmMedication: " + t.getMessage());
+                }
+
+                @Override
+                public void onCompleted() {
+                    // Process medication requests, check contraindications and provide administration instructions
+                    String message = "Medication confirmation completed.";
+                    String contraindications = "Example contraindications.";
+                    String administrationInstructions = "Example administration instructions.";
+
+                    ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
+                            .setMessage(message)
+                            .setContraindications(contraindications)
+                            .setAdministrationInstructions(administrationInstructions)
+                            .build();
+
+                    responseObserver.onNext(response);
+                    responseObserver.onCompleted();
+                }
+            };
         }
     }
 }

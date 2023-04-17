@@ -13,8 +13,8 @@ service MedicationManagement {
   // Bi-directional Streaming RPC Method 2 - Adjust Dosage
   rpc AdjustDosage(stream AdjustDosageRequest) returns (stream AdjustDosageResponse) {}
 
-  // Bi-directional Streaming RPC Method 3 - Confirm Medication
-  rpc ConfirmMedication(stream ConfirmMedicationRequest) returns (stream ConfirmMedicationResponse) {}
+  // Client Streaming RPC Method 3 - Confirm Medication
+  rpc ConfirmMedication(stream ConfirmMedicationRequest) returns (ConfirmMedicationResponse) {}
 }
 
 // Request message for AddMedication method
@@ -43,13 +43,13 @@ message AdjustDosageResponse {
   float adjustedBloodSugar = 2;
 }
 
-// Streamed request message for ConfirmMedication method
+// Request message for ConfirmMedication method
 message ConfirmMedicationRequest {
   string medication_name = 1;
   string dosage = 2;
 }
 
-// Streamed response message for ConfirmMedication method
+// Response message for ConfirmMedication method
 message ConfirmMedicationResponse {
   string message = 1;
   string contraindications = 2;

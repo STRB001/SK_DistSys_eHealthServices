@@ -70,6 +70,12 @@ public class eHealthGUI extends JFrame {
 	   public static ServiceInfo medicationManagementServiceInfo;
 	   private JTextField adjustDosageOutputTF;
 	   private JTextField bloodSugarTF;
+	   private JTextField medicationName1TF;
+	   private JTextField medicationName2TF;
+	   private JTextField medicationName3TF;
+	   private JTextField medicationDosage1TF;
+	   private JTextField medicationDosage2TF;
+	   private JTextField medicationDosage3TF;
 	
 	// Discover Patient Medication jmDNS
 	   private void discoverPatientMedicationService(String service_type) {
@@ -243,11 +249,11 @@ public class eHealthGUI extends JFrame {
 		addMedicineTabbedPane.add(addMedicineBt);
 		
 		JLabel addMedicineOutputLb = new JLabel("Output:");
-		addMedicineOutputLb.setBounds(223, 6, 79, 19);
+		addMedicineOutputLb.setBounds(199, 11, 79, 14);
 		addMedicineTabbedPane.add(addMedicineOutputLb);
 		
 		JTextArea addMedicineOutputTA = new JTextArea();
-		addMedicineOutputTA.setBounds(223, 34, 573, 270);
+		addMedicineOutputTA.setBounds(199, 26, 597, 278);
 		addMedicineTabbedPane.add(addMedicineOutputTA);
 		
 		
@@ -268,6 +274,81 @@ public class eHealthGUI extends JFrame {
 		    }
 		});
 		
+
+		JPanel confirmMedication = new JPanel();
+		medicationManagerTabsContainer.addTab("Confirm Medication", null, confirmMedication, null);
+		confirmMedication.setLayout(null);
+		
+		JLabel medicationName1Lb = new JLabel("Medication Name 1:");
+		medicationName1Lb.setBounds(10, 11, 106, 14);
+		confirmMedication.add(medicationName1Lb);
+		
+		JLabel medicationName2Lb = new JLabel("Medication Name 2:");
+		medicationName2Lb.setBounds(10, 97, 106, 14);
+		confirmMedication.add(medicationName2Lb);
+		
+		JLabel medicationName3Lb = new JLabel("Medication Name 3:");
+		medicationName3Lb.setBounds(10, 182, 106, 14);
+		confirmMedication.add(medicationName3Lb);
+		
+		medicationName1TF = new JTextField();
+		medicationName1TF.setBounds(10, 25, 134, 20);
+		confirmMedication.add(medicationName1TF);
+		medicationName1TF.setColumns(10);
+		
+		medicationName2TF = new JTextField();
+		medicationName2TF.setColumns(10);
+		medicationName2TF.setBounds(10, 111, 134, 20);
+		confirmMedication.add(medicationName2TF);
+		
+		medicationName3TF = new JTextField();
+		medicationName3TF.setColumns(10);
+		medicationName3TF.setBounds(10, 197, 134, 20);
+		confirmMedication.add(medicationName3TF);
+		
+		JLabel medicationDosage1Lb = new JLabel("Medication Dosage 1:");
+		medicationDosage1Lb.setBounds(10, 50, 106, 14);
+		confirmMedication.add(medicationDosage1Lb);
+		
+		JLabel medicationDosage3Lb = new JLabel("Medication Dosage 3:");
+		medicationDosage3Lb.setBounds(10, 222, 106, 14);
+		confirmMedication.add(medicationDosage3Lb);
+		
+		JLabel medicationDosage2Lb = new JLabel("Medication Dosage 2:");
+		medicationDosage2Lb.setBounds(10, 134, 106, 14);
+		confirmMedication.add(medicationDosage2Lb);
+		
+		medicationDosage1TF = new JTextField();
+		medicationDosage1TF.setBounds(10, 66, 134, 20);
+		confirmMedication.add(medicationDosage1TF);
+		medicationDosage1TF.setColumns(10);
+		
+		medicationDosage2TF = new JTextField();
+		medicationDosage2TF.setColumns(10);
+		medicationDosage2TF.setBounds(10, 151, 134, 20);
+		confirmMedication.add(medicationDosage2TF);
+		
+		medicationDosage3TF = new JTextField();
+		medicationDosage3TF.setColumns(10);
+		medicationDosage3TF.setBounds(10, 239, 134, 20);
+		confirmMedication.add(medicationDosage3TF);
+		
+		JLabel confirmMedicationOutputLb = new JLabel("Output:");
+		confirmMedicationOutputLb.setBounds(199, 11, 46, 14);
+		confirmMedication.add(confirmMedicationOutputLb);
+		
+		JTextArea confirmMedicationOutputTA = new JTextArea();
+		confirmMedicationOutputTA.setBounds(199, 26, 597, 278);
+		confirmMedication.add(confirmMedicationOutputTA);
+		
+		JButton confirmMedicationBt = new JButton("Confirm Medication");
+		confirmMedicationBt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		confirmMedicationBt.setBounds(10, 270, 134, 23);
+		confirmMedication.add(confirmMedicationBt);
+		
 		
 		// ------------------ COMPONENTS OF MEDICINE MANAGER TAB -----------------------------------------
 		JPanel adjustDosage = new JPanel();
@@ -275,7 +356,7 @@ public class eHealthGUI extends JFrame {
 		adjustDosage.setLayout(null);
 		
 		JLabel adjustDosageOutputLb = new JLabel("Output:");
-		adjustDosageOutputLb.setBounds(223, 11, 47, 14);
+		adjustDosageOutputLb.setBounds(199, 11, 47, 14);
 		adjustDosage.add(adjustDosageOutputLb);
 		
 		JLabel bloodSugarLb = new JLabel("Please enter initial Blood Sugar value:");
@@ -317,11 +398,7 @@ public class eHealthGUI extends JFrame {
 		    }
 		});
 		
-		
-		
-		
-		JPanel confirmMedication = new JPanel();
-		medicationManagerTabsContainer.addTab("Confirm Medication", null, confirmMedication, null);
+
 
 	}
 }
