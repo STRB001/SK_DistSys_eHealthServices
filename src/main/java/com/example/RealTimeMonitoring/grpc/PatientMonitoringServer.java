@@ -64,7 +64,7 @@ public class PatientMonitoringServer {
 
         @Override
         public void streamPatientInfo(StreamPatientInfoRequest request, StreamObserver<StreamPatientInfoResponse> responseObserver) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 15; i++) {
                 StreamPatientInfoResponse response = StreamPatientInfoResponse.newBuilder()
                         .setHeartRate(75.0)
                         .setOxygenSaturation(98.0)

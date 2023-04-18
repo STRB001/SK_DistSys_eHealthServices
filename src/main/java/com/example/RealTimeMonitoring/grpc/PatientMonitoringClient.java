@@ -2,6 +2,7 @@ package com.example.RealTimeMonitoring.grpc;
 
 import com.example.RealTimeMonitoring.grpc.*;
 
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -15,6 +16,8 @@ import javax.jmdns.ServiceListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -25,18 +28,24 @@ public class PatientMonitoringClient {
   private static PatientMonitoringGrpc.PatientMonitoringBlockingStub blockingStub;
   private static PatientMonitoringGrpc.PatientMonitoringStub asyncStub;
   private static ServiceInfo patientMonitoringServiceInfo;
+
+
   
   public PatientMonitoringClient(){
+	  
   }
   
   public PatientMonitoringClient (ManagedChannel patientMonitorChannel) {
 	  blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
 	  asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
+	  
+	  
+	  
   }
-  
   
   public static void main(String[] args) throws InterruptedException, java.util.concurrent.TimeoutException {
     PatientMonitoringClient patientMonitorClient = new PatientMonitoringClient();
+    
 
     String patientMonitoring_service_type = "_grpc._tcp.local.";
     patientMonitorClient.discoverPatientMonitoringService(patientMonitoring_service_type);
@@ -70,7 +79,7 @@ public class PatientMonitoringClient {
     // Ask for patientID to receive patient info stream
     System.out.println("Enter patient ID to stream patient info:");
     patientId = myInput.nextLine();
-    patientMonitorClient.streamPatientInfo(patientId);
+    patientMonitorClient.streamPatientInfo(patientId, null);
 
     // added a timer to commence after patientinfo stream, so the prompt for medicalAlert stream is at the correct time
     // not very robust, i considered using CompleteableFuture as below but this is much simpler implementation
@@ -84,11 +93,13 @@ public class PatientMonitoringClient {
     // enter patientID again to receive medical alerts stream
     System.out.println("Enter patient ID to stream medical alerts:");
     patientId = myInput.nextLine();
-    patientMonitorClient.streamMedicalAlerts(patientId);
+    patientMonitorClient.streamMedicalAlerts(patientId, null);
 
     patientMonitorChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
 
+  
+  
   private void discoverPatientMonitoringService(String service_type) {
     try {
       JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
@@ -149,35 +160,48 @@ public class PatientMonitoringClient {
 	        return "RPC failed: " + e.getStatus() + "\n";
 	    }
 	}
+  
+  public interface PatientInfoCallback {
+	    void onNewMessage(String message);
+	}
 
-  public void streamPatientInfo(String patientId) throws InterruptedException, java.util.concurrent.TimeoutException {
-    StreamPatientInfoRequest request = StreamPatientInfoRequest.newBuilder()
-      .setPatientId(patientId)
-      .build();
+  public void streamPatientInfo(String patientId, PatientInfoCallback callback) {
+      StreamPatientInfoRequest request = StreamPatientInfoRequest.newBuilder()
+              .setPatientId(patientId)
+              .build();
 
-    StreamObserver < StreamPatientInfoResponse > responseObserver = new StreamObserver < StreamPatientInfoResponse > () {
-      @Override
-      public void onNext(StreamPatientInfoResponse response) {
-        System.out.println("Patient info: Heart rate=" + response.getHeartRate() +
-          ", Oxygen saturation=" + response.getOxygenSaturation() +
-          ", Blood pressure=" + response.getBloodPressure());
-      }
+      StreamObserver<StreamPatientInfoResponse> responseObserver = new StreamObserver<StreamPatientInfoResponse>() {
+          @Override
+          public void onNext(StreamPatientInfoResponse response) {
+              String outputMessage = "Patient info: Heart rate=" + response.getHeartRate() +
+                      ", Oxygen saturation=" + response.getOxygenSaturation() +
+                      ", Blood pressure=" + response.getBloodPressure() + "\n";
+              callback.onNewMessage(outputMessage);
+          }
 
-      @Override
-      public void onError(Throwable t) {
-        System.err.println("RPC failed: " + t.getMessage());
-      }
+          @Override
+          public void onError(Throwable t) {
+              String errorMessage = "gRPC failed: " + t.getMessage() + "\n";
+              callback.onNewMessage(errorMessage);
+          }
 
-      @Override
-      public void onCompleted() {
-        System.out.println("Finished receiving patient info.");
-      }
-    };
+          @Override
+          public void onCompleted() {
+              String completedMessage = "Finished receiving medical alerts.\n";
+              callback.onNewMessage(completedMessage);
+          }
+      };
 
-    asyncStub.streamPatientInfo(request, responseObserver);
+      asyncStub.streamPatientInfo(request, responseObserver);
   }
 
-  public void streamMedicalAlerts(String patientId) throws InterruptedException, java.util.concurrent.TimeoutException {
+
+  public interface MedicalAlertCallback {
+	    void onNewAlert(String message);
+	}
+  
+
+  public void streamMedicalAlerts(String patientId, MedicalAlertCallback callback) throws InterruptedException, java.util.concurrent.TimeoutException {
     StreamMedicalAlertsRequest request = StreamMedicalAlertsRequest.newBuilder()
       .setPatientId(patientId)
       .build();
@@ -186,35 +210,30 @@ public class PatientMonitoringClient {
     // i tried to run without but both streams were happening at the same time 
     // completable future lets me run one once the other is finished properly and stops server closing immediately after
 
-    CompletableFuture < Void > completionFuture = new CompletableFuture < > ();
 
-    StreamObserver < StreamMedicalAlertsResponse > responseObserver = new StreamObserver < StreamMedicalAlertsResponse > () {
-      @Override
-      public void onNext(StreamMedicalAlertsResponse response) {
-        System.out.println("Medical alert status: " + response.getDiagnosis() + ", Treatment = " + response.getTreatment());
-      }
+
+    StreamObserver<StreamMedicalAlertsResponse> responseObserver = new StreamObserver<StreamMedicalAlertsResponse>() {
+        @Override
+        public void onNext(StreamMedicalAlertsResponse response) {
+            String message = "Medical alert status: " + response.getDiagnosis() + ", Treatment = " + response.getTreatment();
+            callback.onNewAlert(message);
+        }
 
       @Override
       public void onError(Throwable t) {
         System.err.println("gRPC failed: " + t.getMessage());
-        completionFuture.completeExceptionally(t);
+
       }
 
       @Override
       public void onCompleted() {
         System.out.println("Finished receiving medical alerts.");
-        completionFuture.complete(null);
+
       }
     };
 
     asyncStub.streamMedicalAlerts(request, responseObserver);
 
-    // keep server open until I want it to close
-    try {
-      completionFuture.get();
-    } catch (ExecutionException e) {
-      System.err.println("Error occurred while waiting for stream completion: " + e.getCause().getMessage());
-    }
   }
 
 }

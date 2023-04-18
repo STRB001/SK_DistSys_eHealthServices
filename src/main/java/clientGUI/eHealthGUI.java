@@ -2,6 +2,7 @@ package clientGUI;
 
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 
 
@@ -11,6 +12,8 @@ import com.example.MedicationManagement.grpc.ConfirmMedicationResponse;
 import com.example.MedicationManagement.grpc.PatientMedicationClient;
 import com.example.MedicationManagement.grpc.PatientMedicationServer;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
+import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertCallback;
+import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoCallback;
 
 import java.awt.EventQueue;
 
@@ -41,8 +44,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
 
 public class eHealthGUI extends JFrame {
 
@@ -51,6 +56,7 @@ public class eHealthGUI extends JFrame {
 	private JTextField addMedicineMedicationNameTF;
 	private JTextField addMedicineMedicationDosageTF;
 	private JTextField addMedicineMedicationSideEffectsTF;
+	
 
 	private PatientMedicationClient client;
 	private PatientMonitoringClient patientMonitorClient;
@@ -84,6 +90,11 @@ public class eHealthGUI extends JFrame {
 	   private JTextField patientNameTF;
 	   private JTextField patientAgeTF;
 	   private JTextField patientIdTF;
+	   
+	   private JTextField realTimePatientIdTF;
+	   private JTextArea realTimeOutputTA;
+	   private JTextField medicalAlertPatientIdTF;
+
 	
 	// Discover Patient Medication jmDNS
 	   private void discoverPatientMedicationService(String service_type) {
@@ -218,7 +229,7 @@ public class eHealthGUI extends JFrame {
 		
 		
 		JTextArea addPatientOutputTA = new JTextArea();
-		addPatientOutputTA.setBounds(215, 46, 591, 258);
+		addPatientOutputTA.setBounds(231, 57, 591, 258);
 		addPatientService.add(addPatientOutputTA);
 		
 		JLabel addPatientOutputLb = new JLabel("Output:");
@@ -226,14 +237,91 @@ public class eHealthGUI extends JFrame {
 		addPatientService.add(addPatientOutputLb);
 		
 		
-
-		
 		
 		JPanel realTimePatientInfo = new JPanel();
 		tabbedPane_1.addTab("Real Time Patient Info", null, realTimePatientInfo, null);
+		realTimePatientInfo.setLayout(null);
+		
+		JLabel realTimePatientIdLb = new JLabel("Patient ID:");
+		realTimePatientIdLb.setBounds(10, 21, 93, 14);
+		realTimePatientInfo.add(realTimePatientIdLb);
+		
+		realTimePatientIdTF = new JTextField();
+		realTimePatientIdTF.setBounds(10, 40, 162, 20);
+		realTimePatientInfo.add(realTimePatientIdTF);
+		realTimePatientIdTF.setColumns(10);
+		
+		JButton realTimeInfoBt = new JButton("Begin Real Time Monitor");
+		realTimeInfoBt.setBounds(10, 122, 163, 44);
+		realTimePatientInfo.add(realTimeInfoBt);
+	// REAL TIME BUTTON	
+		JLabel realTimeOutputLb = new JLabel("Output:");
+		realTimeOutputLb.setBounds(204, 21, 46, 14);
+		realTimePatientInfo.add(realTimeOutputLb);
+		
+		
+		realTimeInfoBt.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String patientId = realTimePatientIdTF.getText();
+		        patientMonitorClient.streamPatientInfo(patientId, new PatientInfoCallback() {
+		            @Override
+		            public void onNewMessage(String message) {
+		                realTimeOutputTA.append(message);
+		            }
+		        });
+		    }
+		});
+
+		
+		realTimeOutputTA = new JTextArea();
+		realTimeOutputTA.setBounds(204, 40, 602, 264);
+		realTimePatientInfo.add(realTimeOutputTA);
+		realTimeOutputTA.setColumns(10);
 		
 		JPanel medicalStaffAlert = new JPanel();
 		tabbedPane_1.addTab("Medical Alert Service", null, medicalStaffAlert, null);
+		medicalStaffAlert.setLayout(null);
+		
+		JLabel medicalAlertPatientIdLb = new JLabel("Patient ID:");
+		medicalAlertPatientIdLb.setBounds(7, 22, 83, 14);
+		medicalStaffAlert.add(medicalAlertPatientIdLb);
+		
+		medicalAlertPatientIdTF = new JTextField();
+		medicalAlertPatientIdTF.setBounds(7, 39, 161, 20);
+		medicalStaffAlert.add(medicalAlertPatientIdTF);
+		medicalAlertPatientIdTF.setColumns(10);
+		
+		JLabel medicalAlertOutputLb = new JLabel("Output:");
+		medicalAlertOutputLb.setBounds(206, 22, 46, 14);
+		medicalStaffAlert.add(medicalAlertOutputLb);
+		
+		JTextArea medicalAlertOutputTA = new JTextArea();
+		medicalAlertOutputTA.setBounds(206, 37, 600, 267);
+		medicalStaffAlert.add(medicalAlertOutputTA);
+		
+		JButton medicalAlertStreamBt = new JButton("Begin Medical Alert System");
+		medicalAlertStreamBt.setBounds(10, 122, 163, 44);
+		medicalStaffAlert.add(medicalAlertStreamBt);
+		
+		medicalAlertStreamBt.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String patientId = medicalAlertPatientIdTF.getText();
+		        try {
+					patientMonitorClient.streamMedicalAlerts(patientId, new MedicalAlertCallback() {
+					    @Override
+					    public void onNewAlert(String message) {
+					        medicalAlertOutputTA.append(message + "\n");
+					    }
+					});
+				} catch (InterruptedException | TimeoutException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    }
+		});
+		
 		
 		
 		// second tab Employee health record manager w/ three methods - search patient, update patient, share patient record
