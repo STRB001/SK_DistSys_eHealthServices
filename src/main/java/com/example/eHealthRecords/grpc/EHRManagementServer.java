@@ -13,30 +13,31 @@ import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
 public class EHRManagementServer {
+	
     private Server server;
 
+   public static void main(String[] args) throws IOException, InterruptedException {
+        EHRManagementServer server = new EHRManagementServer();
+        server.start();
+        server.blockUntilShutdown();
+    }
+    
+    
     private void start() throws IOException {
         int port = 50052;
         server = ServerBuilder.forPort(port)
                 .addService(new EHRManagementImpl())
                 .build()
                 .start();
-
-        System.out.println("EHR Management server started on port " + port);
+        System.out.println("EHR Management server started, listening on port " + port);
 
         // registering server with jmDNS
         JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
         ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "EHRManagementServer", port, "path=/");
         jmdns.registerService(serviceInfo);
-        System.out.printf("Registered service with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
-
+        System.out.println("Registered service with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
     }
 
-    private void stop() {
-        if (server != null) {
-            server.shutdown();
-        }
-    }
 
     private void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
@@ -44,15 +45,21 @@ public class EHRManagementServer {
         }
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        EHRManagementServer server = new EHRManagementServer();
-        server.start();
-        server.blockUntilShutdown();
-    }
+
 
     static class EHRManagementImpl extends EHRManagementGrpc.EHRManagementImplBase {
         List<SearchPatientRecordResponse> patientRecords = new ArrayList<>();
 
+        public EHRManagementImpl() {
+        patientRecords.add(SearchPatientRecordResponse.newBuilder()
+                .setPatientId("P123")
+                .setPatientName("Jon Snow")
+                .setDepartment("Emergency Department")
+                .setDiagnosis("Internal Bleeding/Hemmorhage")
+                .setMedication("Ibuprofen")
+                .setScheduledOperation("Blood Transfusion")
+                .build());
+        }
 
         @Override
         public void searchPatientRecord(SearchPatientRecordRequest request, StreamObserver<SearchPatientRecordResponse> responseObserver) {

@@ -16,12 +16,8 @@ import javax.jmdns.ServiceListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
+
 import java.util.concurrent.TimeUnit;
 
 public class PatientMonitoringClient {
@@ -38,9 +34,6 @@ public class PatientMonitoringClient {
   public PatientMonitoringClient (ManagedChannel patientMonitorChannel) {
 	  blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
 	  asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
-	  
-	  
-	  
   }
   
   public static void main(String[] args) throws InterruptedException, java.util.concurrent.TimeoutException {

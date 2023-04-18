@@ -1,5 +1,6 @@
 package com.example.eHealthRecords.grpc;
 
+import java.util.Scanner;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -9,7 +10,6 @@ import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import javax.jmdns.JmDNS;
@@ -17,34 +17,52 @@ import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
+
 public class EHRManagementClient {
     private static EHRManagementGrpc.EHRManagementBlockingStub blockingStub;
     private static EHRManagementGrpc.EHRManagementStub asyncStub;
-    private static ServiceInfo ehrManagementServiceInfo;
+    private static ServiceInfo EHRManagementServiceInfo;
+    
+    
+    public EHRManagementClient(){
+  	  
+    }
 
+    
+    public EHRManagementClient (ManagedChannel EHRManagementChannel) {
+  	  blockingStub = EHRManagementGrpc.newBlockingStub(EHRManagementChannel);
+  	  asyncStub = EHRManagementGrpc.newStub(EHRManagementChannel);
+    }
     
     
     public static void main(String[] args) throws InterruptedException {
-        EHRManagementClient client = new EHRManagementClient();
+        EHRManagementClient EHRManagementClient = new EHRManagementClient();
 
         String ehrManagement_service_type = "_grpc._tcp.local.";
 
-        client.discoverEHRManagementService(ehrManagement_service_type);
+        EHRManagementClient.discoverEHRManagementService(ehrManagement_service_type);
 
-        String host = ehrManagementServiceInfo.getHostAddresses()[0];
-        int port = ehrManagementServiceInfo.getPort();
+        String host = EHRManagementServiceInfo.getHostAddresses()[0];
+        int port = EHRManagementServiceInfo.getPort();
 
-        final ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+        
+        final ManagedChannel EHRManagementChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 
-        blockingStub = EHRManagementGrpc.newBlockingStub(channel);
-        asyncStub = EHRManagementGrpc.newStub(channel);
+        blockingStub = EHRManagementGrpc.newBlockingStub(EHRManagementChannel);
+        asyncStub = EHRManagementGrpc.newStub(EHRManagementChannel);
 
-        String patientId = "123456";
-        client.searchPatientRecord(patientId);
-        client.updatePatientRecord(patientId, "Updated diagnosis: Diabetes");
-        client.sharePatientRecord(patientId);
+        
+        System.out.println("Please enter the Patient ID:");
+        String patientId = "";
+        Scanner myInput = new Scanner(System.in);
+        patientId = myInput.next();
 
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+        
+        EHRManagementClient.searchPatientRecord(patientId);
+        EHRManagementClient.updatePatientRecord(patientId, "Updated diagnosis: Diabetes");
+        EHRManagementClient.sharePatientRecord(patientId);
+
+        EHRManagementChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
     private void discoverEHRManagementService(String service_type) {
@@ -55,16 +73,16 @@ public class EHRManagementClient {
                 @Override
                 public void serviceResolved(ServiceEvent event) {
 
-                    ehrManagementServiceInfo = event.getInfo();
+                	EHRManagementServiceInfo = event.getInfo();
 
-                    int port = ehrManagementServiceInfo.getPort();
-                    String host = ehrManagementServiceInfo.getHostAddresses()[0];
+                    int port = EHRManagementServiceInfo.getPort();
+                    String host = EHRManagementServiceInfo.getHostAddresses()[0];
 
                     System.out.println("resolving " + service_type + " with properties ...");
-                    System.out.println("\t port: " + port);
-                    System.out.println("\t type:" + event.getType());
-                    System.out.println("\t name: " + event.getName());
-                    System.out.println("\t host: " + host);
+                    System.out.println("port: " + port);
+                    System.out.println("type:" + event.getType());
+                    System.out.println("name: " + event.getName());
+                    System.out.println("host: " + host);
                 }
 
                 @Override
@@ -78,8 +96,7 @@ public class EHRManagementClient {
 
                 }
             });
-         // set to 2000ms to give jmDNS more time to discover. stops random failure of methods sometimes
-            Thread.sleep(2000);
+            Thread.sleep(300);
             jmdns.close();
 
         } catch (UnknownHostException e) {
@@ -92,15 +109,25 @@ public class EHRManagementClient {
     }
 
  
-    public void searchPatientRecord(String patientId) {
+    public String searchPatientRecord(String patientId) {
         SearchPatientRecordRequest request = SearchPatientRecordRequest.newBuilder()
                 .setPatientId(patientId)
                 .build();
         try {
             SearchPatientRecordResponse response = blockingStub.searchPatientRecord(request);
-            System.out.println("Patient record:\n" + response.toString());
+            if (!response.getPatientId().isEmpty()) {
+                return "Success! Patient found:\n"
+                        + "Patient ID: " + response.getPatientId() + "\n"
+                        + "Name: " + response.getPatientName() + "\n"
+                        + "Department: " + response.getDepartment() + "\n"
+                        + "Diagnosis: " + response.getDiagnosis() + "\n"
+                        + "Medication: " + (response.getMedication().isEmpty() ? "None" : response.getMedication()) + "\n"
+                        + "Scheduled Operation: " + (response.getScheduledOperation().isEmpty() ? "None" : response.getScheduledOperation()) + "\n";
+            } else {
+                return "Patient ID " + patientId + " was searched but no matching ID found.";
+            }
         } catch (StatusRuntimeException e) {
-            System.err.println("RPC failed: " + e.getStatus());
+            return "RPC failed: " + e.getStatus();
         }
     }
 

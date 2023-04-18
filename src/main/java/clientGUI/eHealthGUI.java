@@ -14,6 +14,7 @@ import com.example.MedicationManagement.grpc.PatientMedicationServer;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertCallback;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoCallback;
+import com.example.eHealthRecords.grpc.EHRManagementClient;
 
 import java.awt.EventQueue;
 
@@ -60,7 +61,7 @@ public class eHealthGUI extends JFrame {
 
 	private PatientMedicationClient client;
 	private PatientMonitoringClient patientMonitorClient;
-	
+	private EHRManagementClient EHRManagementClient;
 	
 	
 	public static void main(String[] args) {
@@ -78,8 +79,8 @@ public class eHealthGUI extends JFrame {
 		});
 			
 	}
+	   public static ServiceInfo ehrManagementServiceInfo;
 	   public static ServiceInfo medicationManagementServiceInfo;
-	   private JTextField adjustDosageOutputTF;
 	   private JTextField bloodSugarTF;
 	   private JTextField medicationName1TF;
 	   private JTextField medicationName2TF;
@@ -94,6 +95,7 @@ public class eHealthGUI extends JFrame {
 	   private JTextField realTimePatientIdTF;
 	   private JTextArea realTimeOutputTA;
 	   private JTextField medicalAlertPatientIdTF;
+	   private JTextField searchPatientIdTF;
 
 	
 	// Discover Patient Medication jmDNS
@@ -105,10 +107,15 @@ public class eHealthGUI extends JFrame {
 		        ServiceListener listener = new ServiceListener() {
 		            @Override
 		            public void serviceResolved(ServiceEvent event) {
+		            	
 		                medicationManagementServiceInfo = event.getInfo();
+		                ehrManagementServiceInfo = event.getInfo();
 
 		                int port = medicationManagementServiceInfo.getPort();
 		                String host = medicationManagementServiceInfo.getHostAddresses()[0];
+		                
+	                    int ehrport = ehrManagementServiceInfo.getPort();
+	                    String ehrhost = ehrManagementServiceInfo.getHostAddresses()[0];
 
 		                // Create the PatientMedicationClient instance with the host and port
 		                ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
@@ -119,6 +126,10 @@ public class eHealthGUI extends JFrame {
 		                ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 		                patientMonitorClient = new PatientMonitoringClient(patientMonitorChannel);
 
+
+		                // Create the EHRManagementClient instance with the host and port
+		                ManagedChannel ehrManagementChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		                EHRManagementClient = new EHRManagementClient(ehrManagementChannel);
 		            }
 
 		            @Override
@@ -330,11 +341,43 @@ public class eHealthGUI extends JFrame {
 		EHRManager.setLayout(null);
 		
 		JTabbedPane tabbedPane_3 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_3.setBounds(10, 11, 471, 343);
+		tabbedPane_3.setBounds(10, 11, 811, 343);
 		EHRManager.add(tabbedPane_3);
 		
 		JPanel searchPatientRecord = new JPanel();
 		tabbedPane_3.addTab("Search Patient Record", null, searchPatientRecord, null);
+		searchPatientRecord.setLayout(null);
+		
+		JLabel searchPatientIDLb = new JLabel("Patient ID:");
+		searchPatientIDLb.setBounds(10, 34, 76, 14);
+		searchPatientRecord.add(searchPatientIDLb);
+		
+		JLabel searchPatientOutputLb = new JLabel("Output:");
+		searchPatientOutputLb.setBounds(169, 34, 46, 14);
+		searchPatientRecord.add(searchPatientOutputLb);
+		
+		JTextArea searchPatientOutputTA = new JTextArea();
+		searchPatientOutputTA.setBounds(169, 54, 627, 250);
+		searchPatientRecord.add(searchPatientOutputTA);
+		
+		searchPatientIdTF = new JTextField();
+		searchPatientIdTF.setBounds(10, 56, 124, 20);
+		searchPatientRecord.add(searchPatientIdTF);
+		searchPatientIdTF.setColumns(10);
+		
+		JButton searchPatientBt = new JButton("Search Patient ID");
+		searchPatientBt.setBounds(10, 181, 124, 23);
+		searchPatientRecord.add(searchPatientBt);
+		
+		
+		
+		searchPatientBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String patientId = searchPatientIdTF.getText();
+		        String result = EHRManagementClient.searchPatientRecord(patientId);
+		        searchPatientOutputTA.setText(result);
+		    }
+		});
 		
 		JPanel updatePatientRecord = new JPanel();
 		tabbedPane_3.addTab("Update Patient Record", null, updatePatientRecord, null);

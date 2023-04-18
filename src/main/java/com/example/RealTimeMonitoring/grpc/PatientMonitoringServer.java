@@ -30,14 +30,14 @@ public class PatientMonitoringServer {
                 .addService(new PatientMonitoringServiceImpl())
                 .build()
                 .start();
-        System.out.println("Server started, listening on " + port);
+        System.out.println("Patient Monitoring Server started, listening on " + port);
 
 
-        // Register the server with jmDNS
+        // registering  the server with jmDNS
         JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
         ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "PatientMonitoringServer", port, "path=/");
         jmdns.registerService(serviceInfo);
-        System.out.printf("Registered service with type %s and name %s \n", serviceInfo.getType(), serviceInfo.getName());
+        System.out.println("Registered service with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
 
     }
 
