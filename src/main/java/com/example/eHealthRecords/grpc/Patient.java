@@ -5,22 +5,22 @@ package com.example.eHealthRecords.grpc;
 
 /**
  * <pre>
- * Request message for UpdatePatientRecord method
+ * Definining Patient as a custom message type for the updatePatient method below
  * </pre>
  *
- * Protobuf type {@code EHRManagement.UpdatePatientRecordRequest}
+ * Protobuf type {@code EHRManagement.Patient}
  */
-public  final class UpdatePatientRecordRequest extends
+public  final class Patient extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:EHRManagement.UpdatePatientRecordRequest)
-    UpdatePatientRecordRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:EHRManagement.Patient)
+    PatientOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use UpdatePatientRecordRequest.newBuilder() to construct.
-  private UpdatePatientRecordRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use Patient.newBuilder() to construct.
+  private Patient(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private UpdatePatientRecordRequest() {
-    patientId_ = "";
+  private Patient() {
+    id_ = "";
     name_ = "";
     department_ = "";
     diagnosis_ = "";
@@ -33,7 +33,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private UpdatePatientRecordRequest(
+  private Patient(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -55,7 +55,7 @@ private static final long serialVersionUID = 0L;
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            patientId_ = s;
+            id_ = s;
             break;
           }
           case 18: {
@@ -109,45 +109,45 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_UpdatePatientRecordRequest_descriptor;
+    return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_Patient_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_UpdatePatientRecordRequest_fieldAccessorTable
+    return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_Patient_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.class, com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.Builder.class);
+            com.example.eHealthRecords.grpc.Patient.class, com.example.eHealthRecords.grpc.Patient.Builder.class);
   }
 
-  public static final int PATIENT_ID_FIELD_NUMBER = 1;
-  private volatile java.lang.Object patientId_;
+  public static final int ID_FIELD_NUMBER = 1;
+  private volatile java.lang.Object id_;
   /**
-   * <code>string patient_id = 1;</code>
+   * <code>string id = 1;</code>
    */
-  public java.lang.String getPatientId() {
-    java.lang.Object ref = patientId_;
+  public java.lang.String getId() {
+    java.lang.Object ref = id_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      patientId_ = s;
+      id_ = s;
       return s;
     }
   }
   /**
-   * <code>string patient_id = 1;</code>
+   * <code>string id = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getPatientIdBytes() {
-    java.lang.Object ref = patientId_;
+      getIdBytes() {
+    java.lang.Object ref = id_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      patientId_ = b;
+      id_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -338,8 +338,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getPatientIdBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, patientId_);
+    if (!getIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
     }
     if (!getNameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
@@ -365,8 +365,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getPatientIdBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, patientId_);
+    if (!getIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
     }
     if (!getNameBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
@@ -393,14 +393,14 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.example.eHealthRecords.grpc.UpdatePatientRecordRequest)) {
+    if (!(obj instanceof com.example.eHealthRecords.grpc.Patient)) {
       return super.equals(obj);
     }
-    com.example.eHealthRecords.grpc.UpdatePatientRecordRequest other = (com.example.eHealthRecords.grpc.UpdatePatientRecordRequest) obj;
+    com.example.eHealthRecords.grpc.Patient other = (com.example.eHealthRecords.grpc.Patient) obj;
 
     boolean result = true;
-    result = result && getPatientId()
-        .equals(other.getPatientId());
+    result = result && getId()
+        .equals(other.getId());
     result = result && getName()
         .equals(other.getName());
     result = result && getDepartment()
@@ -422,8 +422,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
-    hash = (53 * hash) + getPatientId().hashCode();
+    hash = (37 * hash) + ID_FIELD_NUMBER;
+    hash = (53 * hash) + getId().hashCode();
     hash = (37 * hash) + NAME_FIELD_NUMBER;
     hash = (53 * hash) + getName().hashCode();
     hash = (37 * hash) + DEPARTMENT_FIELD_NUMBER;
@@ -439,69 +439,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(byte[] data)
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(java.io.InputStream input)
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseDelimitedFrom(java.io.InputStream input)
+  public static com.example.eHealthRecords.grpc.Patient parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseDelimitedFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parseFrom(
+  public static com.example.eHealthRecords.grpc.Patient parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -514,7 +514,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.example.eHealthRecords.grpc.UpdatePatientRecordRequest prototype) {
+  public static Builder newBuilder(com.example.eHealthRecords.grpc.Patient prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -531,29 +531,29 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <pre>
-   * Request message for UpdatePatientRecord method
+   * Definining Patient as a custom message type for the updatePatient method below
    * </pre>
    *
-   * Protobuf type {@code EHRManagement.UpdatePatientRecordRequest}
+   * Protobuf type {@code EHRManagement.Patient}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:EHRManagement.UpdatePatientRecordRequest)
-      com.example.eHealthRecords.grpc.UpdatePatientRecordRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:EHRManagement.Patient)
+      com.example.eHealthRecords.grpc.PatientOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_UpdatePatientRecordRequest_descriptor;
+      return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_Patient_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_UpdatePatientRecordRequest_fieldAccessorTable
+      return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_Patient_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.class, com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.Builder.class);
+              com.example.eHealthRecords.grpc.Patient.class, com.example.eHealthRecords.grpc.Patient.Builder.class);
     }
 
-    // Construct using com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.newBuilder()
+    // Construct using com.example.eHealthRecords.grpc.Patient.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -571,7 +571,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      patientId_ = "";
+      id_ = "";
 
       name_ = "";
 
@@ -589,17 +589,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_UpdatePatientRecordRequest_descriptor;
+      return com.example.eHealthRecords.grpc.EHRManagementImpl.internal_static_EHRManagement_Patient_descriptor;
     }
 
     @java.lang.Override
-    public com.example.eHealthRecords.grpc.UpdatePatientRecordRequest getDefaultInstanceForType() {
-      return com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.getDefaultInstance();
+    public com.example.eHealthRecords.grpc.Patient getDefaultInstanceForType() {
+      return com.example.eHealthRecords.grpc.Patient.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.example.eHealthRecords.grpc.UpdatePatientRecordRequest build() {
-      com.example.eHealthRecords.grpc.UpdatePatientRecordRequest result = buildPartial();
+    public com.example.eHealthRecords.grpc.Patient build() {
+      com.example.eHealthRecords.grpc.Patient result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -607,9 +607,9 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.example.eHealthRecords.grpc.UpdatePatientRecordRequest buildPartial() {
-      com.example.eHealthRecords.grpc.UpdatePatientRecordRequest result = new com.example.eHealthRecords.grpc.UpdatePatientRecordRequest(this);
-      result.patientId_ = patientId_;
+    public com.example.eHealthRecords.grpc.Patient buildPartial() {
+      com.example.eHealthRecords.grpc.Patient result = new com.example.eHealthRecords.grpc.Patient(this);
+      result.id_ = id_;
       result.name_ = name_;
       result.department_ = department_;
       result.diagnosis_ = diagnosis_;
@@ -653,18 +653,18 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.example.eHealthRecords.grpc.UpdatePatientRecordRequest) {
-        return mergeFrom((com.example.eHealthRecords.grpc.UpdatePatientRecordRequest)other);
+      if (other instanceof com.example.eHealthRecords.grpc.Patient) {
+        return mergeFrom((com.example.eHealthRecords.grpc.Patient)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.example.eHealthRecords.grpc.UpdatePatientRecordRequest other) {
-      if (other == com.example.eHealthRecords.grpc.UpdatePatientRecordRequest.getDefaultInstance()) return this;
-      if (!other.getPatientId().isEmpty()) {
-        patientId_ = other.patientId_;
+    public Builder mergeFrom(com.example.eHealthRecords.grpc.Patient other) {
+      if (other == com.example.eHealthRecords.grpc.Patient.getDefaultInstance()) return this;
+      if (!other.getId().isEmpty()) {
+        id_ = other.id_;
         onChanged();
       }
       if (!other.getName().isEmpty()) {
@@ -702,11 +702,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.example.eHealthRecords.grpc.UpdatePatientRecordRequest parsedMessage = null;
+      com.example.eHealthRecords.grpc.Patient parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.example.eHealthRecords.grpc.UpdatePatientRecordRequest) e.getUnfinishedMessage();
+        parsedMessage = (com.example.eHealthRecords.grpc.Patient) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -716,71 +716,71 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object patientId_ = "";
+    private java.lang.Object id_ = "";
     /**
-     * <code>string patient_id = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public java.lang.String getPatientId() {
-      java.lang.Object ref = patientId_;
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        patientId_ = s;
+        id_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string patient_id = 1;</code>
+     * <code>string id = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getPatientIdBytes() {
-      java.lang.Object ref = patientId_;
+        getIdBytes() {
+      java.lang.Object ref = id_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        patientId_ = b;
+        id_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string patient_id = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public Builder setPatientId(
+    public Builder setId(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      patientId_ = value;
+      id_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string patient_id = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public Builder clearPatientId() {
+    public Builder clearId() {
       
-      patientId_ = getDefaultInstance().getPatientId();
+      id_ = getDefaultInstance().getId();
       onChanged();
       return this;
     }
     /**
-     * <code>string patient_id = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public Builder setPatientIdBytes(
+    public Builder setIdBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      patientId_ = value;
+      id_ = value;
       onChanged();
       return this;
     }
@@ -1142,41 +1142,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:EHRManagement.UpdatePatientRecordRequest)
+    // @@protoc_insertion_point(builder_scope:EHRManagement.Patient)
   }
 
-  // @@protoc_insertion_point(class_scope:EHRManagement.UpdatePatientRecordRequest)
-  private static final com.example.eHealthRecords.grpc.UpdatePatientRecordRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:EHRManagement.Patient)
+  private static final com.example.eHealthRecords.grpc.Patient DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.example.eHealthRecords.grpc.UpdatePatientRecordRequest();
+    DEFAULT_INSTANCE = new com.example.eHealthRecords.grpc.Patient();
   }
 
-  public static com.example.eHealthRecords.grpc.UpdatePatientRecordRequest getDefaultInstance() {
+  public static com.example.eHealthRecords.grpc.Patient getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<UpdatePatientRecordRequest>
-      PARSER = new com.google.protobuf.AbstractParser<UpdatePatientRecordRequest>() {
+  private static final com.google.protobuf.Parser<Patient>
+      PARSER = new com.google.protobuf.AbstractParser<Patient>() {
     @java.lang.Override
-    public UpdatePatientRecordRequest parsePartialFrom(
+    public Patient parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new UpdatePatientRecordRequest(input, extensionRegistry);
+      return new Patient(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<UpdatePatientRecordRequest> parser() {
+  public static com.google.protobuf.Parser<Patient> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<UpdatePatientRecordRequest> getParserForType() {
+  public com.google.protobuf.Parser<Patient> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.example.eHealthRecords.grpc.UpdatePatientRecordRequest getDefaultInstanceForType() {
+  public com.example.eHealthRecords.grpc.Patient getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

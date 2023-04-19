@@ -59,8 +59,7 @@ public class EHRManagementClient {
 
         
         EHRManagementClient.searchPatientRecord(patientId);
-        EHRManagementClient.updatePatientRecord(patientId, "Updated diagnosis: Diabetes");
-        EHRManagementClient.sharePatientRecord(patientId);
+
 
         EHRManagementChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
@@ -131,10 +130,14 @@ public class EHRManagementClient {
         }
     }
 
-    public void updatePatientRecord(String patientId, String updatedInformation) {
+    public void updatePatientRecord(String patientId, String name, String department, String diagnosis, String medication, String operation) {
         UpdatePatientRecordRequest request = UpdatePatientRecordRequest.newBuilder()
                 .setPatientId(patientId)
-                .setUpdatedInformation(updatedInformation)
+                .setName(name)
+                .setDepartment(department)
+                .setDiagnosis(diagnosis)
+                .setMedication(medication)
+                .setOperation(operation)
                 .build();
         try {
             UpdatePatientRecordResponse response = blockingStub.updatePatientRecord(request);
@@ -143,7 +146,25 @@ public class EHRManagementClient {
             System.err.println("RPC failed: " + e.getStatus());
         }
     }
+    
+    
+    
+    public SearchPatientRecordResponse getPatientRecord(String patientId) {
+        SearchPatientRecordRequest request = SearchPatientRecordRequest.newBuilder()
+                .setPatientId(patientId)
+                .build();
+        try {
+            SearchPatientRecordResponse response = blockingStub.searchPatientRecord(request);
+            return response;
+        } catch (StatusRuntimeException e) {
+            System.err.println("RPC failed: " + e.getStatus());
+            return null;
+        }
+    }
 
+    
+    
+    
     public void sharePatientRecord(String patientId) {
         StreamObserver<SharePatientRecordResponse> responseObserver = new StreamObserver<SharePatientRecordResponse>() {
             @Override

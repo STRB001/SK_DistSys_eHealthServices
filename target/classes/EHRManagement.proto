@@ -15,6 +15,17 @@ service EHRManagement {
 
   // Client Streaming RPC Method 3 - Share Patient Record
   rpc SharePatientRecord(stream SharePatientRecordRequest) returns (SharePatientRecordResponse) {}
+  
+}
+
+// Definining Patient as a custom message type for the updatePatient method below
+message Patient {
+    string id = 1;
+    string name = 2;
+    string department = 3;
+    string diagnosis = 4;
+    string medication = 5;
+    string operation = 6;
 }
 
 // Request message for SearchPatientRecord method
@@ -35,13 +46,18 @@ message SearchPatientRecordResponse {
 // Request message for UpdatePatientRecord method
 message UpdatePatientRecordRequest {
   string patient_id = 1;
-  string updated_information = 2;
+  string name = 2;
+  string department = 3;
+  string diagnosis = 4;
+  string medication = 5;
+  string operation = 6;
 }
 
 // Response message for UpdatePatientRecord method
 message UpdatePatientRecordResponse {
   bool success = 1;
   string message = 2;
+  Patient updated_patient = 3;
 }
 
 // request message for SharePatientRecord method

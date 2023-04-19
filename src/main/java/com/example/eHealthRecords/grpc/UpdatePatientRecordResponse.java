@@ -59,6 +59,19 @@ private static final long serialVersionUID = 0L;
             message_ = s;
             break;
           }
+          case 26: {
+            com.example.eHealthRecords.grpc.Patient.Builder subBuilder = null;
+            if (updatedPatient_ != null) {
+              subBuilder = updatedPatient_.toBuilder();
+            }
+            updatedPatient_ = input.readMessage(com.example.eHealthRecords.grpc.Patient.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(updatedPatient_);
+              updatedPatient_ = subBuilder.buildPartial();
+            }
+
+            break;
+          }
           default: {
             if (!parseUnknownFieldProto3(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -134,6 +147,27 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int UPDATED_PATIENT_FIELD_NUMBER = 3;
+  private com.example.eHealthRecords.grpc.Patient updatedPatient_;
+  /**
+   * <code>.EHRManagement.Patient updated_patient = 3;</code>
+   */
+  public boolean hasUpdatedPatient() {
+    return updatedPatient_ != null;
+  }
+  /**
+   * <code>.EHRManagement.Patient updated_patient = 3;</code>
+   */
+  public com.example.eHealthRecords.grpc.Patient getUpdatedPatient() {
+    return updatedPatient_ == null ? com.example.eHealthRecords.grpc.Patient.getDefaultInstance() : updatedPatient_;
+  }
+  /**
+   * <code>.EHRManagement.Patient updated_patient = 3;</code>
+   */
+  public com.example.eHealthRecords.grpc.PatientOrBuilder getUpdatedPatientOrBuilder() {
+    return getUpdatedPatient();
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -154,6 +188,9 @@ private static final long serialVersionUID = 0L;
     if (!getMessageBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
     }
+    if (updatedPatient_ != null) {
+      output.writeMessage(3, getUpdatedPatient());
+    }
     unknownFields.writeTo(output);
   }
 
@@ -169,6 +206,10 @@ private static final long serialVersionUID = 0L;
     }
     if (!getMessageBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+    }
+    if (updatedPatient_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, getUpdatedPatient());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -190,6 +231,11 @@ private static final long serialVersionUID = 0L;
         == other.getSuccess());
     result = result && getMessage()
         .equals(other.getMessage());
+    result = result && (hasUpdatedPatient() == other.hasUpdatedPatient());
+    if (hasUpdatedPatient()) {
+      result = result && getUpdatedPatient()
+          .equals(other.getUpdatedPatient());
+    }
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -206,6 +252,10 @@ private static final long serialVersionUID = 0L;
         getSuccess());
     hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
     hash = (53 * hash) + getMessage().hashCode();
+    if (hasUpdatedPatient()) {
+      hash = (37 * hash) + UPDATED_PATIENT_FIELD_NUMBER;
+      hash = (53 * hash) + getUpdatedPatient().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -347,6 +397,12 @@ private static final long serialVersionUID = 0L;
 
       message_ = "";
 
+      if (updatedPatientBuilder_ == null) {
+        updatedPatient_ = null;
+      } else {
+        updatedPatient_ = null;
+        updatedPatientBuilder_ = null;
+      }
       return this;
     }
 
@@ -375,6 +431,11 @@ private static final long serialVersionUID = 0L;
       com.example.eHealthRecords.grpc.UpdatePatientRecordResponse result = new com.example.eHealthRecords.grpc.UpdatePatientRecordResponse(this);
       result.success_ = success_;
       result.message_ = message_;
+      if (updatedPatientBuilder_ == null) {
+        result.updatedPatient_ = updatedPatient_;
+      } else {
+        result.updatedPatient_ = updatedPatientBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -429,6 +490,9 @@ private static final long serialVersionUID = 0L;
       if (!other.getMessage().isEmpty()) {
         message_ = other.message_;
         onChanged();
+      }
+      if (other.hasUpdatedPatient()) {
+        mergeUpdatedPatient(other.getUpdatedPatient());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -552,6 +616,123 @@ private static final long serialVersionUID = 0L;
       message_ = value;
       onChanged();
       return this;
+    }
+
+    private com.example.eHealthRecords.grpc.Patient updatedPatient_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.example.eHealthRecords.grpc.Patient, com.example.eHealthRecords.grpc.Patient.Builder, com.example.eHealthRecords.grpc.PatientOrBuilder> updatedPatientBuilder_;
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public boolean hasUpdatedPatient() {
+      return updatedPatientBuilder_ != null || updatedPatient_ != null;
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public com.example.eHealthRecords.grpc.Patient getUpdatedPatient() {
+      if (updatedPatientBuilder_ == null) {
+        return updatedPatient_ == null ? com.example.eHealthRecords.grpc.Patient.getDefaultInstance() : updatedPatient_;
+      } else {
+        return updatedPatientBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public Builder setUpdatedPatient(com.example.eHealthRecords.grpc.Patient value) {
+      if (updatedPatientBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        updatedPatient_ = value;
+        onChanged();
+      } else {
+        updatedPatientBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public Builder setUpdatedPatient(
+        com.example.eHealthRecords.grpc.Patient.Builder builderForValue) {
+      if (updatedPatientBuilder_ == null) {
+        updatedPatient_ = builderForValue.build();
+        onChanged();
+      } else {
+        updatedPatientBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public Builder mergeUpdatedPatient(com.example.eHealthRecords.grpc.Patient value) {
+      if (updatedPatientBuilder_ == null) {
+        if (updatedPatient_ != null) {
+          updatedPatient_ =
+            com.example.eHealthRecords.grpc.Patient.newBuilder(updatedPatient_).mergeFrom(value).buildPartial();
+        } else {
+          updatedPatient_ = value;
+        }
+        onChanged();
+      } else {
+        updatedPatientBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public Builder clearUpdatedPatient() {
+      if (updatedPatientBuilder_ == null) {
+        updatedPatient_ = null;
+        onChanged();
+      } else {
+        updatedPatient_ = null;
+        updatedPatientBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public com.example.eHealthRecords.grpc.Patient.Builder getUpdatedPatientBuilder() {
+      
+      onChanged();
+      return getUpdatedPatientFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    public com.example.eHealthRecords.grpc.PatientOrBuilder getUpdatedPatientOrBuilder() {
+      if (updatedPatientBuilder_ != null) {
+        return updatedPatientBuilder_.getMessageOrBuilder();
+      } else {
+        return updatedPatient_ == null ?
+            com.example.eHealthRecords.grpc.Patient.getDefaultInstance() : updatedPatient_;
+      }
+    }
+    /**
+     * <code>.EHRManagement.Patient updated_patient = 3;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        com.example.eHealthRecords.grpc.Patient, com.example.eHealthRecords.grpc.Patient.Builder, com.example.eHealthRecords.grpc.PatientOrBuilder> 
+        getUpdatedPatientFieldBuilder() {
+      if (updatedPatientBuilder_ == null) {
+        updatedPatientBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.example.eHealthRecords.grpc.Patient, com.example.eHealthRecords.grpc.Patient.Builder, com.example.eHealthRecords.grpc.PatientOrBuilder>(
+                getUpdatedPatient(),
+                getParentForChildren(),
+                isClean());
+        updatedPatient_ = null;
+      }
+      return updatedPatientBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

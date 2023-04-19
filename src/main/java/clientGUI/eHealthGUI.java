@@ -3,6 +3,7 @@ package clientGUI;
 
 import java.awt.event.ActionEvent;
 
+
 import java.awt.event.ActionListener;
 
 
@@ -15,6 +16,7 @@ import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertCallback;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoCallback;
 import com.example.eHealthRecords.grpc.EHRManagementClient;
+import com.example.eHealthRecords.grpc.SearchPatientRecordResponse;
 
 import java.awt.EventQueue;
 
@@ -49,6 +51,8 @@ import java.util.concurrent.TimeoutException;
 
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
+import javax.swing.JScrollBar;
 
 public class eHealthGUI extends JFrame {
 
@@ -96,6 +100,11 @@ public class eHealthGUI extends JFrame {
 	   private JTextArea realTimeOutputTA;
 	   private JTextField medicalAlertPatientIdTF;
 	   private JTextField searchPatientIdTF;
+	   private JTextField updatePatientNameTF;
+	   private JTextField updateDepartmentTF;
+	   private JTextField updateDiagnosisTF;
+	   private JTextField updateMedicationTF;
+	   private JTextField updateOperationTF;
 
 	
 	// Discover Patient Medication jmDNS
@@ -381,6 +390,124 @@ public class eHealthGUI extends JFrame {
 		
 		JPanel updatePatientRecord = new JPanel();
 		tabbedPane_3.addTab("Update Patient Record", null, updatePatientRecord, null);
+		updatePatientRecord.setLayout(null);
+		
+		JLabel updatePatientNameLb = new JLabel("Update Patient Name:");
+		updatePatientNameLb.setBounds(26, 53, 149, 14);
+		updatePatientRecord.add(updatePatientNameLb);
+		
+		JLabel updatePatientDepartmentLb = new JLabel("Update Department:");
+		updatePatientDepartmentLb.setBounds(26, 95, 149, 14);
+		updatePatientRecord.add(updatePatientDepartmentLb);
+		
+		updatePatientNameTF = new JTextField();
+		updatePatientNameTF.setBounds(26, 64, 149, 20);
+		updatePatientRecord.add(updatePatientNameTF);
+		updatePatientNameTF.setColumns(10);
+		
+		updateDepartmentTF = new JTextField();
+		updateDepartmentTF.setColumns(10);
+		updateDepartmentTF.setBounds(26, 106, 149, 20);
+		updatePatientRecord.add(updateDepartmentTF);
+		
+		JLabel updatePatientDiagnosisLb = new JLabel("Update Diagnosis:");
+		updatePatientDiagnosisLb.setBounds(26, 137, 149, 14);
+		updatePatientRecord.add(updatePatientDiagnosisLb);
+		
+		updateDiagnosisTF = new JTextField();
+		updateDiagnosisTF.setColumns(10);
+		updateDiagnosisTF.setBounds(26, 148, 149, 20);
+		updatePatientRecord.add(updateDiagnosisTF);
+		
+		JLabel updatePatientMedicationLb = new JLabel("Update Medication:");
+		updatePatientMedicationLb.setBounds(26, 179, 149, 14);
+		updatePatientRecord.add(updatePatientMedicationLb);
+		
+		updateMedicationTF = new JTextField();
+		updateMedicationTF.setColumns(10);
+		updateMedicationTF.setBounds(26, 190, 149, 20);
+		updatePatientRecord.add(updateMedicationTF);
+		
+		JLabel updatePatientScheduledOpLb = new JLabel("Update Operation:");
+		updatePatientScheduledOpLb.setBounds(26, 221, 149, 14);
+		updatePatientRecord.add(updatePatientScheduledOpLb);
+		
+		updateOperationTF = new JTextField();
+		updateOperationTF.setColumns(10);
+		updateOperationTF.setBounds(26, 233, 149, 20);
+		updatePatientRecord.add(updateOperationTF);
+		
+		JLabel UpdatePatientIdLb = new JLabel("Update Patient ID:");
+		UpdatePatientIdLb.setBounds(26, 11, 149, 14);
+		updatePatientRecord.add(UpdatePatientIdLb);
+		
+		JButton updatePatientBt = new JButton("Update Patient");
+		updatePatientBt.setBounds(25, 264, 150, 40);
+		updatePatientRecord.add(updatePatientBt);
+		
+		final String[] patientIds = {"AB001", "AB002"};
+
+		JComboBox updatePatientIdCB = new JComboBox();
+		updatePatientIdCB.setEditable(true);
+		updatePatientIdCB.setToolTipText("");
+		updatePatientIdCB.setBounds(26, 22, 149, 22);
+		updatePatientRecord.add(updatePatientIdCB);
+		
+		for (String patientId : patientIds) {
+		    updatePatientIdCB.addItem(patientId);
+		}
+
+		updatePatientIdCB.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String selectedPatientId = (String) updatePatientIdCB.getSelectedItem();
+		        if (selectedPatientId != null) {
+		            SearchPatientRecordResponse patientInfo = EHRManagementClient.getPatientRecord(selectedPatientId);
+		            if (patientInfo != null) {
+		                updatePatientNameTF.setText(patientInfo.getPatientName());
+		                updateDepartmentTF.setText(patientInfo.getDepartment());
+		                updateDiagnosisTF.setText(patientInfo.getDiagnosis());
+		                updateMedicationTF.setText(patientInfo.getMedication());
+		                updateOperationTF.setText(patientInfo.getScheduledOperation());
+		        }
+		        }
+		    }
+		});
+		
+		
+		JTextArea updatePatientTA = new JTextArea();
+		updatePatientTA.setBounds(206, 22, 590, 282);
+		updatePatientRecord.add(updatePatientTA);
+		
+		updatePatientBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String patientId = (String) updatePatientIdCB.getSelectedItem();
+		        String name = updatePatientNameTF.getText();
+		        String department = updateDepartmentTF.getText();
+		        String diagnosis = updateDiagnosisTF.getText();
+		        String medication = updateMedicationTF.getText();
+		        String operation = updateOperationTF.getText();
+		        
+		        EHRManagementClient.updatePatientRecord(patientId, name, department, diagnosis, medication, operation);
+		        updatePatientTA.append("Patient has been updated!\n");
+		        updatePatientTA.append("Updated patient info:\n");
+		        updatePatientTA.append("Patient ID: " + patientId + "\n");
+		        updatePatientTA.append("Name: " + name + "\n");
+		        updatePatientTA.append("Department: " + department + "\n");
+		        updatePatientTA.append("Diagnosis: " + diagnosis + "\n");
+		        updatePatientTA.append("Medication: " + medication + "\n");
+		        updatePatientTA.append("Operation: " + operation + "\n");
+		        updatePatientTA.append("\n");
+		    }
+		});
+		
+	
+		JLabel updatePatientOutputLb = new JLabel("Output:");
+		updatePatientOutputLb.setBounds(208, 11, 46, 14);
+		updatePatientRecord.add(updatePatientOutputLb);
+		
+		JScrollBar updatePatientOutputSB = new JScrollBar();
+		updatePatientOutputSB.setBounds(779, 22, 17, 282);
+		updatePatientRecord.add(updatePatientOutputSB);
 		
 		JPanel sharePatientRecord = new JPanel();
 		tabbedPane_3.addTab("Share Patient Record", null, sharePatientRecord, null);
@@ -613,7 +740,5 @@ public class eHealthGUI extends JFrame {
 		    }
 		});
 		
-
-
 	}
 }

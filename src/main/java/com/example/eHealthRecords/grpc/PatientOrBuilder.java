@@ -3,19 +3,19 @@
 
 package com.example.eHealthRecords.grpc;
 
-public interface UpdatePatientRecordRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:EHRManagement.UpdatePatientRecordRequest)
+public interface PatientOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:EHRManagement.Patient)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string patient_id = 1;</code>
+   * <code>string id = 1;</code>
    */
-  java.lang.String getPatientId();
+  java.lang.String getId();
   /**
-   * <code>string patient_id = 1;</code>
+   * <code>string id = 1;</code>
    */
   com.google.protobuf.ByteString
-      getPatientIdBytes();
+      getIdBytes();
 
   /**
    * <code>string name = 2;</code>

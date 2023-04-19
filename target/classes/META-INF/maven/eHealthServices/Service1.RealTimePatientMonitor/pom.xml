@@ -60,7 +60,12 @@
     <artifactId>jmdns</artifactId>
     <version>3.5.5</version>
 </dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>HelloWorldgRPC</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+   	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

@@ -52,15 +52,26 @@ public class EHRManagementServer {
 
         public EHRManagementImpl() {
         patientRecords.add(SearchPatientRecordResponse.newBuilder()
-                .setPatientId("P123")
-                .setPatientName("Jon Snow")
+                .setPatientId("AB001")
+                .setPatientName("Frodo Baggins")
                 .setDepartment("Emergency Department")
                 .setDiagnosis("Internal Bleeding/Hemmorhage")
                 .setMedication("Ibuprofen")
                 .setScheduledOperation("Blood Transfusion")
                 .build());
-        }
-
+        
+        // Adding another patient record
+        patientRecords.add(SearchPatientRecordResponse.newBuilder()
+                .setPatientId("AB002")
+                .setPatientName("Gandalf Grey")
+                .setDepartment("Trauma and Orthopedic")
+                .setDiagnosis("Burns")
+                .setMedication("Antibiotics")
+                .setScheduledOperation("Skin Graft")
+                .build());
+    }
+        
+       
         @Override
         public void searchPatientRecord(SearchPatientRecordRequest request, StreamObserver<SearchPatientRecordResponse> responseObserver) {
             SearchPatientRecordResponse response = null;
@@ -74,7 +85,7 @@ public class EHRManagementServer {
             }
 
             if (response == null) {
-                System.out.println("Patient ID " + request.getPatientId() + " was searched but no matching patient found.");
+                System.out.println("Patient ID " + request.getPatientId() + " was searched for but no match was found.");
                 response = SearchPatientRecordResponse.getDefaultInstance();
             }
 

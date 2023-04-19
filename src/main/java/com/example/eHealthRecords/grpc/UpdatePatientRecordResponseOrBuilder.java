@@ -21,4 +21,17 @@ public interface UpdatePatientRecordResponseOrBuilder extends
    */
   com.google.protobuf.ByteString
       getMessageBytes();
+
+  /**
+   * <code>.EHRManagement.Patient updated_patient = 3;</code>
+   */
+  boolean hasUpdatedPatient();
+  /**
+   * <code>.EHRManagement.Patient updated_patient = 3;</code>
+   */
+  com.example.eHealthRecords.grpc.Patient getUpdatedPatient();
+  /**
+   * <code>.EHRManagement.Patient updated_patient = 3;</code>
+   */
+  com.example.eHealthRecords.grpc.PatientOrBuilder getUpdatedPatientOrBuilder();
 }
