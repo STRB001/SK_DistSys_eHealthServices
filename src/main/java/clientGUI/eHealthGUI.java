@@ -269,30 +269,30 @@ public class eHealthGUI extends JFrame {
 		addPatientService.setLayout(null);
 		
 		JLabel patientNameLb = new JLabel("Patient Name:");
-		patientNameLb.setBounds(10, 11, 88, 14);
+		patientNameLb.setBounds(10, 35, 113, 14);
 		addPatientService.add(patientNameLb);
 		
 		JLabel patientAgeLb = new JLabel("Patient Age:");
-		patientAgeLb.setBounds(10, 77, 88, 14);
+		patientAgeLb.setBounds(10, 88, 99, 14);
 		addPatientService.add(patientAgeLb);
 		
 		JLabel patientIdLb = new JLabel("Patient ID:");
-		patientIdLb.setBounds(10, 141, 88, 14);
+		patientIdLb.setBounds(10, 145, 113, 14);
 		addPatientService.add(patientIdLb);
 		
 		patientNameTF = new JTextField();
-		patientNameTF.setBounds(10, 33, 161, 20);
+		patientNameTF.setBounds(10, 50, 161, 20);
 		addPatientService.add(patientNameTF);
 		patientNameTF.setColumns(10);
 		
 		patientAgeTF = new JTextField();
 		patientAgeTF.setColumns(10);
-		patientAgeTF.setBounds(10, 94, 161, 20);
+		patientAgeTF.setBounds(10, 105, 161, 20);
 		addPatientService.add(patientAgeTF);
 		
 		patientIdTF = new JTextField();
 		patientIdTF.setColumns(10);
-		patientIdTF.setBounds(10, 158, 161, 20);
+		patientIdTF.setBounds(10, 162, 161, 20);
 		addPatientService.add(patientIdTF);
 		
 		
@@ -303,7 +303,7 @@ public class eHealthGUI extends JFrame {
 		
 		
 		JLabel addPatientOutputLb = new JLabel("Output:");
-		addPatientOutputLb.setBounds(205, 11, 46, 14);
+		addPatientOutputLb.setBounds(192, 11, 54, 20);
 		addPatientService.add(addPatientOutputLb);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -332,7 +332,7 @@ public class eHealthGUI extends JFrame {
 		realTimePatientInfo.add(realTimeInfoBt);
 
 		JLabel realTimeOutputLb = new JLabel("Output:");
-		realTimeOutputLb.setBounds(205, 11, 46, 14);
+		realTimeOutputLb.setBounds(192, 11, 54, 20);
 		realTimePatientInfo.add(realTimeOutputLb);
 		
 
@@ -360,7 +360,7 @@ public class eHealthGUI extends JFrame {
 		medicalAlertPatientIdTF.setColumns(10);
 		
 		JLabel medicalAlertOutputLb = new JLabel("Output:");
-		medicalAlertOutputLb.setBounds(205, 11, 46, 14);
+		medicalAlertOutputLb.setBounds(192, 11, 54, 20);
 		medicalStaffAlert.add(medicalAlertOutputLb);
 		
 		JButton medicalAlertStreamBt = new JButton("Begin Alert System");
@@ -541,7 +541,7 @@ public class eHealthGUI extends JFrame {
 		sharePatientRecord.setLayout(null);
 		
 		JLabel sharePatientnNumRecords = new JLabel("Number of records to share:");
-		sharePatientnNumRecords.setBounds(10, 34, 149, 14);
+		sharePatientnNumRecords.setBounds(10, 34, 180, 14);
 		sharePatientRecord.add(sharePatientnNumRecords);
 		
 		sharePatientNumRecordsTF = new JTextField();
@@ -662,52 +662,52 @@ public class eHealthGUI extends JFrame {
 		addMedicineTabbedPane.setLayout(null);
 		
 		JLabel addMedicineMedicationSideEffectsLb = new JLabel("Medication Side Effects:");
-		addMedicineMedicationSideEffectsLb.setBounds(10, 188, 115, 24);
+		addMedicineMedicationSideEffectsLb.setBounds(10, 179, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationSideEffectsLb);
 		
 		JLabel addMedicineMedicationNameLb = new JLabel("Medication Name:");
-		addMedicineMedicationNameLb.setBounds(10, 69, 136, 24);
+		addMedicineMedicationNameLb.setBounds(10, 69, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationNameLb);
 		
 		JLabel addMedicineMedicationDosageLb = new JLabel("Medication Dosage:");
-		addMedicineMedicationDosageLb.setBounds(10, 128, 136, 24);
+		addMedicineMedicationDosageLb.setBounds(10, 128, 154, 14);
 		addMedicineTabbedPane.add(addMedicineMedicationDosageLb);
 		
 		JLabel addMedicinePatientIdLb = new JLabel("Patient ID:");
-		addMedicinePatientIdLb.setBounds(10, 11, 136, 24);
+		addMedicinePatientIdLb.setBounds(10, 22, 136, 12);
 		addMedicineTabbedPane.add(addMedicinePatientIdLb);
 		
 		addMedicinePatientIdTF = new JTextField();
-		addMedicinePatientIdTF.setBounds(10, 34, 183, 24);
+		addMedicinePatientIdTF.setBounds(10, 34, 154, 24);
 		addMedicineTabbedPane.add(addMedicinePatientIdTF);
 		addMedicinePatientIdTF.setColumns(10);
 		
 		addMedicineMedicationNameTF = new JTextField();
 		addMedicineMedicationNameTF.setColumns(10);
-		addMedicineMedicationNameTF.setBounds(10, 93, 183, 24);
+		addMedicineMedicationNameTF.setBounds(10, 87, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationNameTF);
 		
 		addMedicineMedicationDosageTF = new JTextField();
 		addMedicineMedicationDosageTF.setColumns(10);
-		addMedicineMedicationDosageTF.setBounds(10, 153, 183, 24);
+		addMedicineMedicationDosageTF.setBounds(10, 142, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationDosageTF);
 		
 		addMedicineMedicationSideEffectsTF = new JTextField();
 		addMedicineMedicationSideEffectsTF.setColumns(10);
-		addMedicineMedicationSideEffectsTF.setBounds(10, 214, 183, 24);
+		addMedicineMedicationSideEffectsTF.setBounds(10, 197, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationSideEffectsTF);
 		
 		// add medicine button
 		JButton addMedicineBt = new JButton("Add Medicine");
-		addMedicineBt.setBounds(10, 266, 136, 23);
+		addMedicineBt.setBounds(23, 243, 123, 34);
 		addMedicineTabbedPane.add(addMedicineBt);
 		
 		JLabel addMedicineOutputLb = new JLabel("Output:");
-		addMedicineOutputLb.setBounds(199, 11, 79, 14);
+		addMedicineOutputLb.setBounds(191, 21, 79, 14);
 		addMedicineTabbedPane.add(addMedicineOutputLb);
 		
 		JScrollPane scrollPane_6 = new JScrollPane();
-		scrollPane_6.setBounds(203, 34, 593, 270);
+		scrollPane_6.setBounds(191, 36, 605, 268);
 		addMedicineTabbedPane.add(scrollPane_6);
 		
 		JTextArea addMedicineOutputTA = new JTextArea();
@@ -737,19 +737,19 @@ public class eHealthGUI extends JFrame {
 		confirmMedication.setLayout(null);
 		
 		JLabel medicationName1Lb = new JLabel("Medication Name 1:");
-		medicationName1Lb.setBounds(10, 11, 106, 14);
+		medicationName1Lb.setBounds(10, 11, 134, 14);
 		confirmMedication.add(medicationName1Lb);
 		
 		JLabel medicationName2Lb = new JLabel("Medication Name 2:");
-		medicationName2Lb.setBounds(10, 97, 106, 14);
+		medicationName2Lb.setBounds(10, 97, 134, 14);
 		confirmMedication.add(medicationName2Lb);
 		
 		JLabel medicationName3Lb = new JLabel("Medication Name 3:");
-		medicationName3Lb.setBounds(10, 182, 106, 14);
+		medicationName3Lb.setBounds(10, 182, 134, 14);
 		confirmMedication.add(medicationName3Lb);
 		
 		medicationName1TF = new JTextField();
-		medicationName1TF.setBounds(10, 25, 134, 20);
+		medicationName1TF.setBounds(10, 26, 134, 20);
 		confirmMedication.add(medicationName1TF);
 		medicationName1TF.setColumns(10);
 		
@@ -764,15 +764,15 @@ public class eHealthGUI extends JFrame {
 		confirmMedication.add(medicationName3TF);
 		
 		JLabel medicationDosage1Lb = new JLabel("Medication Dosage 1:");
-		medicationDosage1Lb.setBounds(10, 50, 106, 14);
+		medicationDosage1Lb.setBounds(10, 50, 134, 14);
 		confirmMedication.add(medicationDosage1Lb);
 		
 		JLabel medicationDosage3Lb = new JLabel("Medication Dosage 3:");
-		medicationDosage3Lb.setBounds(10, 222, 106, 14);
+		medicationDosage3Lb.setBounds(10, 222, 134, 14);
 		confirmMedication.add(medicationDosage3Lb);
 		
 		JLabel medicationDosage2Lb = new JLabel("Medication Dosage 2:");
-		medicationDosage2Lb.setBounds(10, 134, 106, 14);
+		medicationDosage2Lb.setBounds(10, 134, 134, 14);
 		confirmMedication.add(medicationDosage2Lb);
 		
 		medicationDosage1TF = new JTextField();
@@ -791,15 +791,15 @@ public class eHealthGUI extends JFrame {
 		confirmMedication.add(medicationDosage3TF);
 		
 		JLabel confirmMedicationOutputLb = new JLabel("Output:");
-		confirmMedicationOutputLb.setBounds(199, 11, 46, 14);
+		confirmMedicationOutputLb.setBounds(191, 21, 60, 14);
 		confirmMedication.add(confirmMedicationOutputLb);
 		
 		JButton confirmMedicationBt = new JButton("Confirm Medication");
-		confirmMedicationBt.setBounds(10, 270, 179, 23);
+		confirmMedicationBt.setBounds(20, 270, 153, 34);
 		confirmMedication.add(confirmMedicationBt);
 		
 		JScrollPane scrollPane_7 = new JScrollPane();
-		scrollPane_7.setBounds(209, 25, 587, 279);
+		scrollPane_7.setBounds(191, 36, 605, 268);
 		confirmMedication.add(scrollPane_7);
 		
 		JTextArea confirmMedicationOutputTA = new JTextArea();
@@ -841,28 +841,28 @@ public class eHealthGUI extends JFrame {
 		adjustDosage.setLayout(null);
 		
 		JLabel adjustDosageOutputLb = new JLabel("Output:");
-		adjustDosageOutputLb.setBounds(199, 11, 47, 14);
+		adjustDosageOutputLb.setBounds(191, 21, 47, 14);
 		adjustDosage.add(adjustDosageOutputLb);
 		
-		JLabel bloodSugarLb = new JLabel("Please enter initial Blood Sugar value:");
-		bloodSugarLb.setBounds(10, 65, 191, 22);
+		JLabel bloodSugarLb = new JLabel("Enter initial Blood Sugar value:");
+		bloodSugarLb.setBounds(10, 38, 191, 22);
 		adjustDosage.add(bloodSugarLb);
 		
 		bloodSugarTF = new JTextField();
-		bloodSugarTF.setBounds(10, 91, 86, 20);
+		bloodSugarTF.setBounds(10, 60, 86, 20);
 		adjustDosage.add(bloodSugarTF);
 		bloodSugarTF.setColumns(10);
 		
 		JLabel bloodSugarUnitLb = new JLabel("mmol/L");
-		bloodSugarUnitLb.setBounds(98, 98, 46, 14);
+		bloodSugarUnitLb.setBounds(98, 67, 46, 14);
 		adjustDosage.add(bloodSugarUnitLb);
 		
 		JButton adjustDosageStreamBt = new JButton("Stream Dynamic Dose");
-		adjustDosageStreamBt.setBounds(10, 145, 154, 23);
+		adjustDosageStreamBt.setBounds(20, 105, 146, 30);
 		adjustDosage.add(adjustDosageStreamBt);
 		
 		JScrollPane scrollPane_8 = new JScrollPane();
-		scrollPane_8.setBounds(209, 36, 587, 268);
+		scrollPane_8.setBounds(191, 36, 605, 268);
 		adjustDosage.add(scrollPane_8);
 		
 		JTextArea adjustDosageOutputTA = new JTextArea();
