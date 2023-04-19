@@ -16,6 +16,7 @@ import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertCallback;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoCallback;
 import com.example.eHealthRecords.grpc.EHRManagementClient;
+import com.example.eHealthRecords.grpc.EHRManagementClient.OutputCallback;
 import com.example.eHealthRecords.grpc.SearchPatientRecordResponse;
 
 import java.awt.EventQueue;
@@ -105,6 +106,7 @@ public class eHealthGUI extends JFrame {
 	   private JTextField updateDiagnosisTF;
 	   private JTextField updateMedicationTF;
 	   private JTextField updateOperationTF;
+	   private JTextField sharePatientNumRecordsTF;
 
 	
 	// Discover Patient Medication jmDNS
@@ -378,8 +380,6 @@ public class eHealthGUI extends JFrame {
 		searchPatientBt.setBounds(10, 181, 124, 23);
 		searchPatientRecord.add(searchPatientBt);
 		
-		
-		
 		searchPatientBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        String patientId = searchPatientIdTF.getText();
@@ -511,6 +511,56 @@ public class eHealthGUI extends JFrame {
 		
 		JPanel sharePatientRecord = new JPanel();
 		tabbedPane_3.addTab("Share Patient Record", null, sharePatientRecord, null);
+		sharePatientRecord.setLayout(null);
+		
+		JLabel sharePatientnNumRecords = new JLabel("Number of records to share:");
+		sharePatientnNumRecords.setBounds(23, 22, 149, 14);
+		sharePatientRecord.add(sharePatientnNumRecords);
+		
+		sharePatientNumRecordsTF = new JTextField();
+		sharePatientNumRecordsTF.setBounds(23, 43, 180, 20);
+		sharePatientRecord.add(sharePatientNumRecordsTF);
+		sharePatientNumRecordsTF.setColumns(10);
+		
+		JLabel sharePatientTargetLb = new JLabel("Target Server:");
+		sharePatientTargetLb.setBounds(23, 83, 113, 14);
+		sharePatientRecord.add(sharePatientTargetLb);
+		
+		JComboBox sharePatientTargetCB = new JComboBox();
+		sharePatientTargetCB.setBounds(23, 103, 180, 22);
+		sharePatientRecord.add(sharePatientTargetCB);
+		
+		sharePatientTargetCB.addItem("St. Patricks Hospital");
+		sharePatientTargetCB.addItem("Bon Secours Dublin");
+		sharePatientTargetCB.addItem("Cloud Service");
+		
+		JButton sharePatientBt = new JButton("Share Records");
+		sharePatientBt.setBounds(35, 188, 149, 47);
+		sharePatientRecord.add(sharePatientBt);
+		
+		JTextArea sharePatientOutputTA = new JTextArea();
+		sharePatientOutputTA.setBounds(232, 41, 564, 263);
+		sharePatientRecord.add(sharePatientOutputTA);
+	
+		sharePatientBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
+		        sharePatientOutputTA.setText(""); // Clear the output text area
+		        EHRManagementClient.sharePatientRecord(numRecords, new OutputCallback() {
+		            @Override
+		            public void onOutput(String recordContent) {
+		                // Update the output text area with the received record content
+		                sharePatientOutputTA.append(recordContent);
+		                sharePatientOutputTA.append("\n"); // Add a newline between records
+		            }
+		        });
+		    }
+		});
+		
+		JLabel sharePatientOutputLb = new JLabel("Output:");
+		sharePatientOutputLb.setBounds(240, 22, 46, 14);
+		sharePatientRecord.add(sharePatientOutputLb);
+		
 		
 		JPanel MedicationManager = new JPanel();
 		tabbedPane.addTab("Medication Manager", null, MedicationManager, null);

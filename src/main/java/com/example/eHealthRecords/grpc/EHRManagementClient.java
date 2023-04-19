@@ -162,40 +162,44 @@ public class EHRManagementClient {
         }
     }
 
+    public interface OutputCallback {
+	    void onOutput(String output);
+	} 
     
-    
-    
-    public void sharePatientRecord(String patientId) {
+    public void sharePatientRecord(int numPatients, OutputCallback outputCallback) {
         StreamObserver<SharePatientRecordResponse> responseObserver = new StreamObserver<SharePatientRecordResponse>() {
             @Override
             public void onNext(SharePatientRecordResponse response) {
-                System.out.println("Patient record shared:\n" + response.getMessage());
+                outputCallback.onOutput("Response: " + response.getMessage());
             }
 
             @Override
             public void onError(Throwable t) {
-                System.err.println("RPC failed: " + t.getMessage());
+                outputCallback.onOutput("RPC failed: " + t.getMessage());
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("Finished sharing patient record.");
+                outputCallback.onOutput("Finished sharing patient record.");
             }
         };
 
         StreamObserver<SharePatientRecordRequest> requestObserver = asyncStub.sharePatientRecord(responseObserver);
+
         try {
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 1; i <= numPatients; i++) {
+                String recordContent = "PatientName" + i + "\nPatientAge" + i + "\nPatientAddress" + i;
                 requestObserver.onNext(SharePatientRecordRequest.newBuilder()
-                        .setPatientId(patientId)
+                        .setPatientId("patient" + i)
                         .setRecordPart("Part " + i)
-                        .setRecordContent("Content " + i)
+                        .setRecordContent(recordContent)
                         .build());
+                outputCallback.onOutput(recordContent + "\n"); // Call the callback with the record content
             }
         } catch (RuntimeException e) {
             requestObserver.onError(e);
             throw e;
         }
         requestObserver.onCompleted();
-    }
+}
 }

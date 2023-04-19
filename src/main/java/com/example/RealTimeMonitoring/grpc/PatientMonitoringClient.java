@@ -199,11 +199,6 @@ public class PatientMonitoringClient {
       .setPatientId(patientId)
       .build();
 
-    // CompletableFuture is from the .concurrent package and allows for asynchronous handling of the methods
-    // i tried to run without but both streams were happening at the same time 
-    // completable future lets me run one once the other is finished properly and stops server closing immediately after
-
-
 
     StreamObserver<StreamMedicalAlertsResponse> responseObserver = new StreamObserver<StreamMedicalAlertsResponse>() {
         @Override
