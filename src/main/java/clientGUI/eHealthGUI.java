@@ -241,7 +241,7 @@ public class eHealthGUI extends JFrame {
 		
 		setTitle("eHealthServices Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1072, 455);
+		setBounds(100, 100, 912, 457);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -251,7 +251,7 @@ public class eHealthGUI extends JFrame {
 		
 		// add in 1st tabbed pane to hold the three different services
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 14, 1036, 393);
+		tabbedPane.setBounds(10, 14, 878, 393);
 		contentPane.add(tabbedPane);
 		
 		
@@ -261,7 +261,7 @@ public class eHealthGUI extends JFrame {
 		patientMonitoringManager.setLayout(null);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(0, 11, 1021, 343);
+		tabbedPane_1.setBounds(0, 11, 845, 343);
 		patientMonitoringManager.add(tabbedPane_1);
 		
 		JPanel addPatientService = new JPanel();
@@ -269,42 +269,111 @@ public class eHealthGUI extends JFrame {
 		addPatientService.setLayout(null);
 		
 		JLabel patientNameLb = new JLabel("Patient Name:");
-		patientNameLb.setBounds(10, 32, 88, 14);
+		patientNameLb.setBounds(10, 11, 88, 14);
 		addPatientService.add(patientNameLb);
 		
 		JLabel patientAgeLb = new JLabel("Patient Age:");
-		patientAgeLb.setBounds(10, 101, 88, 14);
+		patientAgeLb.setBounds(10, 77, 88, 14);
 		addPatientService.add(patientAgeLb);
 		
 		JLabel patientIdLb = new JLabel("Patient ID:");
-		patientIdLb.setBounds(10, 176, 88, 14);
+		patientIdLb.setBounds(10, 141, 88, 14);
 		addPatientService.add(patientIdLb);
 		
 		patientNameTF = new JTextField();
-		patientNameTF.setBounds(10, 48, 167, 20);
+		patientNameTF.setBounds(10, 33, 161, 20);
 		addPatientService.add(patientNameTF);
 		patientNameTF.setColumns(10);
 		
 		patientAgeTF = new JTextField();
 		patientAgeTF.setColumns(10);
-		patientAgeTF.setBounds(10, 118, 167, 20);
+		patientAgeTF.setBounds(10, 94, 161, 20);
 		addPatientService.add(patientAgeTF);
 		
 		patientIdTF = new JTextField();
 		patientIdTF.setColumns(10);
-		patientIdTF.setBounds(10, 193, 167, 20);
+		patientIdTF.setBounds(10, 158, 161, 20);
 		addPatientService.add(patientIdTF);
 		
 		
 		// ADD PATIENT BUTTON
 		JButton addPatientBt = new JButton("Add Patient");
-		addPatientBt.setBounds(10, 246, 141, 23);
+		addPatientBt.setBounds(25, 214, 140, 35);
 		addPatientService.add(addPatientBt);
 		
 		
+		JLabel addPatientOutputLb = new JLabel("Output:");
+		addPatientOutputLb.setBounds(205, 11, 46, 14);
+		addPatientService.add(addPatientOutputLb);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(192, 33, 614, 271);
+		addPatientService.add(scrollPane_2);
+		
 		JTextArea addPatientOutputTA = new JTextArea();
-		addPatientOutputTA.setBounds(231, 57, 775, 247);
-		addPatientService.add(addPatientOutputTA);
+		scrollPane_2.setViewportView(addPatientOutputTA);
+		
+
+		JPanel realTimePatientInfo = new JPanel();
+		tabbedPane_1.addTab("Real Time Patient Info", null, realTimePatientInfo, null);
+		realTimePatientInfo.setLayout(null);
+		
+		JLabel realTimePatientIdLb = new JLabel("Patient ID:");
+		realTimePatientIdLb.setBounds(10, 11, 93, 14);
+		realTimePatientInfo.add(realTimePatientIdLb);
+		
+		realTimePatientIdTF = new JTextField();
+		realTimePatientIdTF.setBounds(10, 33, 162, 20);
+		realTimePatientInfo.add(realTimePatientIdTF);
+		realTimePatientIdTF.setColumns(10);
+		
+		JButton realTimeInfoBt = new JButton("Real Time Monitor");
+		realTimeInfoBt.setBounds(21, 78, 147, 37);
+		realTimePatientInfo.add(realTimeInfoBt);
+
+		JLabel realTimeOutputLb = new JLabel("Output:");
+		realTimeOutputLb.setBounds(205, 11, 46, 14);
+		realTimePatientInfo.add(realTimeOutputLb);
+		
+
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(192, 33, 614, 271);
+		realTimePatientInfo.add(scrollPane);
+		
+				
+				realTimeOutputTA = new JTextArea();
+				scrollPane.setViewportView(realTimeOutputTA);
+				realTimeOutputTA.setColumns(10);
+		
+		JPanel medicalStaffAlert = new JPanel();
+		tabbedPane_1.addTab("Medical Alert Service", null, medicalStaffAlert, null);
+		medicalStaffAlert.setLayout(null);
+		
+		JLabel medicalAlertPatientIdLb = new JLabel("Patient ID:");
+		medicalAlertPatientIdLb.setBounds(10, 11, 83, 14);
+		medicalStaffAlert.add(medicalAlertPatientIdLb);
+		
+		medicalAlertPatientIdTF = new JTextField();
+		medicalAlertPatientIdTF.setBounds(10, 33, 161, 20);
+		medicalStaffAlert.add(medicalAlertPatientIdTF);
+		medicalAlertPatientIdTF.setColumns(10);
+		
+		JLabel medicalAlertOutputLb = new JLabel("Output:");
+		medicalAlertOutputLb.setBounds(205, 11, 46, 14);
+		medicalStaffAlert.add(medicalAlertOutputLb);
+		
+		JButton medicalAlertStreamBt = new JButton("Begin Alert System");
+		medicalAlertStreamBt.setBounds(21, 78, 147, 37);
+		medicalStaffAlert.add(medicalAlertStreamBt);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(192, 33, 614, 271);
+		medicalStaffAlert.add(scrollPane_1);
+		
+		JTextArea medicalAlertOutputTA = new JTextArea();
+		scrollPane_1.setViewportView(medicalAlertOutputTA);
+		
 		
 		addPatientBt.addActionListener(new ActionListener() {
 		    @Override
@@ -316,33 +385,6 @@ public class eHealthGUI extends JFrame {
 		        addPatientOutputTA.append(responseMessage);
 		    }
 		});
-		
-		JLabel addPatientOutputLb = new JLabel("Output:");
-		addPatientOutputLb.setBounds(221, 32, 46, 14);
-		addPatientService.add(addPatientOutputLb);
-		
-		
-		
-		JPanel realTimePatientInfo = new JPanel();
-		tabbedPane_1.addTab("Real Time Patient Info", null, realTimePatientInfo, null);
-		realTimePatientInfo.setLayout(null);
-		
-		JLabel realTimePatientIdLb = new JLabel("Patient ID:");
-		realTimePatientIdLb.setBounds(10, 21, 93, 14);
-		realTimePatientInfo.add(realTimePatientIdLb);
-		
-		realTimePatientIdTF = new JTextField();
-		realTimePatientIdTF.setBounds(10, 40, 162, 20);
-		realTimePatientInfo.add(realTimePatientIdTF);
-		realTimePatientIdTF.setColumns(10);
-		
-		JButton realTimeInfoBt = new JButton("Begin Real Time Monitor");
-		realTimeInfoBt.setBounds(10, 122, 163, 44);
-		realTimePatientInfo.add(realTimeInfoBt);
-	// REAL TIME BUTTON	
-		JLabel realTimeOutputLb = new JLabel("Output:");
-		realTimeOutputLb.setBounds(204, 21, 46, 14);
-		realTimePatientInfo.add(realTimeOutputLb);
 		
 		
 		realTimeInfoBt.addActionListener(new ActionListener() {
@@ -357,37 +399,7 @@ public class eHealthGUI extends JFrame {
 		        });
 		    }
 		});
-
 		
-		realTimeOutputTA = new JTextArea();
-		realTimeOutputTA.setBounds(204, 40, 602, 264);
-		realTimePatientInfo.add(realTimeOutputTA);
-		realTimeOutputTA.setColumns(10);
-		
-		JPanel medicalStaffAlert = new JPanel();
-		tabbedPane_1.addTab("Medical Alert Service", null, medicalStaffAlert, null);
-		medicalStaffAlert.setLayout(null);
-		
-		JLabel medicalAlertPatientIdLb = new JLabel("Patient ID:");
-		medicalAlertPatientIdLb.setBounds(7, 22, 83, 14);
-		medicalStaffAlert.add(medicalAlertPatientIdLb);
-		
-		medicalAlertPatientIdTF = new JTextField();
-		medicalAlertPatientIdTF.setBounds(7, 39, 161, 20);
-		medicalStaffAlert.add(medicalAlertPatientIdTF);
-		medicalAlertPatientIdTF.setColumns(10);
-		
-		JLabel medicalAlertOutputLb = new JLabel("Output:");
-		medicalAlertOutputLb.setBounds(206, 22, 46, 14);
-		medicalStaffAlert.add(medicalAlertOutputLb);
-		
-		JTextArea medicalAlertOutputTA = new JTextArea();
-		medicalAlertOutputTA.setBounds(206, 37, 600, 267);
-		medicalStaffAlert.add(medicalAlertOutputTA);
-		
-		JButton medicalAlertStreamBt = new JButton("Begin Medical Alert System");
-		medicalAlertStreamBt.setBounds(10, 122, 163, 44);
-		medicalStaffAlert.add(medicalAlertStreamBt);
 		
 		medicalAlertStreamBt.addActionListener(new ActionListener() {
 		    @Override
@@ -427,21 +439,24 @@ public class eHealthGUI extends JFrame {
 		searchPatientRecord.add(searchPatientIDLb);
 		
 		JLabel searchPatientOutputLb = new JLabel("Output:");
-		searchPatientOutputLb.setBounds(169, 34, 46, 14);
+		searchPatientOutputLb.setBounds(206, 11, 46, 14);
 		searchPatientRecord.add(searchPatientOutputLb);
 		
-		JTextArea searchPatientOutputTA = new JTextArea();
-		searchPatientOutputTA.setBounds(169, 54, 627, 250);
-		searchPatientRecord.add(searchPatientOutputTA);
-		
 		searchPatientIdTF = new JTextField();
-		searchPatientIdTF.setBounds(10, 56, 124, 20);
+		searchPatientIdTF.setBounds(10, 52, 124, 20);
 		searchPatientRecord.add(searchPatientIdTF);
 		searchPatientIdTF.setColumns(10);
 		
 		JButton searchPatientBt = new JButton("Search Patient ID");
-		searchPatientBt.setBounds(10, 181, 124, 23);
+		searchPatientBt.setBounds(32, 106, 124, 33);
 		searchPatientRecord.add(searchPatientBt);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(206, 34, 590, 270);
+		searchPatientRecord.add(scrollPane_3);
+		
+		JTextArea searchPatientOutputTA = new JTextArea();
+		scrollPane_3.setViewportView(searchPatientOutputTA);
 		
 		searchPatientBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -456,64 +471,137 @@ public class eHealthGUI extends JFrame {
 		updatePatientRecord.setLayout(null);
 		
 		JLabel updatePatientNameLb = new JLabel("Update Patient Name:");
-		updatePatientNameLb.setBounds(26, 53, 149, 14);
+		updatePatientNameLb.setBounds(11, 53, 149, 14);
 		updatePatientRecord.add(updatePatientNameLb);
 		
 		JLabel updatePatientDepartmentLb = new JLabel("Update Department:");
-		updatePatientDepartmentLb.setBounds(26, 95, 149, 14);
+		updatePatientDepartmentLb.setBounds(11, 95, 149, 14);
 		updatePatientRecord.add(updatePatientDepartmentLb);
 		
 		updatePatientNameTF = new JTextField();
-		updatePatientNameTF.setBounds(26, 64, 149, 20);
+		updatePatientNameTF.setBounds(11, 66, 149, 20);
 		updatePatientRecord.add(updatePatientNameTF);
 		updatePatientNameTF.setColumns(10);
 		
 		updateDepartmentTF = new JTextField();
 		updateDepartmentTF.setColumns(10);
-		updateDepartmentTF.setBounds(26, 106, 149, 20);
+		updateDepartmentTF.setBounds(11, 108, 149, 20);
 		updatePatientRecord.add(updateDepartmentTF);
 		
 		JLabel updatePatientDiagnosisLb = new JLabel("Update Diagnosis:");
-		updatePatientDiagnosisLb.setBounds(26, 137, 149, 14);
+		updatePatientDiagnosisLb.setBounds(11, 137, 149, 14);
 		updatePatientRecord.add(updatePatientDiagnosisLb);
 		
 		updateDiagnosisTF = new JTextField();
 		updateDiagnosisTF.setColumns(10);
-		updateDiagnosisTF.setBounds(26, 148, 149, 20);
+		updateDiagnosisTF.setBounds(11, 151, 149, 20);
 		updatePatientRecord.add(updateDiagnosisTF);
 		
 		JLabel updatePatientMedicationLb = new JLabel("Update Medication:");
-		updatePatientMedicationLb.setBounds(26, 179, 149, 14);
+		updatePatientMedicationLb.setBounds(11, 179, 149, 14);
 		updatePatientRecord.add(updatePatientMedicationLb);
 		
 		updateMedicationTF = new JTextField();
 		updateMedicationTF.setColumns(10);
-		updateMedicationTF.setBounds(26, 190, 149, 20);
+		updateMedicationTF.setBounds(11, 192, 149, 20);
 		updatePatientRecord.add(updateMedicationTF);
 		
 		JLabel updatePatientScheduledOpLb = new JLabel("Update Operation:");
-		updatePatientScheduledOpLb.setBounds(26, 221, 149, 14);
+		updatePatientScheduledOpLb.setBounds(11, 221, 149, 14);
 		updatePatientRecord.add(updatePatientScheduledOpLb);
 		
 		updateOperationTF = new JTextField();
 		updateOperationTF.setColumns(10);
-		updateOperationTF.setBounds(26, 233, 149, 20);
+		updateOperationTF.setBounds(11, 235, 149, 20);
 		updatePatientRecord.add(updateOperationTF);
 		
 		JLabel UpdatePatientIdLb = new JLabel("Update Patient ID:");
-		UpdatePatientIdLb.setBounds(26, 11, 149, 14);
+		UpdatePatientIdLb.setBounds(11, 11, 149, 14);
 		updatePatientRecord.add(UpdatePatientIdLb);
 		
 		JButton updatePatientBt = new JButton("Update Patient");
-		updatePatientBt.setBounds(25, 264, 150, 40);
+		updatePatientBt.setBounds(10, 264, 150, 29);
 		updatePatientRecord.add(updatePatientBt);
+	
+	
+		JLabel updatePatientOutputLb = new JLabel("Output:");
+		updatePatientOutputLb.setBounds(206, 11, 46, 14);
+		updatePatientRecord.add(updatePatientOutputLb);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(206, 34, 590, 270);
+		updatePatientRecord.add(scrollPane_4);
+		
+		
+		JTextArea updatePatientTA = new JTextArea();
+		scrollPane_4.setViewportView(updatePatientTA);
+		
+		JPanel sharePatientRecord = new JPanel();
+		tabbedPane_3.addTab("Share Patient Record", null, sharePatientRecord, null);
+		sharePatientRecord.setLayout(null);
+		
+		JLabel sharePatientnNumRecords = new JLabel("Number of records to share:");
+		sharePatientnNumRecords.setBounds(10, 34, 149, 14);
+		sharePatientRecord.add(sharePatientnNumRecords);
+		
+		sharePatientNumRecordsTF = new JTextField();
+		sharePatientNumRecordsTF.setBounds(10, 55, 138, 20);
+		sharePatientRecord.add(sharePatientNumRecordsTF);
+		sharePatientNumRecordsTF.setColumns(10);
+		
+		JLabel sharePatientTargetLb = new JLabel("Target Server:");
+		sharePatientTargetLb.setBounds(10, 95, 113, 14);
+		sharePatientRecord.add(sharePatientTargetLb);
+		
+		JComboBox sharePatientTargetCB = new JComboBox();
+		sharePatientTargetCB.setBounds(10, 115, 180, 22);
+		sharePatientRecord.add(sharePatientTargetCB);
+		
+		sharePatientTargetCB.addItem("St. Patricks Hospital");
+		sharePatientTargetCB.addItem("Bon Secours Dublin");
+		sharePatientTargetCB.addItem("Cloud Service");
+		
+		JButton sharePatientBt = new JButton("Share Records");
+		sharePatientBt.setBounds(20, 169, 149, 39);
+		sharePatientRecord.add(sharePatientBt);
+	
+
+		
+		JLabel sharePatientOutputLb = new JLabel("Output:");
+		sharePatientOutputLb.setBounds(206, 11, 46, 14);
+		sharePatientRecord.add(sharePatientOutputLb);
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		scrollPane_5.setBounds(206, 34, 590, 270);
+		sharePatientRecord.add(scrollPane_5);
+		
+		JTextArea sharePatientOutputTA = new JTextArea();
+		scrollPane_5.setViewportView(sharePatientOutputTA);
+		
+		sharePatientBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
+		        sharePatientOutputTA.setText(""); // Clear the output text area
+		        EHRManagementClient.sharePatientRecord(numRecords, new OutputCallback() {
+		            @Override
+		            public void onOutput(String recordContent) {
+		                // Update the output text area with the received record content
+		                sharePatientOutputTA.append(recordContent);
+		                sharePatientOutputTA.append("\n"); // Add a newline between records
+		            }
+		        });
+		    }
+		});
+		
+		
+		
 		
 		final String[] patientIds = {"AB001", "AB002"};
 
 		JComboBox updatePatientIdCB = new JComboBox();
 		updatePatientIdCB.setEditable(true);
 		updatePatientIdCB.setToolTipText("");
-		updatePatientIdCB.setBounds(26, 22, 149, 22);
+		updatePatientIdCB.setBounds(11, 23, 149, 22);
 		updatePatientRecord.add(updatePatientIdCB);
 		
 		for (String patientId : patientIds) {
@@ -537,10 +625,6 @@ public class eHealthGUI extends JFrame {
 		});
 		
 		
-		JTextArea updatePatientTA = new JTextArea();
-		updatePatientTA.setBounds(206, 22, 590, 282);
-		updatePatientRecord.add(updatePatientTA);
-		
 		updatePatientBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        String patientId = (String) updatePatientIdCB.getSelectedItem();
@@ -562,67 +646,6 @@ public class eHealthGUI extends JFrame {
 		        updatePatientTA.append("\n");
 		    }
 		});
-		
-	
-		JLabel updatePatientOutputLb = new JLabel("Output:");
-		updatePatientOutputLb.setBounds(208, 11, 46, 14);
-		updatePatientRecord.add(updatePatientOutputLb);
-		
-		JScrollBar updatePatientOutputSB = new JScrollBar();
-		updatePatientOutputSB.setBounds(779, 22, 17, 282);
-		updatePatientRecord.add(updatePatientOutputSB);
-		
-		JPanel sharePatientRecord = new JPanel();
-		tabbedPane_3.addTab("Share Patient Record", null, sharePatientRecord, null);
-		sharePatientRecord.setLayout(null);
-		
-		JLabel sharePatientnNumRecords = new JLabel("Number of records to share:");
-		sharePatientnNumRecords.setBounds(23, 22, 149, 14);
-		sharePatientRecord.add(sharePatientnNumRecords);
-		
-		sharePatientNumRecordsTF = new JTextField();
-		sharePatientNumRecordsTF.setBounds(23, 43, 180, 20);
-		sharePatientRecord.add(sharePatientNumRecordsTF);
-		sharePatientNumRecordsTF.setColumns(10);
-		
-		JLabel sharePatientTargetLb = new JLabel("Target Server:");
-		sharePatientTargetLb.setBounds(23, 83, 113, 14);
-		sharePatientRecord.add(sharePatientTargetLb);
-		
-		JComboBox sharePatientTargetCB = new JComboBox();
-		sharePatientTargetCB.setBounds(23, 103, 180, 22);
-		sharePatientRecord.add(sharePatientTargetCB);
-		
-		sharePatientTargetCB.addItem("St. Patricks Hospital");
-		sharePatientTargetCB.addItem("Bon Secours Dublin");
-		sharePatientTargetCB.addItem("Cloud Service");
-		
-		JButton sharePatientBt = new JButton("Share Records");
-		sharePatientBt.setBounds(35, 188, 149, 47);
-		sharePatientRecord.add(sharePatientBt);
-		
-		JTextArea sharePatientOutputTA = new JTextArea();
-		sharePatientOutputTA.setBounds(232, 41, 564, 263);
-		sharePatientRecord.add(sharePatientOutputTA);
-	
-		sharePatientBt.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
-		        sharePatientOutputTA.setText(""); // Clear the output text area
-		        EHRManagementClient.sharePatientRecord(numRecords, new OutputCallback() {
-		            @Override
-		            public void onOutput(String recordContent) {
-		                // Update the output text area with the received record content
-		                sharePatientOutputTA.append(recordContent);
-		                sharePatientOutputTA.append("\n"); // Add a newline between records
-		            }
-		        });
-		    }
-		});
-		
-		JLabel sharePatientOutputLb = new JLabel("Output:");
-		sharePatientOutputLb.setBounds(240, 22, 46, 14);
-		sharePatientRecord.add(sharePatientOutputLb);
 		
 		
 		JPanel MedicationManager = new JPanel();
@@ -683,9 +706,12 @@ public class eHealthGUI extends JFrame {
 		addMedicineOutputLb.setBounds(199, 11, 79, 14);
 		addMedicineTabbedPane.add(addMedicineOutputLb);
 		
+		JScrollPane scrollPane_6 = new JScrollPane();
+		scrollPane_6.setBounds(203, 34, 593, 270);
+		addMedicineTabbedPane.add(scrollPane_6);
+		
 		JTextArea addMedicineOutputTA = new JTextArea();
-		addMedicineOutputTA.setBounds(199, 26, 597, 278);
-		addMedicineTabbedPane.add(addMedicineOutputTA);
+		scrollPane_6.setViewportView(addMedicineOutputTA);
 		
 		
 		// add medicine unary method
@@ -768,13 +794,16 @@ public class eHealthGUI extends JFrame {
 		confirmMedicationOutputLb.setBounds(199, 11, 46, 14);
 		confirmMedication.add(confirmMedicationOutputLb);
 		
-		JTextArea confirmMedicationOutputTA = new JTextArea();
-		confirmMedicationOutputTA.setBounds(199, 26, 597, 278);
-		confirmMedication.add(confirmMedicationOutputTA);
-		
 		JButton confirmMedicationBt = new JButton("Confirm Medication");
 		confirmMedicationBt.setBounds(10, 270, 179, 23);
 		confirmMedication.add(confirmMedicationBt);
+		
+		JScrollPane scrollPane_7 = new JScrollPane();
+		scrollPane_7.setBounds(209, 25, 587, 279);
+		confirmMedication.add(scrollPane_7);
+		
+		JTextArea confirmMedicationOutputTA = new JTextArea();
+		scrollPane_7.setViewportView(confirmMedicationOutputTA);
 		
 		confirmMedicationBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -832,9 +861,12 @@ public class eHealthGUI extends JFrame {
 		adjustDosageStreamBt.setBounds(10, 145, 154, 23);
 		adjustDosage.add(adjustDosageStreamBt);
 		
+		JScrollPane scrollPane_8 = new JScrollPane();
+		scrollPane_8.setBounds(209, 36, 587, 268);
+		adjustDosage.add(scrollPane_8);
+		
 		JTextArea adjustDosageOutputTA = new JTextArea();
-		adjustDosageOutputTA.setBounds(199, 26, 597, 278);
-		adjustDosage.add(adjustDosageOutputTA);
+		scrollPane_8.setViewportView(adjustDosageOutputTA);
 		
 		
 // Adjust dosage bi-directional stream
