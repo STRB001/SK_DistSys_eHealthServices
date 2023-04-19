@@ -40,7 +40,7 @@ public class PatientMonitoringClient {
     PatientMonitoringClient patientMonitorClient = new PatientMonitoringClient();
     
 
-    String patientMonitoring_service_type = "_grpc._tcp.local.";
+    String patientMonitoring_service_type = "_realtime_monitoring._tcp.local.";
     patientMonitorClient.discoverPatientMonitoringService(patientMonitoring_service_type);
     
     String host = patientMonitoringServiceInfo.getHostAddresses()[0];
@@ -88,7 +88,7 @@ public class PatientMonitoringClient {
     patientId = myInput.nextLine();
     patientMonitorClient.streamMedicalAlerts(patientId, null);
 
-    patientMonitorChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+
   }
 
   

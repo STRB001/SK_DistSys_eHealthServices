@@ -32,13 +32,13 @@ public class PatientMedicationServer {
                 .addService(new MedicationManagementImpl())
                 .build()
                 .start();
-        System.out.println("Server started, listening on " + port);
+        System.out.println("Patient Medication server started, listening on port " + port);
         
  
         // register the server with jmDNS
         JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
         // create serviceInfo obj, give it a type (grpc.tcp.loc) and a name (patientmedicationserv) then use the server (above) port and path are params
-        ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "PatientMedicationServer", port, "path=/");
+        ServiceInfo serviceInfo = ServiceInfo.create("_patient_medication._tcp.local.", "PatientMedicationServer", port, "path=/");
         jmdns.registerService(serviceInfo);
         // println to show it was created correctly
         System.out.println("Registered jmDNS service with type" + serviceInfo.getType() + " and name " + serviceInfo.getName());

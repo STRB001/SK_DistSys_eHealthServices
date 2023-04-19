@@ -4,10 +4,6 @@
 package com.example.eHealthRecords.grpc;
 
 /**
- * <pre>
- * Definining Patient as a custom message type for the updatePatient method below
- * </pre>
- *
  * Protobuf type {@code EHRManagement.Patient}
  */
 public  final class Patient extends
@@ -530,10 +526,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Definining Patient as a custom message type for the updatePatient method below
-   * </pre>
-   *
    * Protobuf type {@code EHRManagement.Patient}
    */
   public static final class Builder extends

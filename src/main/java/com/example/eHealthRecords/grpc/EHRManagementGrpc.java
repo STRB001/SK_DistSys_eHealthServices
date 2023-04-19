@@ -151,9 +151,6 @@ public final class EHRManagementGrpc {
   public static abstract class EHRManagementImplBase implements io.grpc.BindableService {
 
     /**
-     * <pre>
-     * Unary RPC Method 1 - Search Patient Record
-     * </pre>
      */
     public void searchPatientRecord(com.example.eHealthRecords.grpc.SearchPatientRecordRequest request,
         io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.SearchPatientRecordResponse> responseObserver) {
@@ -161,9 +158,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 2 - Update Patient Record
-     * </pre>
      */
     public void updatePatientRecord(com.example.eHealthRecords.grpc.UpdatePatientRecordRequest request,
         io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.UpdatePatientRecordResponse> responseObserver) {
@@ -171,9 +165,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Client Streaming RPC Method 3 - Share Patient Record
-     * </pre>
      */
     public io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.SharePatientRecordRequest> sharePatientRecord(
         io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.SharePatientRecordResponse> responseObserver) {
@@ -226,9 +217,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 1 - Search Patient Record
-     * </pre>
      */
     public void searchPatientRecord(com.example.eHealthRecords.grpc.SearchPatientRecordRequest request,
         io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.SearchPatientRecordResponse> responseObserver) {
@@ -237,9 +225,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 2 - Update Patient Record
-     * </pre>
      */
     public void updatePatientRecord(com.example.eHealthRecords.grpc.UpdatePatientRecordRequest request,
         io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.UpdatePatientRecordResponse> responseObserver) {
@@ -248,9 +233,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Client Streaming RPC Method 3 - Share Patient Record
-     * </pre>
      */
     public io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.SharePatientRecordRequest> sharePatientRecord(
         io.grpc.stub.StreamObserver<com.example.eHealthRecords.grpc.SharePatientRecordResponse> responseObserver) {
@@ -278,9 +260,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 1 - Search Patient Record
-     * </pre>
      */
     public com.example.eHealthRecords.grpc.SearchPatientRecordResponse searchPatientRecord(com.example.eHealthRecords.grpc.SearchPatientRecordRequest request) {
       return blockingUnaryCall(
@@ -288,9 +267,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 2 - Update Patient Record
-     * </pre>
      */
     public com.example.eHealthRecords.grpc.UpdatePatientRecordResponse updatePatientRecord(com.example.eHealthRecords.grpc.UpdatePatientRecordRequest request) {
       return blockingUnaryCall(
@@ -317,9 +293,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 1 - Search Patient Record
-     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.eHealthRecords.grpc.SearchPatientRecordResponse> searchPatientRecord(
         com.example.eHealthRecords.grpc.SearchPatientRecordRequest request) {
@@ -328,9 +301,6 @@ public final class EHRManagementGrpc {
     }
 
     /**
-     * <pre>
-     * Unary RPC Method 2 - Update Patient Record
-     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.eHealthRecords.grpc.UpdatePatientRecordResponse> updatePatientRecord(
         com.example.eHealthRecords.grpc.UpdatePatientRecordRequest request) {

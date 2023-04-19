@@ -38,7 +38,7 @@ public class EHRManagementClient {
     public static void main(String[] args) throws InterruptedException {
         EHRManagementClient EHRManagementClient = new EHRManagementClient();
 
-        String ehrManagement_service_type = "_grpc._tcp.local.";
+        String ehrManagement_service_type = "_ehr_management._tcp.local.";
 
         EHRManagementClient.discoverEHRManagementService(ehrManagement_service_type);
 

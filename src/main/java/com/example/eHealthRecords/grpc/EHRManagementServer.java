@@ -33,7 +33,7 @@ public class EHRManagementServer {
 
         // registering server with jmDNS
         JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-        ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "EHRManagementServer", port, "path=/");
+        ServiceInfo serviceInfo = ServiceInfo.create("_ehr_management._tcp.local.", "EHRManagementServer", port, "path=/");
         jmdns.registerService(serviceInfo);
         System.out.println("Registered service with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
     }

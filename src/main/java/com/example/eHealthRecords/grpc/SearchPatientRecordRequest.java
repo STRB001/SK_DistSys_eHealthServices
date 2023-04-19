@@ -4,10 +4,6 @@
 package com.example.eHealthRecords.grpc;
 
 /**
- * <pre>
- * Request message for SearchPatientRecord method
- * </pre>
- *
  * Protobuf type {@code EHRManagement.SearchPatientRecordRequest}
  */
 public  final class SearchPatientRecordRequest extends
@@ -275,10 +271,6 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * <pre>
-   * Request message for SearchPatientRecord method
-   * </pre>
-   *
    * Protobuf type {@code EHRManagement.SearchPatientRecordRequest}
    */
   public static final class Builder extends

@@ -23,7 +23,6 @@ C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\eHeal
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\MedicationManagement\grpc\PatientMedicationServer.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\RealTimeMonitoring\grpc\AddPatientResponseOrBuilder.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\RealTimeMonitoring\grpc\StreamPatientInfoResponseOrBuilder.java
-C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\eHealthRecords\grpc\Empty.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\eHealthRecords\grpc\SearchPatientRecordRequestOrBuilder.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\RealTimeMonitoring\grpc\StreamPatientInfoRequest.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\MedicationManagement\grpc\AdjustDosageResponseOrBuilder.java
@@ -49,7 +48,6 @@ C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\eHeal
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\MedicationManagement\grpc\MedicationManagementGrpc.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\eHealthRecords\grpc\SearchPatientRecordRequest.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\clientGUI\eHealthGUI.java
-C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\eHealthRecords\grpc\PatientIds.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\MedicationManagement\grpc\GetMedicationScheduleRequestOrBuilder.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\MedicationManagement\grpc\PatientMedicationClient.java
 C:\Users\Shaun\eclipse-workspace\eHealthServices\src\main\java\com\example\MedicationManagement\grpc\AdjustDosageRequestOrBuilder.java

@@ -64,28 +64,13 @@ public class eHealthGUI extends JFrame {
 	private JTextField addMedicineMedicationSideEffectsTF;
 	
 
-	private PatientMedicationClient client;
+	private PatientMedicationClient patientMedicationClient;
 	private PatientMonitoringClient patientMonitorClient;
 	private EHRManagementClient EHRManagementClient;
 	
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					eHealthGUI frame = new eHealthGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			
-		});
-			
-	}
 	   public static ServiceInfo ehrManagementServiceInfo;
-	   public static ServiceInfo medicationManagementServiceInfo;
+	   public static ServiceInfo patientMedicationServiceInfo;
+	   public static ServiceInfo patientMonitoringServiceInfo;
 	   private JTextField bloodSugarTF;
 	   private JTextField medicationName1TF;
 	   private JTextField medicationName2TF;
@@ -107,77 +92,145 @@ public class eHealthGUI extends JFrame {
 	   private JTextField updateMedicationTF;
 	   private JTextField updateOperationTF;
 	   private JTextField sharePatientNumRecordsTF;
-
 	
-	// Discover Patient Medication jmDNS
-	   private void discoverPatientMedicationService(String service_type) {
-		    try {
-		        // Create a JmDNS instance
-		        JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+	
+	   public static void main(String[] args) {
+		    EventQueue.invokeLater(new Runnable() {
+		        public void run() {
+		            eHealthGUI frame = null;
+					try {
+						frame = new eHealthGUI();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		            frame.setVisible(true);
+		        }
+		    });
+		}
 
+	   // DISCOVER MEDICAL SERVICE
+	   private void discoverPatientMedicationService(String service_type) throws IOException {
+
+		        // Get the local host address
+		        InetAddress localHost = InetAddress.getLocalHost();
+
+		        // Create a JmDNS instance
+		        JmDNS jmdns = JmDNS.create(localHost);
+
+		        // Create a ServiceListener
 		        ServiceListener listener = new ServiceListener() {
 		            @Override
 		            public void serviceResolved(ServiceEvent event) {
-		            	
-		                medicationManagementServiceInfo = event.getInfo();
-		                ehrManagementServiceInfo = event.getInfo();
+		                patientMedicationServiceInfo = event.getInfo();
 
-		                int port = medicationManagementServiceInfo.getPort();
-		                String host = medicationManagementServiceInfo.getHostAddresses()[0];
-		                
-	                    int ehrport = ehrManagementServiceInfo.getPort();
-	                    String ehrhost = ehrManagementServiceInfo.getHostAddresses()[0];
+		                int port = patientMedicationServiceInfo.getPort();
+		                String host = patientMedicationServiceInfo.getHostAddresses()[0];
 
 		                // Create the PatientMedicationClient instance with the host and port
-		                ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-		                client = new PatientMedicationClient(channel);
-		                
-		                
-		                // Create the AddPatientClient instance with the host and port
-		                ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-		                patientMonitorClient = new PatientMonitoringClient(patientMonitorChannel);
-
-
-		                // Create the EHRManagementClient instance with the host and port
-		                ManagedChannel ehrManagementChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
-		                EHRManagementClient = new EHRManagementClient(ehrManagementChannel);
-		            }
-
-		            @Override
-		            public void serviceRemoved(ServiceEvent event) {
-		                System.out.println("Patient Medication Service removed");
+		                ManagedChannel patientMedicationChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+		                patientMedicationClient = new PatientMedicationClient(patientMedicationChannel);
 		            }
 
 		            @Override
 		            public void serviceAdded(ServiceEvent event) {
-		                System.out.println("Patient Medication Service added!");
-		                jmdns.requestServiceInfo(event.getType(), event.getName());
+		                jmdns.requestServiceInfo(event.getType(), event.getName(), 1000);
+		            }
+
+		            @Override
+		            public void serviceRemoved(ServiceEvent event) {
+		                // Add code here if needed
 		            }
 		        };
 
+		        // Register the listener and start the service discovery
 		        jmdns.addServiceListener(service_type, listener);
 
-		        // Print out service information once when the service is resolved
-		        Thread.sleep(500);
-		        System.out.println("Resolving Patient Medication jmDNS with properties:");
-		        System.out.println("Port: " + medicationManagementServiceInfo.getPort());
-		        System.out.println("Type: " + medicationManagementServiceInfo.getType());
-		        System.out.println("Name: " + medicationManagementServiceInfo.getName());
-		        System.out.println("Host: " + medicationManagementServiceInfo.getHostAddresses()[0]);
-
-		        jmdns.removeServiceListener(service_type, listener);
-		        jmdns.close();
-		    } catch (UnknownHostException e) {
-		        System.out.println(e.getMessage());
-		    } catch (IOException e) {
-		        System.out.println(e.getMessage());
-		    } catch (InterruptedException e) {
-		        System.out.println(e.getMessage());
-		    }
 		}
+
+	// Discover Real-time Patient Monitoring Service
+	   private void discoverRealTimeMonitoringService(String service_type) throws IOException {
+	       // Get the local host address
+	       InetAddress localHost = InetAddress.getLocalHost();
+
+	       // Create a JmDNS instance
+	       JmDNS jmdns = JmDNS.create(localHost);
+
+	       // Create a ServiceListener
+	       ServiceListener listener = new ServiceListener() {
+	           @Override
+	           public void serviceResolved(ServiceEvent event) {
+	               patientMonitoringServiceInfo = event.getInfo();
+
+	               int port = patientMonitoringServiceInfo.getPort();
+	               String host = patientMonitoringServiceInfo.getHostAddresses()[0];
+
+	               // Create the PatientMonitoringClient instance with the host and port
+	               ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+	               patientMonitorClient = new PatientMonitoringClient(patientMonitorChannel);
+	           }
+
+	           @Override
+	           public void serviceAdded(ServiceEvent event) {
+	               jmdns.requestServiceInfo(event.getType(), event.getName(), 1000);
+	           }
+
+	           @Override
+	           public void serviceRemoved(ServiceEvent event) {
+	               // Add code here if needed
+	           }
+	       };
+
+	       // Register the listener and start the service discovery
+	       jmdns.addServiceListener(service_type, listener);
+	   }
+
+	// Discover EHR Management Service
+	   private void discoverEHRManagementService(String service_type) throws IOException {
+	       // Get the local host address
+	       InetAddress localHost = InetAddress.getLocalHost();
+
+	       // Create a JmDNS instance
+	       JmDNS jmdns = JmDNS.create(localHost);
+
+	       // Create a ServiceListener
+	       ServiceListener listener = new ServiceListener() {
+	           @Override
+	           public void serviceResolved(ServiceEvent event) {
+	               ehrManagementServiceInfo = event.getInfo();
+
+	               int port = ehrManagementServiceInfo.getPort();
+	               String host = ehrManagementServiceInfo.getHostAddresses()[0];
+
+	               // Create the EHRManagementClient instance with the host and port
+	               ManagedChannel ehrManagementChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+	               EHRManagementClient = new EHRManagementClient(ehrManagementChannel);
+	           }
+
+	           @Override
+	           public void serviceAdded(ServiceEvent event) {
+	               jmdns.requestServiceInfo(event.getType(), event.getName(), 1000);
+	           }
+
+	           @Override
+	           public void serviceRemoved(ServiceEvent event) {
+	               // Add code here if needed
+	           }
+	       };
+
+	       // Register the listener and start the service discovery
+	       jmdns.addServiceListener(service_type, listener);
+	   }
+
+
 		
     // create gui and title it
-	public eHealthGUI() {
+	public eHealthGUI() throws IOException {
+		
+		
+	    discoverPatientMedicationService("_patient_medication._tcp.local.");
+	    discoverRealTimeMonitoringService("_realtime_monitoring._tcp.local.");
+	    discoverEHRManagementService("_ehr_management._tcp.local.");
 		
 
 		
@@ -188,7 +241,7 @@ public class eHealthGUI extends JFrame {
 		
 		setTitle("eHealthServices Management System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 979, 455);
+		setBounds(100, 100, 1072, 455);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -198,7 +251,7 @@ public class eHealthGUI extends JFrame {
 		
 		// add in 1st tabbed pane to hold the three different services
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 14, 836, 393);
+		tabbedPane.setBounds(10, 14, 1036, 393);
 		contentPane.add(tabbedPane);
 		
 		
@@ -208,7 +261,7 @@ public class eHealthGUI extends JFrame {
 		patientMonitoringManager.setLayout(null);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setBounds(0, 11, 821, 343);
+		tabbedPane_1.setBounds(0, 11, 1021, 343);
 		patientMonitoringManager.add(tabbedPane_1);
 		
 		JPanel addPatientService = new JPanel();
@@ -249,10 +302,20 @@ public class eHealthGUI extends JFrame {
 		addPatientService.add(addPatientBt);
 		
 		
-		
 		JTextArea addPatientOutputTA = new JTextArea();
-		addPatientOutputTA.setBounds(231, 57, 591, 258);
+		addPatientOutputTA.setBounds(231, 57, 775, 247);
 		addPatientService.add(addPatientOutputTA);
+		
+		addPatientBt.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String patientName = patientNameTF.getText();
+		        int patientAge = Integer.parseInt(patientAgeTF.getText());
+		        String patientId = patientIdTF.getText();
+		        String responseMessage = patientMonitorClient.addPatient(patientName, patientAge, patientId);
+		        addPatientOutputTA.append(responseMessage);
+		    }
+		});
 		
 		JLabel addPatientOutputLb = new JLabel("Output:");
 		addPatientOutputLb.setBounds(221, 32, 46, 14);
@@ -626,17 +689,18 @@ public class eHealthGUI extends JFrame {
 		
 		
 		// add medicine unary method
-		addPatientBt.addActionListener(new ActionListener() {
+		addMedicineBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        String patientName = patientNameTF.getText();
-		        int patientAge = Integer.parseInt(patientAgeTF.getText());
-		        String patientId = patientIdTF.getText();
+		        String patientId = addMedicinePatientIdTF.getText();
+		        String medicationName = addMedicineMedicationNameTF.getText();
+		        String medicationDosage = addMedicineMedicationDosageTF.getText();
+		        String medicationSideEffects = addMedicineMedicationSideEffectsTF.getText();
 
 		        try {
-		            String addPatientMessage = patientMonitorClient.addPatient(patientName, patientAge, patientId);
-		            addPatientOutputTA.append(addPatientMessage);
+		            String addMedicineMessage = patientMedicationClient.addMedication(patientId, medicationName, medicationDosage, medicationSideEffects);
+		            addMedicineOutputTA.append(addMedicineMessage);
 		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(null, "Error while adding patient. Please check the input values.");
+		            JOptionPane.showMessageDialog(null, "Error while adding medicine. Please check the input values.");
 		        }
 		    }
 		});
@@ -722,9 +786,9 @@ public class eHealthGUI extends JFrame {
 		            String medicationName3 = medicationName3TF.getText();
 		            String medicationDosage3 = medicationDosage3TF.getText();
 
-		            List<String> outputMessages1 = client.confirmMedication(medicationName1, medicationDosage1);
-		            List<String> outputMessages2 = client.confirmMedication(medicationName2, medicationDosage2);
-		            List<String> outputMessages3 = client.confirmMedication(medicationName3, medicationDosage3);
+		            List<String> outputMessages1 = patientMedicationClient.confirmMedication(medicationName1, medicationDosage1);
+		            List<String> outputMessages2 = patientMedicationClient.confirmMedication(medicationName2, medicationDosage2);
+		            List<String> outputMessages3 = patientMedicationClient.confirmMedication(medicationName3, medicationDosage3);
 
 		            List<String> allOutputMessages = new ArrayList<>();
 		            allOutputMessages.addAll(outputMessages1);
@@ -779,7 +843,7 @@ public class eHealthGUI extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            float bloodSugarLevel = Float.parseFloat(bloodSugarTF.getText());
-		            List<String> outputMessages = client.adjustDosage(bloodSugarLevel);
+		            List<String> outputMessages = patientMedicationClient.adjustDosage(bloodSugarLevel);
 
 		            for (String outputMessage : outputMessages) {
 		                adjustDosageOutputTA.append(outputMessage);

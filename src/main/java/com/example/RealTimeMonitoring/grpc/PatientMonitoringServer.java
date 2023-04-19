@@ -35,7 +35,7 @@ public class PatientMonitoringServer {
 
         // registering  the server with jmDNS
         JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
-        ServiceInfo serviceInfo = ServiceInfo.create("_grpc._tcp.local.", "PatientMonitoringServer", port, "path=/");
+        ServiceInfo serviceInfo = ServiceInfo.create("_realtime_monitoring._tcp.local.", "PatientMonitoringServer", port, "path=/");
         jmdns.registerService(serviceInfo);
         System.out.println("Registered service with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
 

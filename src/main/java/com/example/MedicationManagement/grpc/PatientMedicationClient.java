@@ -38,7 +38,7 @@ public class PatientMedicationClient {
 
         PatientMedicationClient client = new PatientMedicationClient();
         
-        String medicationManagement_service_type = "_grpc._tcp.local.";
+        String medicationManagement_service_type = "_patient_medication._tcp.local.";
         client.discoverMedicationManagementService(medicationManagement_service_type);
 
         String host = medicationManagementServiceInfo.getHostAddresses()[0];
@@ -142,7 +142,7 @@ public class PatientMedicationClient {
         AddMedicationResponse response = blockingStub.addMedication(request);
 
         if (response.getSuccess()) {
-            String successMessage = "PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription.";
+            String successMessage = "PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription. \n";
             System.out.println(successMessage);
             return successMessage;
         } else {
@@ -176,9 +176,9 @@ public class PatientMedicationClient {
                 System.out.println("Dynamic dosage adjustment completed!");
             }
         });
-     // iterate 15 times
+     // iterate 110 times
         float bloodSugarLevel = initialBloodSugarLevel;
-        for (int i = 0; i < 15; i++) { 
+        for (int i = 0; i < 10; i++) { 
         	// math.random plus logic to give random blood sugar results based off initial input
         	// made up values, patient would be very dead in real life
             bloodSugarLevel += (Math.random() * 3) - 1.5; 
@@ -188,7 +188,7 @@ public class PatientMedicationClient {
 
             try {
             	// short delay between requests
-                Thread.sleep(1000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
