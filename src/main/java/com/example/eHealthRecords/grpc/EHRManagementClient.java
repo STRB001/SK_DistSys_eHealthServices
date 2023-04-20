@@ -57,7 +57,7 @@ public class EHRManagementClient {
         blockingStub = EHRManagementGrpc.newBlockingStub(EHRManagementChannel);
         asyncStub = EHRManagementGrpc.newStub(EHRManagementChannel);
 
-        
+        EHRManagementChannel.shutdown();
 
     }
 

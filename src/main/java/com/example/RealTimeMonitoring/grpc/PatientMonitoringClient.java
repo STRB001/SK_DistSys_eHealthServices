@@ -59,6 +59,8 @@ public class PatientMonitoringClient {
     blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
     asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
 
+    
+    patientMonitorChannel.shutdown();
   }
 
   

@@ -59,8 +59,8 @@ public class PatientMedicationClient {
 
 
 
+        channel.shutdown();
 
-        channel.shutdown().awaitTermination(30, TimeUnit.MINUTES);
     
     }
 
@@ -159,7 +159,7 @@ public class PatientMedicationClient {
                 System.out.println("Dynamic dosage adjustment completed!");
             }
         });
-     // iterate 110 times
+     // iterate 10 times
         float bloodSugarLevel = initialBloodSugarLevel;
         for (int i = 0; i < 10; i++) { 
         	// math.random plus logic to give random blood sugar results based off initial input
