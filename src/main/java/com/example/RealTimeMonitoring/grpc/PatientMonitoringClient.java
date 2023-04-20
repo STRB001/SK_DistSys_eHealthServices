@@ -24,6 +24,7 @@ public class PatientMonitoringClient {
   private static PatientMonitoringGrpc.PatientMonitoringBlockingStub blockingStub;
   private static PatientMonitoringGrpc.PatientMonitoringStub asyncStub;
   private static ServiceInfo patientMonitoringServiceInfo;
+  private ManagedChannel patientMonitorChannel;
 
 
   
@@ -31,8 +32,13 @@ public class PatientMonitoringClient {
   }
   
   public PatientMonitoringClient (ManagedChannel patientMonitorChannel) {
+	  this.patientMonitorChannel = patientMonitorChannel;
 	  blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
 	  asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
+  }
+  
+  public void shutdown() throws InterruptedException {
+      patientMonitorChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
   
   public static void main(String[] args) throws InterruptedException, java.util.concurrent.TimeoutException {

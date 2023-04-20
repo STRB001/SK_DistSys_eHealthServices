@@ -22,6 +22,7 @@ public class EHRManagementClient {
     private static EHRManagementGrpc.EHRManagementBlockingStub blockingStub;
     private static EHRManagementGrpc.EHRManagementStub asyncStub;
     private static ServiceInfo EHRManagementServiceInfo;
+    private ManagedChannel EHRManagementChannel;
     
     
     public EHRManagementClient(){
@@ -30,8 +31,13 @@ public class EHRManagementClient {
 
     
     public EHRManagementClient (ManagedChannel EHRManagementChannel) {
+      this.EHRManagementChannel = EHRManagementChannel;
   	  blockingStub = EHRManagementGrpc.newBlockingStub(EHRManagementChannel);
   	  asyncStub = EHRManagementGrpc.newStub(EHRManagementChannel);
+    }
+    
+    public void shutdown() throws InterruptedException {
+        EHRManagementChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
     
     
@@ -186,7 +192,8 @@ public class EHRManagementClient {
                         .setRecordPart("Part " + i)
                         .setRecordContent(recordContent)
                         .build());
-                outputCallback.onOutput(recordContent + "\n"); // Call the callback with the record content
+             //call the callback with the record content
+                outputCallback.onOutput(recordContent + "\n");
             }
         } catch (RuntimeException e) {
             requestObserver.onError(e);

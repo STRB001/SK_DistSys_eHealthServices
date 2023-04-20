@@ -19,11 +19,12 @@ public class EHRManagementServer {
    public static void main(String[] args) throws IOException, InterruptedException {
         EHRManagementServer server = new EHRManagementServer();
         server.start();
-        server.blockUntilShutdown();
+
     }
     
     
     private void start() throws IOException {
+    	try {
         int port = 50052;
         server = ServerBuilder.forPort(port)
                 .addService(new EHRManagementImpl())
@@ -36,14 +37,14 @@ public class EHRManagementServer {
         ServiceInfo serviceInfo = ServiceInfo.create("_ehr_management._tcp.local.", "EHRManagementServer", port, "path=/");
         jmdns.registerService(serviceInfo);
         System.out.println("jmDNS registration complete with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
+    
+
+        // Blocking until shutdown
+        server.awaitTermination();
+    } catch (IOException | InterruptedException e) {
+        System.err.println("Error while running the server: " + e.getMessage());
     }
-
-
-    private void blockUntilShutdown() throws InterruptedException {
-        if (server != null) {
-            server.awaitTermination();
         }
-    }
 
 
 
@@ -129,7 +130,6 @@ public class EHRManagementServer {
 
                 @Override
                 public void onCompleted() {
-                    System.out.println("Received patient record: " + receivedData.toString());
                     SharePatientRecordResponse response = SharePatientRecordResponse.newBuilder()
                             .setSuccess(true)
                             .setMessage("Patient record received and stored successfully.")

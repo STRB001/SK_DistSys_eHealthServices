@@ -23,16 +23,20 @@ public class PatientMedicationClient {
     private static MedicationManagementGrpc.MedicationManagementBlockingStub blockingStub;
     private static MedicationManagementGrpc.MedicationManagementStub asyncStub;
     private static ServiceInfo medicationManagementServiceInfo;
+    private ManagedChannel channel;
 
     public PatientMedicationClient() {
     }
 
     public PatientMedicationClient(ManagedChannel channel) {
+    	this.channel = channel;
         blockingStub = MedicationManagementGrpc.newBlockingStub(channel);
         asyncStub = MedicationManagementGrpc.newStub(channel);
     }
 
-
+    public void shutdown() throws InterruptedException {
+        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    }
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -53,31 +57,10 @@ public class PatientMedicationClient {
         // async sends a request to server but still executes regardless of response
         asyncStub = MedicationManagementGrpc.newStub(channel);
 
-        Scanner myInput = new Scanner(System.in);
-        
-        // take in user input to assign a new medicine to a patient
-        System.out.println("Please enter patient ID:");
-        String patientId = myInput.nextLine();
-        System.out.println("Please enter medication name:");
-        String medicationName = myInput.nextLine();
-        System.out.println("Please enter medication dosage:");
-        String dosage = myInput.nextLine();
-        System.out.println("Please enter medication side effects:");
-        String sideEffects = myInput.nextLine();
-        client.addMedication(patientId, medicationName, dosage, sideEffects);
-        
-    
-        // Take user input for blood sugar level readings and call adjustDosage method
-        System.out.println("Please enter the patient initial blood sugar level:");
-        int bloodSugarLevelReadings = myInput.nextInt();
-        myInput.nextLine(); // To consume the newline character
-        client.adjustDosage(bloodSugarLevelReadings);
 
-        
- 
-      client.confirmMedication(medicationName, dosage);
 
-        channel.shutdown().awaitTermination(30, TimeUnit.SECONDS);
+
+        channel.shutdown().awaitTermination(30, TimeUnit.MINUTES);
     
     }
 
@@ -199,9 +182,13 @@ public class PatientMedicationClient {
     }
 
     
-    public List<String> confirmMedication(String name, String dosage) {
-        List<String> outputMessages = new ArrayList<>();
-
+    
+    public interface MedicationConfirmationCallback {
+        void onMedicationConfirmation(String message);
+    }
+    
+    
+    public void confirmMedication(String name, String dosage, MedicationConfirmationCallback callback) {
         ConfirmMedicationRequest request = ConfirmMedicationRequest.newBuilder()
                 .setMedicationName(name)
                 .setDosage(dosage)
@@ -210,9 +197,10 @@ public class PatientMedicationClient {
         StreamObserver<ConfirmMedicationRequest> requestObserver = asyncStub.confirmMedication(new StreamObserver<ConfirmMedicationResponse>() {
             @Override
             public void onNext(ConfirmMedicationResponse response) {
-                outputMessages.add("Confirm medication response: " + response.getMessage() + "\n");
-                outputMessages.add("Contraindications: " + response.getContraindications() + "\n");
-                outputMessages.add("Administration instructions: " + response.getAdministrationInstructions() + "\n");
+                String outputMessage = "Confirm medication response: " + response.getMessage() + "\n";
+                outputMessage += "Contraindications: " + response.getContraindications() + "\n";
+                outputMessage += "Administration instructions: " + response.getAdministrationInstructions() + "\n\n";
+                callback.onMedicationConfirmation(outputMessage);
             }
 
             @Override
@@ -229,16 +217,5 @@ public class PatientMedicationClient {
         // Send medication request to the server
         requestObserver.onNext(request);
         requestObserver.onCompleted();
-
-        // Wait for the server to send back the response
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return outputMessages;
     }
-    }
-    
-
+}

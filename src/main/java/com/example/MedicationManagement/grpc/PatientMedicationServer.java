@@ -22,11 +22,12 @@ public class PatientMedicationServer {
     public static void main(String[] args) throws IOException, InterruptedException {
         PatientMedicationServer server = new PatientMedicationServer();
         server.start();
-        server.blockUntilShutdown();
+
     }
 
     	// build server
     public void start() throws IOException {
+    	try {
         int port = 50053;
         server = ServerBuilder.forPort(port)
                 .addService(new MedicationManagementImpl())
@@ -42,21 +43,16 @@ public class PatientMedicationServer {
         jmdns.registerService(serviceInfo);
         // println to show it was created correctly
         System.out.println("jmDNS registration complete with type" + serviceInfo.getType() + " and name " + serviceInfo.getName());
-
+        
+        
+        // Blocking until shutdown
+        server.awaitTermination();
+    } catch (IOException | InterruptedException e) {
+        System.err.println("Error while running the server: " + e.getMessage());
     }
-
-    private void stop() throws InterruptedException {
-        if (server != null) {
-            server.shutdown().awaitTermination(30, TimeUnit.SECONDS);
         }
-    }
 
-    private void blockUntilShutdown() throws InterruptedException {
-        if (server != null) {
-            server.awaitTermination();
-        }
-    }
-
+    
     static class MedicationManagementImpl extends MedicationManagementGrpc.MedicationManagementImplBase {
         List<AddMedicationRequest> medications = new ArrayList<>();
 
@@ -107,44 +103,34 @@ public class PatientMedicationServer {
         
         @Override
         public StreamObserver<ConfirmMedicationRequest> confirmMedication(StreamObserver<ConfirmMedicationResponse> responseObserver) {
-            List<ConfirmMedicationRequest> medicationRequests = new ArrayList<>();
-
             return new StreamObserver<ConfirmMedicationRequest>() {
+            	
+            
                 @Override
                 public void onNext(ConfirmMedicationRequest request) {
-                    medicationRequests.add(request);
+                	String medicationName = request.getMedicationName();
+                	String dosage = request.getDosage();
+                
+                	String contraindications = "For " + medicationName + ": Do not mix with Calpol!";
+                	String administrationInstructions = "For " + medicationName + ": Take morning noon and night with food";
+                	
+                ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
+                		.setMessage("Medication confirmation complete")
+                		.setContraindications(contraindications)
+                		.setAdministrationInstructions(administrationInstructions)
+                		.build();
+
+                responseObserver.onNext(response);
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    System.err.println("Error in confirmMedication: " + t.getMessage());
+                    System.err.println("Error - unable to confirm medication!");
                 }
 
                 @Override
                 public void onCompleted() {
-                    // Process medication requests, check contraindications and provide administration instructions
-                    List<String> contraindicationsList = new ArrayList<>();
-                    List<String> administrationInstructionsList = new ArrayList<>();
-
-                    for (ConfirmMedicationRequest request : medicationRequests) {
-                        String medicationName = request.getMedicationName();
-                        String dosage = request.getDosage();
-
-                        // Add contraindications and administration instructions for each medication
-                        contraindicationsList.add("For " + medicationName + ": Example contraindications.");
-                        administrationInstructionsList.add("For " + medicationName + ": Example administration instructions.");
-                    }
-
-                    String contraindications = String.join("\n", contraindicationsList);
-                    String administrationInstructions = String.join("\n", administrationInstructionsList);
-
-                    ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
-                            .setMessage("Medication confirmation completed.")
-                            .setContraindications(contraindications)
-                            .setAdministrationInstructions(administrationInstructions)
-                            .build();
-
-                    responseObserver.onNext(response);
+                	
                     responseObserver.onCompleted();
                 }
             };

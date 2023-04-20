@@ -21,10 +21,12 @@ public class PatientMonitoringServer {
     public static void main(String[] args) throws IOException, InterruptedException {
         final PatientMonitoringServer server = new PatientMonitoringServer();
         server.start();
-        server.blockUntilShutdown();
+ 
     }
 
     private void start() throws IOException {
+    	
+    	try {
         int port = 50051;
         server = ServerBuilder.forPort(port)
                 .addService(new PatientMonitoringServiceImpl())
@@ -39,13 +41,13 @@ public class PatientMonitoringServer {
         jmdns.registerService(serviceInfo);
         System.out.println("jmDNS registration complete with type" + serviceInfo.getType() + " and " + serviceInfo.getName());
 
+        // Blocking until shutdown
+        server.awaitTermination();
+    } catch (IOException | InterruptedException e) {
+        System.err.println("Error while running the server: " + e.getMessage());
     }
-
-    private void blockUntilShutdown() throws InterruptedException {
-        if (server != null) {
-            server.awaitTermination();
         }
-    }
+    
 
     private class PatientMonitoringServiceImpl extends PatientMonitoringGrpc.PatientMonitoringImplBase {
 
@@ -65,10 +67,14 @@ public class PatientMonitoringServer {
         @Override
         public void streamPatientInfo(StreamPatientInfoRequest request, StreamObserver<StreamPatientInfoResponse> responseObserver) {
             for (int i = 0; i < 15; i++) {
+                int heartRateRandom = (int) (75.0 + (Math.random() * 4 - 2));
+                int oxygenSaturationRandom = (int) (98.0 + (Math.random() * 4 - 2));
+                int bloodPressureRandom = (int) (120.0 + (Math.random() * 4 - 2));
+
                 StreamPatientInfoResponse response = StreamPatientInfoResponse.newBuilder()
-                        .setHeartRate(75.0)
-                        .setOxygenSaturation(98.0)
-                        .setBloodPressure(120.0)
+                        .setHeartRate(heartRateRandom)
+                        .setOxygenSaturation(oxygenSaturationRandom)
+                        .setBloodPressure(bloodPressureRandom)
                         .build();
                 responseObserver.onNext(response);
                 try {
@@ -82,18 +88,18 @@ public class PatientMonitoringServer {
 
         @Override
         public void streamMedicalAlerts(StreamMedicalAlertsRequest request, StreamObserver<StreamMedicalAlertsResponse> responseObserver) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 15; i++) {
                 StreamMedicalAlertsResponse response;
 
-                if (i < 3) {
+                if (i < 10) {
                     response = StreamMedicalAlertsResponse.newBuilder()
-                            .setDiagnosis("Currently medical alert")
-                            .setTreatment("Patient is stable")
+                            .setDiagnosis("No medical alert")
+                            .setTreatment("N/A - Patient is stable")
                             .build();
                 } else {
                     response = StreamMedicalAlertsResponse.newBuilder()
-                            .setDiagnosis("Alert! Diagnosis: Patient heart rate unstable!")
-                            .setTreatment("Deliver beta blockers asap!")
+                            .setDiagnosis("ALERT: Patient heart rate failure!")
+                            .setTreatment("Deliver Adrenaline ASAP!")
                             .build();
                 }
 

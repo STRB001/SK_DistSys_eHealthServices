@@ -11,6 +11,7 @@ import com.example.MedicationManagement.*;
 import com.example.MedicationManagement.grpc.AdjustDosageResponse;
 import com.example.MedicationManagement.grpc.ConfirmMedicationResponse;
 import com.example.MedicationManagement.grpc.PatientMedicationClient;
+import com.example.MedicationManagement.grpc.PatientMedicationClient.MedicationConfirmationCallback;
 import com.example.MedicationManagement.grpc.PatientMedicationServer;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertCallback;
@@ -112,7 +113,7 @@ public class eHealthGUI extends JFrame {
 	   // DISCOVER MEDICAL SERVICE
 	   private void discoverPatientMedicationService(String service_type) throws IOException {
 
-		        // Get the local host address
+		        //Get local host address
 		        InetAddress localHost = InetAddress.getLocalHost();
 
 		        //create a JmDNS instance
@@ -141,22 +142,24 @@ public class eHealthGUI extends JFrame {
 		            public void serviceRemoved(ServiceEvent event) {
 		
 		            }
+		                        
 		        };
 
-		        // Register the listener and start the service discovery
+		        // Register the listener and start service discovery
 		        jmdns.addServiceListener(service_type, listener);
-
+		        
+		        
 		}
 
-	// Discover Real-time Patient Monitoring Service
+	// discover Real-time Patient Monitoring Service
 	   private void discoverRealTimeMonitoringService(String service_type) throws IOException {
-	       // Get the local host address
+	       // get the local host address
 	       InetAddress localHost = InetAddress.getLocalHost();
 
-	       // Create a JmDNS instance
+	       // create a JmDNS instance
 	       JmDNS jmdns = JmDNS.create(localHost);
 
-	       // Create a ServiceListener
+	       // create a ServiceListener
 	       ServiceListener listener = new ServiceListener() {
 	           @Override
 	           public void serviceResolved(ServiceEvent event) {
@@ -165,7 +168,7 @@ public class eHealthGUI extends JFrame {
 	               int port = patientMonitoringServiceInfo.getPort();
 	               String host = patientMonitoringServiceInfo.getHostAddresses()[0];
 
-	               // Create the PatientMonitoringClient instance with the host and port
+	               //create PatientMonitoringClient instance with the host and port
 	               ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 	               patientMonitorClient = new PatientMonitoringClient(patientMonitorChannel);
 	           }
@@ -174,14 +177,14 @@ public class eHealthGUI extends JFrame {
 	           public void serviceAdded(ServiceEvent event) {
 	               jmdns.requestServiceInfo(event.getType(), event.getName(), 1000);
 	           }
-
+	           
 	           @Override
 	           public void serviceRemoved(ServiceEvent event) {
 
 	           }
 	       };
 
-	       // Register the listener and start the service discovery
+	       // register the listener and start service discovery
 	       jmdns.addServiceListener(service_type, listener);
 	   }
 
@@ -814,19 +817,20 @@ public class eHealthGUI extends JFrame {
 		            String medicationDosage2 = medicationDosage2TF.getText();
 		            String medicationName3 = medicationName3TF.getText();
 		            String medicationDosage3 = medicationDosage3TF.getText();
+		            
+		            MedicationConfirmationCallback callback = new MedicationConfirmationCallback() {
+		                @Override
+		                public void onMedicationConfirmation(String message) {
+		                    confirmMedicationOutputTA.append(message);
+		                }
+		            };
 
-		            List<String> outputMessages1 = patientMedicationClient.confirmMedication(medicationName1, medicationDosage1);
-		            List<String> outputMessages2 = patientMedicationClient.confirmMedication(medicationName2, medicationDosage2);
-		            List<String> outputMessages3 = patientMedicationClient.confirmMedication(medicationName3, medicationDosage3);
+		            patientMedicationClient.confirmMedication(medicationName1, medicationDosage1, callback);
+		            patientMedicationClient.confirmMedication(medicationName2, medicationDosage2, callback);
+		            patientMedicationClient.confirmMedication(medicationName3, medicationDosage3, callback);
 
-		            List<String> allOutputMessages = new ArrayList<>();
-		            allOutputMessages.addAll(outputMessages1);
-		            allOutputMessages.addAll(outputMessages2);
-		            allOutputMessages.addAll(outputMessages3);
 
-		            for (String outputMessage : allOutputMessages) {
-		                confirmMedicationOutputTA.append(outputMessage);
-		            }
+
 		        } catch (Exception ex) {
 		            JOptionPane.showMessageDialog(null, "Error while confirming medication. Please check the input values.");
 		        }
@@ -886,5 +890,18 @@ public class eHealthGUI extends JFrame {
 		    }
 		});
 		
-	}
+	
+	
+	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+	    public void run() {
+	        try {
+	            patientMedicationClient.shutdown();
+	            patientMonitorClient.shutdown();
+	            EHRManagementClient.shutdown(); // Replace "thirdClient" with the appropriate instance of your third client class.
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}));
+}
 }
