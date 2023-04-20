@@ -115,10 +115,10 @@ public class eHealthGUI extends JFrame {
 		        // Get the local host address
 		        InetAddress localHost = InetAddress.getLocalHost();
 
-		        // Create a JmDNS instance
+		        //create a JmDNS instance
 		        JmDNS jmdns = JmDNS.create(localHost);
 
-		        // Create a ServiceListener
+		        //create ServiceListener
 		        ServiceListener listener = new ServiceListener() {
 		            @Override
 		            public void serviceResolved(ServiceEvent event) {
@@ -139,7 +139,7 @@ public class eHealthGUI extends JFrame {
 
 		            @Override
 		            public void serviceRemoved(ServiceEvent event) {
-		                // Add code here if needed
+		
 		            }
 		        };
 
@@ -177,7 +177,7 @@ public class eHealthGUI extends JFrame {
 
 	           @Override
 	           public void serviceRemoved(ServiceEvent event) {
-	               // Add code here if needed
+
 	           }
 	       };
 
@@ -249,13 +249,13 @@ public class eHealthGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		// add in 1st tabbed pane to hold the three different services
+		// Add in 1st tabbed pane to hold the three different services
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 14, 878, 393);
 		contentPane.add(tabbedPane);
 		
 		
-		// first tab patient monitoring manager w/ three methods - add patient, real time patient info, medical alert service
+		// Frst tab patient monitoring manager w/ three methods - add patient, real time patient info, medical alert service
 		JPanel patientMonitoringManager = new JPanel();
 		tabbedPane.addTab("Patient Monitoring Manager", null, patientMonitoringManager, null);
 		patientMonitoringManager.setLayout(null);

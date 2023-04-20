@@ -27,8 +27,7 @@ public class PatientMonitoringClient {
 
 
   
-  public PatientMonitoringClient(){
-	  
+  public PatientMonitoringClient(){  
   }
   
   public PatientMonitoringClient (ManagedChannel patientMonitorChannel) {
@@ -49,45 +48,10 @@ public class PatientMonitoringClient {
     // managed channel is created using the host and port
     final ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 
-
-    
     // stubs created using the already generated Grpc class
     // blocking stub sends request to client and waits for response until proceeding
     blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
     asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
-
-    // create Scanner obj to take in patient info
-    Scanner myInput = new Scanner(System.in);
-
-    System.out.println("Please enter patient name:");
-    String patientName = myInput.nextLine();
-    System.out.println("Please enter patient age:");
-    int patientAge = myInput.nextInt();
-    myInput.nextLine(); // Consume the newline character
-    System.out.println("Enter patient ID:");
-    String patientId = myInput.nextLine();
-
-    patientMonitorClient.addPatient(patientName, patientAge, patientId);
-
-    // Ask for patientID to receive patient info stream
-    System.out.println("Enter patient ID to stream patient info:");
-    patientId = myInput.nextLine();
-    patientMonitorClient.streamPatientInfo(patientId, null);
-
-    // added a timer to commence after patientinfo stream, so the prompt for medicalAlert stream is at the correct time
-    // not very robust, i considered using CompleteableFuture as below but this is much simpler implementation
-    // in real world both streams would possibly run side by side but for visual clarity i have left them separate here
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    // enter patientID again to receive medical alerts stream
-    System.out.println("Enter patient ID to stream medical alerts:");
-    patientId = myInput.nextLine();
-    patientMonitorClient.streamMedicalAlerts(patientId, null);
-
 
   }
 

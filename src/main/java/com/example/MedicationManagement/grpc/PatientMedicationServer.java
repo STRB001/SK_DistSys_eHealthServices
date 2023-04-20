@@ -41,7 +41,7 @@ public class PatientMedicationServer {
         ServiceInfo serviceInfo = ServiceInfo.create("_patient_medication._tcp.local.", "PatientMedicationServer", port, "path=/");
         jmdns.registerService(serviceInfo);
         // println to show it was created correctly
-        System.out.println("Registered jmDNS service with type" + serviceInfo.getType() + " and name " + serviceInfo.getName());
+        System.out.println("jmDNS registration complete with type" + serviceInfo.getType() + " and name " + serviceInfo.getName());
 
     }
 

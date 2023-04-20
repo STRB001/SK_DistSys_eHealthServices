@@ -52,18 +52,10 @@ public class EHRManagementClient {
         asyncStub = EHRManagementGrpc.newStub(EHRManagementChannel);
 
         
-        System.out.println("Please enter the Patient ID:");
-        String patientId = "";
-        Scanner myInput = new Scanner(System.in);
-        patientId = myInput.next();
 
-        
-        EHRManagementClient.searchPatientRecord(patientId);
-
-
-        EHRManagementChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
+    
     private void discoverEHRManagementService(String service_type) {
         try {
             JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
