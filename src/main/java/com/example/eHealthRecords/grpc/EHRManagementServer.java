@@ -116,16 +116,22 @@ public class EHRManagementServer {
     public StreamObserver < SharePatientRecordRequest > sharePatientRecord(StreamObserver < SharePatientRecordResponse > responseObserver) {
       // return Obj which will define onNext, onError and onComplete methods
       return new StreamObserver < SharePatientRecordRequest > () {
+    	  // create arraylist to hold patient records
+    	  List<SharePatientRecordRequest> receivedPatientRecords = new ArrayList<>();
         // onNext is called when the client sends a new sharePatientRecordRequest
         @Override
         public void onNext(SharePatientRecordRequest request) {
-
+            // Process the received patient record part
+            receivedPatientRecords.add(request);
+            System.out.println("Received patient record: " + request.getRecordPart() + " - " + request.getRecordContent());
         }
+        
         // error handling
         @Override
         public void onError(Throwable t) {
           System.err.println("Error while receiving patient record: " + t.getMessage());
         }
+        
         // request has been completed, when true, send confirmation
         @Override
         public void onCompleted() {
@@ -133,7 +139,6 @@ public class EHRManagementServer {
             .setSuccess(true)
             .setMessage("Patient record received and stored successfully.")
             .build();
-
           responseObserver.onNext(response);
           responseObserver.onCompleted();
           try {
