@@ -71,6 +71,11 @@ public class eHealthGUI extends JFrame {
 	private PatientMonitoringClient patientMonitorClient;
 	private EHRManagementClient EHRManagementClient;
 	
+	private ManagedChannel ehrManagementChannel;
+	private ManagedChannel patientMonitorChannel;
+	private ManagedChannel patientMedicationChannel;
+	
+	
 	   public static ServiceInfo ehrManagementServiceInfo;
 	   public static ServiceInfo patientMedicationServiceInfo;
 	   public static ServiceInfo patientMonitoringServiceInfo;
@@ -190,8 +195,10 @@ public class eHealthGUI extends JFrame {
 	       jmdns.addServiceListener(service_type, listener);
 	   }
 
+
 	// Discover EHR Management Service
 	   private void discoverEHRManagementService(String service_type) throws IOException {
+
 	       // Get the local host address
 	       InetAddress localHost = InetAddress.getLocalHost();
 
@@ -226,9 +233,29 @@ public class eHealthGUI extends JFrame {
 	       // Register the listener and start the service discovery
 	       jmdns.addServiceListener(service_type, listener);
 	   }
-
-
 		
+	   public void shutdownPatientMonitorChannel() {
+		    if (patientMonitorChannel != null) {
+		    	patientMonitorChannel.shutdown();
+		    }
+		}
+	   
+	   public void shutdownPatientMedicationChannel() {
+		    if (patientMedicationChannel != null) {
+		        patientMedicationChannel.shutdown();
+		    }
+		}
+
+	   public void shutdownPatienEHRChannel() {
+		    if (ehrManagementChannel != null) {
+		    	ehrManagementChannel.shutdown();
+		    }
+		}
+
+ 
+	   
+	   
+	   
     // create gui and title it
 	public eHealthGUI() throws IOException {
 		
