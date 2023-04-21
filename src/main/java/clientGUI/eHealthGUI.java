@@ -6,19 +6,21 @@ import java.awt.event.ActionEvent;
 
 
 import java.awt.event.ActionListener;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import com.example.MedicationManagement.*;
 import com.example.MedicationManagement.grpc.AdjustDosageResponse;
 import com.example.MedicationManagement.grpc.ConfirmMedicationResponse;
 import com.example.MedicationManagement.grpc.PatientMedicationClient;
-import com.example.MedicationManagement.grpc.PatientMedicationClient.MedicationConfirmationCallback;
+import com.example.MedicationManagement.grpc.PatientMedicationClient.MedicationConfirmationOutputListener;
+import com.example.MedicationManagement.grpc.PatientMedicationClient.MedicationConfirmationOutputListener;
 import com.example.MedicationManagement.grpc.PatientMedicationServer;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertListener;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoListener;
 import com.example.eHealthRecords.grpc.EHRManagementClient;
-import com.example.eHealthRecords.grpc.EHRManagementClient.OutputCallback;
+import com.example.eHealthRecords.grpc.EHRManagementClient.sharePatientListener;
 import com.example.eHealthRecords.grpc.SearchPatientRecordResponse;
 
 import java.awt.EventQueue;
@@ -252,12 +254,20 @@ public class eHealthGUI extends JFrame {
 		    }
 		}
 
- 
-	   
-	   
-	   
+
     // create gui and title it
 	public eHealthGUI() throws IOException {
+		
+		
+		addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		    	shutdownPatientMonitorChannel();
+		        shutdownPatientMedicationChannel();
+		        shutdownPatienEHRChannel();
+		        System.out.println("Shutdown all channels");
+		    }
+		});
 		
 		
 	    discoverPatientMedicationService("_patient_medication._tcp.local.");
@@ -614,9 +624,9 @@ public class eHealthGUI extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
 		        sharePatientOutputTA.setText(""); 
-		        EHRManagementClient.sharePatientRecord(numRecords, new OutputCallback() {
+		        EHRManagementClient.sharePatientRecord(numRecords, new sharePatientListener() {
 		            @Override
-		            public void onOutput(String recordContent) {
+		            public void onSharePatientEvent(String recordContent) {
 		                // Update the output text area with the received record content
 		                sharePatientOutputTA.append(recordContent);
 		                sharePatientOutputTA.append("\n"); 
@@ -635,6 +645,11 @@ public class eHealthGUI extends JFrame {
 		updatePatientIdCB.setToolTipText("");
 		updatePatientIdCB.setBounds(11, 23, 149, 22);
 		updatePatientRecord.add(updatePatientIdCB);
+		
+	/*	
+	 * Unary method searchPatient - listener on combo box for when user selects a patient ID, calls actionPerformed method
+	 * fetches patient info and update text fields with the patient data
+	 */
 		
 		for (String patientId : patientIds) {
 		    updatePatientIdCB.addItem(patientId);
@@ -847,9 +862,9 @@ public class eHealthGUI extends JFrame {
 		            String medicationName3 = medicationName3TF.getText();
 		            String medicationDosage3 = medicationDosage3TF.getText();
 		            
-		            MedicationConfirmationCallback callback = new MedicationConfirmationCallback() {
+		            MedicationConfirmationOutputListener callback = new MedicationConfirmationOutputListener() {
 		                @Override
-		                public void onMedicationConfirmation(String message) {
+		                public void onNewConfirmationEvent(String message) {
 		                    confirmMedicationOutputTA.append(message);
 		                }
 		            };

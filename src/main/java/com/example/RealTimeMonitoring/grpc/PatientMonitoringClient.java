@@ -2,10 +2,10 @@ package com.example.RealTimeMonitoring.grpc;
 
 import com.example.RealTimeMonitoring.grpc.*;
 
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import io.grpc.netty.shaded.io.netty.handler.timeout.TimeoutException;
 import io.grpc.stub.StreamObserver;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -15,7 +15,6 @@ import javax.jmdns.ServiceListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import java.util.concurrent.TimeUnit;
 
@@ -78,7 +77,6 @@ public class PatientMonitoringClient {
         public void serviceResolved(ServiceEvent event) {
 
           patientMonitoringServiceInfo = event.getInfo();
-
           int port = patientMonitoringServiceInfo.getPort();
           String host = patientMonitoringServiceInfo.getHostAddresses()[0];
 
@@ -87,7 +85,6 @@ public class PatientMonitoringClient {
           System.out.println("type:" + event.getType());
           System.out.println("name: " + event.getName());
           System.out.println("host: " + host);
-
         }
 
         @Override
@@ -111,7 +108,12 @@ public class PatientMonitoringClient {
     }
   }
 
-  // take patient name, age, ID, return a string response message 'addPatient'
+  
+  /*
+   * Unary gRPC method - addPatient - Single request and single response
+   */
+  
+  // take patient name, age, ID, build a request, return a response
   public String addPatient(String patientName, int patientAge, String patientId) {
     //create request obj
     AddPatientRequest request = AddPatientRequest.newBuilder()
@@ -132,12 +134,18 @@ public class PatientMonitoringClient {
       return "RPC failed: " + e.getStatus() + "\n";
     }
   }
-
+  
+  
+  
+  /*
+   * Server Streaming gRPC method - streamPatientInfo - client sends a single request to server, receives stream in return
+   */
+  
   // define a simple callback interface for new patient information messages
   public interface PatientInfoListener {
     void onNewPatientInfo(String message);
   }
-
+  
   // stream patient info from server taking patientID and callback obj as params
   public void streamPatientInfo(String patientId, PatientInfoListener callback) {
     // create request obj using patientID
@@ -172,6 +180,13 @@ public class PatientMonitoringClient {
     asyncStub.streamPatientInfo(request, responseObserver);
   }
 
+  
+  
+  /*
+   * Server Streaming gRPC method - streamMedicalAlerts - client sends single request with patientID
+   * server responds with asynchronous alert stream handled by client response observer
+   */
+  
   // define callback interface for medical alerts
   public interface MedicalAlertListener {
     void onNewAlert(String message);
@@ -204,7 +219,6 @@ public class PatientMonitoringClient {
       @Override
       public void onCompleted() {
         System.out.println("Finished receiving medical alerts.");
-
       }
     };
     // initiate the stream with specific request info, and handle server responses using responseObserver

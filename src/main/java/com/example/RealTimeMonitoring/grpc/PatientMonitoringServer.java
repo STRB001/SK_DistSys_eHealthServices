@@ -57,9 +57,14 @@ public class PatientMonitoringServer {
   // logic handling  methods for patient monitoring service
   private class PatientMonitoringServiceImpl extends PatientMonitoringGrpc.PatientMonitoringImplBase {
 
+	  
+	  
+	  /*
+	   * Unary gRPC method - addPatient - Single request and single response
+	   */  
+
     @Override
-    // called by server when client requests to addPatient, called in GUI
-    // StreamObserver allows for communication back to the client
+    // take in a request as param, StreamObserver allows for communication back to the client
     public void addPatient(AddPatientRequest request, StreamObserver <AddPatientResponse> responseObserver) {
       // using info from the request, create a new Patient obj
       Patient patient = new Patient(request.getPatientName(), request.getPatientAge(), request.getPatientId());
@@ -75,8 +80,14 @@ public class PatientMonitoringServer {
       responseObserver.onCompleted();
     }
 
+    
+    
+    /*
+     * Server Streaming gRPC method - streamPatientInfo - client sends a single request to server, receives stream in return
+     */
+    
     @Override
-    // called by server when client requests to streamPatientInfo, called in GUI
+    // called by server when client requests to streamPatientInfo, responseObserver handles messages asynchronously 
     public void streamPatientInfo(StreamPatientInfoRequest request, StreamObserver < StreamPatientInfoResponse > responseObserver) {
       // 15 iterations of streamed patient health info using Math.Random to simulate minor changes in vital signs
       for (int i = 0; i < 15; i++) {
@@ -106,6 +117,11 @@ public class PatientMonitoringServer {
     }
 
 
+    /*
+     * Server Streaming gRPC method - streamMedicalAlerts - client sends single request with patientID
+     * server responds with asynchronous alert stream handled by client response observer
+     */
+    
     @Override
     // called by server when client requests to streamPatientInfo, called in GUI
     public void streamMedicalAlerts(StreamMedicalAlertsRequest request, StreamObserver < StreamMedicalAlertsResponse > responseObserver) {
@@ -152,3 +168,4 @@ public class PatientMonitoringServer {
     }
   }
 }
+

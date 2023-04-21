@@ -54,6 +54,7 @@ public class EHRManagementServer {
     List < SearchPatientRecordResponse > patientRecords = new ArrayList < > ();
 
     public EHRManagementImpl() {
+
       // add two mock patients for use in search and update methods
       patientRecords.add(SearchPatientRecordResponse.newBuilder()
         .setPatientId("AB001")
@@ -64,7 +65,6 @@ public class EHRManagementServer {
         .setScheduledOperation("Blood Transfusion")
         .build());
 
-      // Adding another patient record
       patientRecords.add(SearchPatientRecordResponse.newBuilder()
         .setPatientId("AB002")
         .setPatientName("Gandalf Grey")
@@ -74,11 +74,16 @@ public class EHRManagementServer {
         .setScheduledOperation("Skin Graft")
         .build());
     }
+    
+    /*
+     * Unary search patient method handles request from client, searches patient in patientRecords list
+     * sends response to client with patient info if found / empty response if not
+     */
 
     // called by server when client requests to searchPatientRecord, called in GUI
     @Override
     // initialize SearchPatientRecordResponse object to store responses
-    public void searchPatientRecord(SearchPatientRecordRequest request, StreamObserver < SearchPatientRecordResponse > responseObserver) {
+    public void searchPatientRecord(SearchPatientRecordRequest request, StreamObserver <SearchPatientRecordResponse> responseObserver) {
       SearchPatientRecordResponse response = null;
       // for-each loop iterates through patientRecords and if patientID matches set the response to matched record
       for (SearchPatientRecordResponse record: patientRecords) {
@@ -99,31 +104,40 @@ public class EHRManagementServer {
       responseObserver.onCompleted();
     }
 
+    /*
+     * Unary update patient method - single request and response.
+     * take UpdatePatientRecordRequest as input, send back UpdatePatientRecordResponse using streamObserver
+     */
     @Override
-    public void updatePatientRecord(UpdatePatientRecordRequest request,
-      StreamObserver < UpdatePatientRecordResponse > responseObserver) {
-      // Don't have an actual database or anywhere to store all of the records
-      // just pretending the update is successful.
+    // take update patient record request and use response observer to send response back to the client
+    public void updatePatientRecord(UpdatePatientRecordRequest request, StreamObserver <UpdatePatientRecordResponse> responseObserver) {
+
+    	// response object created using .newbuilder()
       UpdatePatientRecordResponse response = UpdatePatientRecordResponse.newBuilder()
         .setSuccess(true)
         .setMessage("Patient record updated successfully.")
         .build();
+
+      // sends response back to client then inform client server is done processing request
       responseObserver.onNext(response);
       responseObserver.onCompleted();
     };
-    // takes in two StreamObserver objs for request and response
+
+    
+    
+    /*
+     * Client-streaming gRPC method - sharePatientRecords - accepts int value for # of records to be shared and sharePatientListener as callback
+     * client sends multiple patient records to server, server side onNext() returns accumulates requests and returns single response of records shared
+     */
+  
+ // takes in two StreamObserver objs for request and response
     @Override
-    public StreamObserver < SharePatientRecordRequest > sharePatientRecord(StreamObserver < SharePatientRecordResponse > responseObserver) {
+    public StreamObserver <SharePatientRecordRequest> sharePatientRecord(StreamObserver <SharePatientRecordResponse> responseObserver) {
       // return Obj which will define onNext, onError and onComplete methods
-      return new StreamObserver < SharePatientRecordRequest > () {
-    	  // create arraylist to hold patient records
-    	  List<SharePatientRecordRequest> receivedPatientRecords = new ArrayList<>();
-        // onNext is called when the client sends a new sharePatientRecordRequest
+      return new StreamObserver <SharePatientRecordRequest> () {
+        // onNext is called when the client sends a new request, do nothing in this case.
         @Override
         public void onNext(SharePatientRecordRequest request) {
-            // Process the received patient record part
-            receivedPatientRecords.add(request);
-            System.out.println("Received patient record: " + request.getRecordPart() + " - " + request.getRecordContent());
         }
         
         // error handling
@@ -132,22 +146,15 @@ public class EHRManagementServer {
           System.err.println("Error while receiving patient record: " + t.getMessage());
         }
         
-        // request has been completed, when true, send confirmation
+        // server has received all requests, now build single response and return
         @Override
         public void onCompleted() {
-          SharePatientRecordResponse response = SharePatientRecordResponse.newBuilder()
-            .setSuccess(true)
-            .setMessage("Patient record received and stored successfully.")
-            .build();
+            SharePatientRecordResponse response = SharePatientRecordResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Patient record received and stored successfully.")
+                    .build();
           responseObserver.onNext(response);
           responseObserver.onCompleted();
-          try {
-            // 1 second sleep between responses to simulate a 'stream' of patient info in real life rather than a text block
-            TimeUnit.SECONDS.sleep(1);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-
         }
       };
     }
