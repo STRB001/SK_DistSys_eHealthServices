@@ -22,66 +22,65 @@ import java.util.Scanner;
 public class PatientMedicationClient {
     private static MedicationManagementGrpc.MedicationManagementBlockingStub blockingStub;
     private static MedicationManagementGrpc.MedicationManagementStub asyncStub;
+    // create service specific ServiceInfo, allows for discovery of grpc services and generate client code specific to the server
     private static ServiceInfo medicationManagementServiceInfo;
     private ManagedChannel channel;
 
+    // constructor
     public PatientMedicationClient() {
     }
-
+    
+ // constructor accepting a ManagedChannel obj as parameter to create grpc connection
     public PatientMedicationClient(ManagedChannel channel) {
     	this.channel = channel;
+    	// create stubs - these provide grpc methods on server
         blockingStub = MedicationManagementGrpc.newBlockingStub(channel);
         asyncStub = MedicationManagementGrpc.newStub(channel);
     }
-
+    // shutdown method to close the channel when called
     public void shutdown() throws InterruptedException {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
     public static void main(String[] args) throws InterruptedException {
-
         PatientMedicationClient client = new PatientMedicationClient();
         
+     // discover service by service type
         String medicationManagement_service_type = "_patient_medication._tcp.local.";
         client.discoverMedicationManagementService(medicationManagement_service_type);
 
         String host = medicationManagementServiceInfo.getHostAddresses()[0];
         int port = medicationManagementServiceInfo.getPort();
 
-        // managed channel is created using the host and port info taken from the medmanagementServiceInfo
+     // managed channel is created using the host and port obtained using serviceInfo methods
         final ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 
-        // stubs created using the already generated medmgmtGrpc class
-        // blocking stub sends request to client and waits for response until proceeding
+        //blocking grpc stub is used when client is waiting for serv to response before continuing
+        // asynchronous grpc stub when no wait is needed for response. Server responds and a callback handles the response (streaming)
         blockingStub = MedicationManagementGrpc.newBlockingStub(channel);
-        // async sends a request to server but still executes regardless of response
         asyncStub = MedicationManagementGrpc.newStub(channel);
 
-
-
+        // close channel
         channel.shutdown();
-
-    
     }
 
-    // creates the jmDNS instance  
+    // jmDNS service discovery - method takes service_type as param
+    // service type is a string representing type of service to be discovered 
     public void discoverMedicationManagementService(String service_type) {
         try {
+        	// create instance of jmDNS using host local inetaddress
             JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
             // create a 'Service Listener' which listens for service events (service is added removed or resolved)
-            // also takes info about the connection
             jmdns.addServiceListener(service_type, new ServiceListener() {
-            	// service revolved event presents all of the info below describing the discovered service
+            	
+            	// when service is discovered + resolved, extract port, host, and give brief print out of info of service 
             	@Override
             	public void serviceResolved(ServiceEvent event) {
      
-
+            	
             	    medicationManagementServiceInfo = event.getInfo();
-
             	    int port = medicationManagementServiceInfo.getPort();
             	    String host = medicationManagementServiceInfo.getHostAddresses()[0];
-
-            	    // Create the PatientMedicationClient instance with the host and port
 
             	    System.out.println("Resolving with properties:");
             	    System.out.println("Port: " + port);
@@ -101,33 +100,35 @@ public class PatientMedicationClient {
 
                 }
             });
-
-            Thread.sleep(500);
+         // close jmDNS service, service info already obtained and stored
             jmdns.close();
-
+         // exception handling + messages
         } catch (UnknownHostException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
+    // addMedication takes in four Strings as params then uses .build() to create request obj
     public String addMedication(String patientId, String medicationName, String dosage, String sideEffects) {
+    	// proto buffer message that contains info needed to add a new medication to a patient
         AddMedicationRequest request = AddMedicationRequest.newBuilder()
                 .setPatientId(patientId)
                 .setMedicationName(medicationName)
                 .setDosage(dosage)
                 .setSideEffects(sideEffects)
                 .build();
-
+        // send the request to server and get 'response' back
+        // blockingStub used because we don't want to proceed until response is returned
         AddMedicationResponse response = blockingStub.addMedication(request);
 
+        //  message when patient medication added successfully
         if (response.getSuccess()) {
             String successMessage = "PatientID " + patientId + " has had medicine " + medicationName + " added to their prescription. \n";
             System.out.println(successMessage);
             return successMessage;
+            // failure message
         } else {
             String failureMessage = "Failed to add medicine for patient ID: " + patientId;
             System.out.println(failureMessage);
@@ -136,9 +137,11 @@ public class PatientMedicationClient {
     }
 
     
-    public List<String> adjustDosage(float initialBloodSugarLevel) {
-        List<String> outputMessages = new ArrayList<>();
-
+    public interface AdjustDosageOutputCallback {
+        void onMessageReceived(String message);
+    }
+    
+    public void adjustDosage(float initialBloodSugarLevel, AdjustDosageOutputCallback callback) {
         StreamObserver<AdjustDosageRequest> requestObserver = asyncStub.adjustDosage(new StreamObserver<AdjustDosageResponse>() {
             @Override
             public void onNext(AdjustDosageResponse response) {
@@ -146,7 +149,8 @@ public class PatientMedicationClient {
                 float adjustedBloodSugar = response.getAdjustedBloodSugar();
                 String adjustedInsulinText = "Adjusted insulin value: " + adjustedInsulin;
                 String adjustedBloodSugarText = "Adjusted blood sugar value: " + adjustedBloodSugar;
-                outputMessages.add(adjustedInsulinText + "\n" + adjustedBloodSugarText + "\n");
+                String message = adjustedInsulinText + "\n" + adjustedBloodSugarText + "\n";
+                callback.onMessageReceived(message);
             }
 
             @Override
@@ -178,7 +182,7 @@ public class PatientMedicationClient {
         }
 
         requestObserver.onCompleted();
-        return outputMessages;
+
     }
 
     

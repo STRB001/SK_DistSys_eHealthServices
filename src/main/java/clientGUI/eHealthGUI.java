@@ -586,13 +586,13 @@ public class eHealthGUI extends JFrame {
 		sharePatientBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
-		        sharePatientOutputTA.setText(""); // Clear the output text area
+		        sharePatientOutputTA.setText(""); 
 		        EHRManagementClient.sharePatientRecord(numRecords, new OutputCallback() {
 		            @Override
 		            public void onOutput(String recordContent) {
 		                // Update the output text area with the received record content
 		                sharePatientOutputTA.append(recordContent);
-		                sharePatientOutputTA.append("\n"); // Add a newline between records
+		                sharePatientOutputTA.append("\n"); 
 		            }
 		        });
 		    }
@@ -875,17 +875,14 @@ public class eHealthGUI extends JFrame {
 		scrollPane_8.setViewportView(adjustDosageOutputTA);
 		
 		
-// Adjust dosage bi-directional stream
+// Adjust dosage bi-directional stream using callback
 		adjustDosageStreamBt.addActionListener(new ActionListener() {
-		    
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            float bloodSugarLevel = Float.parseFloat(bloodSugarTF.getText());
-		            List<String> outputMessages = patientMedicationClient.adjustDosage(bloodSugarLevel);
-
-		            for (String outputMessage : outputMessages) {
-		                adjustDosageOutputTA.append(outputMessage);
-		            }
+		            patientMedicationClient.adjustDosage(bloodSugarLevel, message -> {
+		                adjustDosageOutputTA.append(message);
+		            });
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "Invalid blood sugar level value. Please enter a valid number.");
 		        }
@@ -899,7 +896,7 @@ public class eHealthGUI extends JFrame {
 	        try {
 	            patientMedicationClient.shutdown();
 	            patientMonitorClient.shutdown();
-	            EHRManagementClient.shutdown(); // Replace "thirdClient" with the appropriate instance of your third client class.
+	            EHRManagementClient.shutdown();
 	        } catch (InterruptedException e) {
 	            e.printStackTrace();
 	        }

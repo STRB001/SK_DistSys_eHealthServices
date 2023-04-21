@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class PatientMonitoringClient {
   private static PatientMonitoringGrpc.PatientMonitoringBlockingStub blockingStub;
   private static PatientMonitoringGrpc.PatientMonitoringStub asyncStub;
+//create service specific ServiceInfo, allows for discovery of grpc services and generate client code specific to the server
   private static ServiceInfo patientMonitoringServiceInfo;
   private ManagedChannel patientMonitorChannel;
 
@@ -31,12 +32,12 @@ public class PatientMonitoringClient {
   // constructor accepting a ManagedChannel obj as parameter to create grpc connection
   public PatientMonitoringClient(ManagedChannel patientMonitorChannel) {
     this.patientMonitorChannel = patientMonitorChannel;
-    // create stub objects  with provide grpc methods on server
+ // create stubs - these provide grpc methods on server
     blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
     asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
   }
 
-  // shut down the channel when called
+  //shutdown method to close the channel when called
   public void shutdown() throws InterruptedException {
     patientMonitorChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
   }
@@ -100,7 +101,7 @@ public class PatientMonitoringClient {
         }
       });
 
-      // close jmDNS service, service info obtained and stored
+      // close jmDNS service, service info already obtained and stored
       jmdns.close();
       // exception handling + messages
     } catch (UnknownHostException e) {
