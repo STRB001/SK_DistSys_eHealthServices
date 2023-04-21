@@ -4,6 +4,7 @@ package clientGUI;
 import java.awt.event.ActionEvent;
 
 
+
 import java.awt.event.ActionListener;
 
 
@@ -14,8 +15,8 @@ import com.example.MedicationManagement.grpc.PatientMedicationClient;
 import com.example.MedicationManagement.grpc.PatientMedicationClient.MedicationConfirmationCallback;
 import com.example.MedicationManagement.grpc.PatientMedicationServer;
 import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient;
-import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertCallback;
-import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoCallback;
+import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.MedicalAlertListener;
+import com.example.RealTimeMonitoring.grpc.PatientMonitoringClient.PatientInfoListener;
 import com.example.eHealthRecords.grpc.EHRManagementClient;
 import com.example.eHealthRecords.grpc.EHRManagementClient.OutputCallback;
 import com.example.eHealthRecords.grpc.SearchPatientRecordResponse;
@@ -55,6 +56,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.JScrollBar;
+
 
 public class eHealthGUI extends JFrame {
 
@@ -394,9 +396,9 @@ public class eHealthGUI extends JFrame {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        String patientId = realTimePatientIdTF.getText();
-		        patientMonitorClient.streamPatientInfo(patientId, new PatientInfoCallback() {
+		        patientMonitorClient.streamPatientInfo(patientId, new PatientInfoListener() {
 		            @Override
-		            public void onNewMessage(String message) {
+		            public void onNewPatientInfo(String message) {
 		                realTimeOutputTA.append(message);
 		            }
 		        });
@@ -409,7 +411,7 @@ public class eHealthGUI extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        String patientId = medicalAlertPatientIdTF.getText();
 		        try {
-					patientMonitorClient.streamMedicalAlerts(patientId, new MedicalAlertCallback() {
+					patientMonitorClient.streamMedicalAlerts(patientId, new MedicalAlertListener() {
 					    @Override
 					    public void onNewAlert(String message) {
 					        medicalAlertOutputTA.append(message + "\n");
