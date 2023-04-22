@@ -63,7 +63,7 @@ public class EHRManagementServer {
         .setPatientId("AB001")
         .setPatientName("Frodo Baggins")
         .setDepartment("Emergency Department")
-        .setDiagnosis("Internal Bleeding/Hemmorhage")
+        .setDiagnosis("Hemmorhage")
         .setMedication("Ibuprofen")
         .setScheduledOperation("Blood Transfusion")
         .build());
