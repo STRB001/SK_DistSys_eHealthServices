@@ -154,11 +154,9 @@ public class PatientMedicationClient {
       @Override
       // take the confirmation, contraindications and administration instructions from the response message
       public void onNext(ConfirmMedicationResponse response) {
-        String outputMessage = "Confirm medication response: " + response.getMessage() + "\n";
-        outputMessage += "Contraindications: " + response.getContraindications() + "\n";
-        outputMessage += "Administration instructions: " + response.getAdministrationInstructions() + "\n\n";
-        // call on the callback method with the message - pass the received data back to the called via callback object
-        callback.onNewConfirmationEvent(outputMessage);
+    	    String outputMessage = response.getMessage();
+    	    // call on the callback method with the message - pass the received data back to the called via callback object
+    	    callback.onNewConfirmationEvent(outputMessage);
       }
       // error handling plus message
       @Override

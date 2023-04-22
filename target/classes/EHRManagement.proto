@@ -7,8 +7,14 @@ option java_outer_classname = "EHRManagementImpl";
 package EHRManagement;
 
 service EHRManagement {
+
+  // Unary RPC Method 1 - Search Patient Record
   rpc SearchPatientRecord(SearchPatientRecordRequest) returns (SearchPatientRecordResponse) {}
+  
+  // Unary RPC Method 2 - Update Patient Record
   rpc UpdatePatientRecord(UpdatePatientRecordRequest) returns (UpdatePatientRecordResponse) {}
+  
+  // Client Streaming RPC Method 3 - Share Patient Record
   rpc SharePatientRecord(stream SharePatientRecordRequest) returns (SharePatientRecordResponse) {}
 }
 

@@ -339,7 +339,7 @@ public class eHealthGUI extends JFrame {
         JTextArea medicalAlertOutputTA = new JTextArea();
         scrollPane_1.setViewportView(medicalAlertOutputTA);
 
-        // add patient method
+        // UNARY METHOD addPatient
         // enter patient name, age, patientID, call method with add patient button
         addPatientBt.addActionListener(new ActionListener() {
             @Override
@@ -352,7 +352,7 @@ public class eHealthGUI extends JFrame {
             }
         });
 
-        // real time patient info method
+        // SERVER STREAMING METHOD streamPatientInfo
         // enter PatientID, call method for real time stream using button
         realTimeInfoBt.addActionListener(new ActionListener() {
             @Override
@@ -367,7 +367,7 @@ public class eHealthGUI extends JFrame {
             }
         });
 
-        // medical alert method
+        // SERVER STREAMING METHOD streamMedicalAlerts
         // enter PatientID, call method for real time stream using button
         medicalAlertStreamBt.addActionListener(new ActionListener() {
             @Override
@@ -541,7 +541,9 @@ public class eHealthGUI extends JFrame {
         updatePatientIdCB.setBounds(11, 23, 149, 22);
         updatePatientRecord.add(updatePatientIdCB);
 
-        // Unary method addPatient - enter patientID, press Add Patient button, output to TextArea
+        
+        
+        // UNARY METHOD addPatient - enter patientID, press Add Patient button, output to TextArea
         searchPatientBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String patientId = searchPatientIdTF.getText();
@@ -549,8 +551,12 @@ public class eHealthGUI extends JFrame {
                 searchPatientOutputTA.setText(result);
             }
         });
-
-        // Unary method updatePatient - listener on combo box for when user selects a patient ID, calls actionPerformed method
+        
+        
+        
+        
+        
+        // UNARY METHOD updatePatient -- listener on combo box for when user selects a patient ID, calls actionPerformed method
         //  fetches patient info and update text fields with the patient data
         final String[] patientIds = {
             "AB001",
@@ -576,7 +582,6 @@ public class eHealthGUI extends JFrame {
                 }
             }
         });
-
         updatePatientBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String patientId = (String) updatePatientIdCB.getSelectedItem();
@@ -599,7 +604,10 @@ public class eHealthGUI extends JFrame {
             }
         });
 
-        // Client streaming gRPC method - sharePatientRecords
+        
+        
+        
+        // CLIENT STREAMING METHOD sharePatientRecords
         // enter the number of records to share and then choose the mock location they would be shared/stored, button calls method to print in TA
         sharePatientBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -616,6 +624,10 @@ public class eHealthGUI extends JFrame {
             }
         });
 
+        
+        
+        
+        
         /*
          * MEDICATION MANAGER SERVICE 3 METHODS - addMedicine, confirmMedicine, adjustDosage
          * Unary, Server-streaming, Bi-directional, respectively
@@ -789,7 +801,7 @@ public class eHealthGUI extends JFrame {
         JTextArea adjustDosageOutputTA = new JTextArea();
         scrollPane_8.setViewportView(adjustDosageOutputTA);
 
-        // add medicine unary method
+        // UNARY METHOD addMedication
         // user enters patient ID, Name, Dosage, and side effects, press add medicine and receive output to text field
         addMedicineBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -807,7 +819,7 @@ public class eHealthGUI extends JFrame {
             }
         });
 
-        // confirm medication unary method
+        // CLIENT STREAMING METHODs confirmMedication
         // enter medication name and dosage for 1-3 medicines, press add medicine, receive output in text area
         confirmMedicationBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -836,7 +848,8 @@ public class eHealthGUI extends JFrame {
             }
         });
 
-        // Adjust dosage bi-directional stream using callback
+
+        // BI-DIRECTIONAL METHOD adjustDosage using callback
         adjustDosageStreamBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {

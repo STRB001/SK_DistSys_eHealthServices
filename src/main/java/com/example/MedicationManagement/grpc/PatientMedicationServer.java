@@ -98,6 +98,7 @@ public class PatientMedicationServer {
     public StreamObserver < ConfirmMedicationRequest > confirmMedication(StreamObserver < ConfirmMedicationResponse > responseObserver) {
       // return Obj which will define onNext, onError and onComplete methods
       return new StreamObserver < ConfirmMedicationRequest > () {
+    	  List<String> medicationInfoList = new ArrayList<>();
 
         @Override
         // get name and dosage of the medication from request
@@ -105,26 +106,33 @@ public class PatientMedicationServer {
           String medicationName = request.getMedicationName();
           String dosage = request.getDosage();
           // mock contraindication and instructions for medicines
-          String contraindications = "For " + medicationName + ": Do not mix with Calpol!";
-          String administrationInstructions = "For " + medicationName + ": Take " + dosage + " morning noon and night with food";
+          String contraindications = "For " + medicationName + ": Do not mix with antihistamines!";
+          String administrationInstructions = "Take " + dosage + " morning noon and night with food";
 
-          // build a response with the mock info
-          ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
-            .setMessage("Medication confirmation complete")
-            .setContraindications(contraindications)
-            .setAdministrationInstructions(administrationInstructions)
-            .build();
-          // return a response 
-          responseObserver.onNext(response);
+       // Add info into the list for response
+          medicationInfoList.add("Medication confirmation complete for Medication: " + medicationName +
+          "\nContraindications: " + contraindications +
+          "\nAdministration Instructions: " + administrationInstructions + "\n\n");
+          
         }
         // error handling
         @Override
         public void onError(Throwable t) {
           System.err.println("Error - unable to confirm medication!");
         }
-        // request has been completed
+
+        // build a response using the medicationInfoList of each confirmed medication
+        // when onComplete is called list is joined into a single string using .join()
         @Override
         public void onCompleted() {
+    	String medicationInfo = String.join("", medicationInfoList);
+    	ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
+    		.setMessage(medicationInfo)
+          	.setContraindications("")
+          	.setAdministrationInstructions("")
+          	.build();		
+          // send response back to client and inform server that request is complete
+          responseObserver.onNext(response);
           responseObserver.onCompleted();
         }
       };
