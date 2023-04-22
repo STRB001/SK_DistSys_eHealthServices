@@ -33,7 +33,8 @@ public class PatientMonitoringServer {
       int port = 50051;
       server = ServerBuilder.forPort(port)
         // adds PMS interface to the server so that when the client sends request to the server for a method defined in PMS
-        // the server can then use PMSImpl to handle the request and give a response (PMSImpl contains the actual logic for grpc request handling)
+        // the server can then use PMSImpl to handle the request and give a response 
+        // (PatientMonitoringServiceImpl contains the actual logic for grpc request handling)
         .addService(new PatientMonitoringServiceImpl())
         .build()
         .start();

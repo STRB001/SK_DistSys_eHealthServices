@@ -85,7 +85,6 @@ public class PatientMonitoringClient {
           System.out.println("name: " + event.getName());
           System.out.println("host: " + host);
         }
-
         @Override
         public void serviceAdded(ServiceEvent event) {
           // TODO Auto-generated method stub - No current use needed for this	
