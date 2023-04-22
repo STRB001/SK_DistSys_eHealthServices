@@ -88,7 +88,6 @@ public class EHRManagementClient {
         public void serviceAdded(ServiceEvent event) {
           // TODO Auto-generated method stub	
         }
-        
       });
       // close jmDNS service, service info already obtained and stored
       jmdns.close();

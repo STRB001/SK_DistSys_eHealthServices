@@ -345,10 +345,16 @@ public class eHealthGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String patientName = patientNameTF.getText();
+              try {
                 int patientAge = Integer.parseInt(patientAgeTF.getText());
                 String patientId = patientIdTF.getText();
                 String responseMessage = patientMonitorClient.addPatient(patientName, patientAge, patientId);
                 addPatientOutputTA.append(responseMessage);
+            } catch (NumberFormatException ex) {
+            // give a short pop up error message when wrong data type entered into age
+            	JOptionPane.showMessageDialog(addPatientService, "Invalid character! Please enter numbers only for age.",
+            	"Input Error", JOptionPane.ERROR_MESSAGE);
+             }
             }
         });
 
