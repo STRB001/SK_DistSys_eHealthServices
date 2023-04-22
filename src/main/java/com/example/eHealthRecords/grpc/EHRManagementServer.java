@@ -1,10 +1,10 @@
 package com.example.eHealthRecords.grpc;
 
 import java.io.IOException;
+
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
@@ -23,6 +23,7 @@ public class EHRManagementServer {
     server.start();
   }
 
+  
   // start() initialises the server, starts the jmDNS discovery service, and block main thread until server is shut down
   private void start() throws IOException {
     try {
@@ -48,6 +49,8 @@ public class EHRManagementServer {
     }
   }
 
+  
+  
   // logic handling  methods for eHealthRecords management service
   static class EHRManagementImpl extends EHRManagementGrpc.EHRManagementImplBase {
     //ArrayList to store patient records for search and update patient record methods
@@ -75,8 +78,9 @@ public class EHRManagementServer {
         .build());
     }
     
+    
     /*
-     * Unary search patient method handles request from client, searches patient in patientRecords list
+     * Unary gRPC method - searchPatientRecords - handles request from client, searches patient in patientRecords list
      * sends response to client with patient info if found / empty response if not
      */
 
@@ -104,6 +108,9 @@ public class EHRManagementServer {
       responseObserver.onCompleted();
     }
 
+    
+    
+    
     /*
      * Unary update patient method - single request and response.
      * take UpdatePatientRecordRequest as input, send back UpdatePatientRecordResponse using streamObserver

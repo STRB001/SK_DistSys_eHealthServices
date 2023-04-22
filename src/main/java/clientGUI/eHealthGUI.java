@@ -81,6 +81,7 @@ public class eHealthGUI extends JFrame {
 	   public static ServiceInfo ehrManagementServiceInfo;
 	   public static ServiceInfo patientMedicationServiceInfo;
 	   public static ServiceInfo patientMonitoringServiceInfo;
+	   
 	   private JTextField bloodSugarTF;
 	   private JTextField medicationName1TF;
 	   private JTextField medicationName2TF;
@@ -118,8 +119,8 @@ public class eHealthGUI extends JFrame {
 		        }
 		    });
 		}
-
-	   // DISCOVER MEDICAL SERVICE
+	   
+	   // Discovery of Patient Medication Management Service using jmDNS
 	   private void discoverPatientMedicationService(String service_type) throws IOException {
 
 		        //Get local host address
@@ -149,19 +150,15 @@ public class eHealthGUI extends JFrame {
 
 		            @Override
 		            public void serviceRemoved(ServiceEvent event) {
-		
-		            }
-		                        
+		            }              
 		        };
-
 		        // Register the listener and start service discovery
-		        jmdns.addServiceListener(service_type, listener);
-		        
-		        
+		        jmdns.addServiceListener(service_type, listener);      
 		}
 
-	// discover Real-time Patient Monitoring Service
+	// Discovery of Real-Time Monitoring Service using jmDNS
 	   private void discoverRealTimeMonitoringService(String service_type) throws IOException {
+		   
 	       // get the local host address
 	       InetAddress localHost = InetAddress.getLocalHost();
 
@@ -189,16 +186,14 @@ public class eHealthGUI extends JFrame {
 	           
 	           @Override
 	           public void serviceRemoved(ServiceEvent event) {
-
 	           }
 	       };
-
 	       // register the listener and start service discovery
 	       jmdns.addServiceListener(service_type, listener);
 	   }
 
 
-	// Discover EHR Management Service
+	// Discover eHealth Record Management Service
 	   private void discoverEHRManagementService(String service_type) throws IOException {
 
 	       // Get the local host address
@@ -255,7 +250,7 @@ public class eHealthGUI extends JFrame {
 		}
 
 
-    // create gui and title it
+    // creatE GUI
 	public eHealthGUI() throws IOException {
 		
 		
@@ -274,11 +269,6 @@ public class eHealthGUI extends JFrame {
 	    discoverRealTimeMonitoringService("_realtime_monitoring._tcp.local.");
 	    discoverEHRManagementService("_ehr_management._tcp.local.");
 		
-
-		
-	    // Discover Patient Medication jmDNS Service
-	    String serviceType = "_grpc._tcp.local.";
-	    discoverPatientMedicationService(serviceType);
 		
 		
 		setTitle("eHealthServices Management System");
@@ -291,13 +281,15 @@ public class eHealthGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		// Add in 1st tabbed pane to hold the three different services
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 14, 878, 393);
 		contentPane.add(tabbedPane);
 		
-		
-		// Frst tab patient monitoring manager w/ three methods - add patient, real time patient info, medical alert service
+		/*
+		* Patient monitoring manager tab w/ three methods - add patient, real time patient info, medical alert service
+		* Unary, Server-streaming, Server-streaming respectively
+		*/
 		JPanel patientMonitoringManager = new JPanel();
 		tabbedPane.addTab("Patient Monitoring Manager", null, patientMonitoringManager, null);
 		patientMonitoringManager.setLayout(null);
@@ -337,12 +329,9 @@ public class eHealthGUI extends JFrame {
 		patientIdTF.setBounds(10, 162, 161, 20);
 		addPatientService.add(patientIdTF);
 		
-		
-		// ADD PATIENT BUTTON
 		JButton addPatientBt = new JButton("Add Patient");
 		addPatientBt.setBounds(25, 214, 140, 35);
 		addPatientService.add(addPatientBt);
-		
 		
 		JLabel addPatientOutputLb = new JLabel("Output:");
 		addPatientOutputLb.setBounds(192, 11, 54, 20);
@@ -355,7 +344,6 @@ public class eHealthGUI extends JFrame {
 		JTextArea addPatientOutputTA = new JTextArea();
 		scrollPane_2.setViewportView(addPatientOutputTA);
 		
-
 		JPanel realTimePatientInfo = new JPanel();
 		tabbedPane_1.addTab("Real Time Patient Info", null, realTimePatientInfo, null);
 		realTimePatientInfo.setLayout(null);
@@ -377,16 +365,13 @@ public class eHealthGUI extends JFrame {
 		realTimeOutputLb.setBounds(192, 11, 54, 20);
 		realTimePatientInfo.add(realTimeOutputLb);
 		
-
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(192, 33, 614, 271);
 		realTimePatientInfo.add(scrollPane);
-		
-				
-				realTimeOutputTA = new JTextArea();
-				scrollPane.setViewportView(realTimeOutputTA);
-				realTimeOutputTA.setColumns(10);
+			
+		realTimeOutputTA = new JTextArea();
+		scrollPane.setViewportView(realTimeOutputTA);
+		realTimeOutputTA.setColumns(10);
 		
 		JPanel medicalStaffAlert = new JPanel();
 		tabbedPane_1.addTab("Medical Alert Service", null, medicalStaffAlert, null);
@@ -417,6 +402,8 @@ public class eHealthGUI extends JFrame {
 		scrollPane_1.setViewportView(medicalAlertOutputTA);
 		
 		
+		// add patient method
+		// enter patient name, age, patientID, call method with add patient button
 		addPatientBt.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -429,6 +416,9 @@ public class eHealthGUI extends JFrame {
 		});
 		
 		
+		
+		// real time patient info method
+		// enter PatientID, call method for real time stream using button
 		realTimeInfoBt.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -443,6 +433,9 @@ public class eHealthGUI extends JFrame {
 		});
 		
 		
+		
+		// medical alert method
+		// enter PatientID, call method for real time stream using button
 		medicalAlertStreamBt.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -463,7 +456,10 @@ public class eHealthGUI extends JFrame {
 		
 		
 		
-		// second tab Employee health record manager w/ three methods - search patient, update patient, share patient record
+		/*
+		 * eHealth Records SERVICE 3 METHODS - searchPatient, updatePatient, sharePatientRecords
+		 * Unary, Unary, Client-streaming respectively
+		 */
 		JPanel EHRManager = new JPanel();
 		tabbedPane.addTab("eHealthRecord Manager", null, EHRManager, null);
 		EHRManager.setLayout(null);
@@ -499,14 +495,6 @@ public class eHealthGUI extends JFrame {
 		
 		JTextArea searchPatientOutputTA = new JTextArea();
 		scrollPane_3.setViewportView(searchPatientOutputTA);
-		
-		searchPatientBt.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        String patientId = searchPatientIdTF.getText();
-		        String result = EHRManagementClient.searchPatientRecord(patientId);
-		        searchPatientOutputTA.setText(result);
-		    }
-		});
 		
 		JPanel updatePatientRecord = new JPanel();
 		tabbedPane_3.addTab("Update Patient Record", null, updatePatientRecord, null);
@@ -565,7 +553,6 @@ public class eHealthGUI extends JFrame {
 		updatePatientBt.setBounds(10, 264, 150, 29);
 		updatePatientRecord.add(updatePatientBt);
 	
-	
 		JLabel updatePatientOutputLb = new JLabel("Output:");
 		updatePatientOutputLb.setBounds(206, 11, 46, 14);
 		updatePatientRecord.add(updatePatientOutputLb);
@@ -573,7 +560,6 @@ public class eHealthGUI extends JFrame {
 		JScrollPane scrollPane_4 = new JScrollPane();
 		scrollPane_4.setBounds(206, 34, 590, 270);
 		updatePatientRecord.add(scrollPane_4);
-		
 		
 		JTextArea updatePatientTA = new JTextArea();
 		scrollPane_4.setViewportView(updatePatientTA);
@@ -607,8 +593,6 @@ public class eHealthGUI extends JFrame {
 		sharePatientBt.setBounds(20, 169, 149, 39);
 		sharePatientRecord.add(sharePatientBt);
 	
-
-		
 		JLabel sharePatientOutputLb = new JLabel("Output:");
 		sharePatientOutputLb.setBounds(206, 11, 46, 14);
 		sharePatientRecord.add(sharePatientOutputLb);
@@ -619,26 +603,6 @@ public class eHealthGUI extends JFrame {
 		
 		JTextArea sharePatientOutputTA = new JTextArea();
 		scrollPane_5.setViewportView(sharePatientOutputTA);
-		
-		sharePatientBt.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
-		        sharePatientOutputTA.setText(""); 
-		        EHRManagementClient.sharePatientRecord(numRecords, new sharePatientListener() {
-		            @Override
-		            public void onSharePatientEvent(String recordContent) {
-		                // Update the output text area with the received record content
-		                sharePatientOutputTA.append(recordContent);
-		                sharePatientOutputTA.append("\n"); 
-		            }
-		        });
-		    }
-		});
-		
-		
-		
-		
-		final String[] patientIds = {"AB001", "AB002"};
 
 		JComboBox updatePatientIdCB = new JComboBox();
 		updatePatientIdCB.setEditable(true);
@@ -646,15 +610,27 @@ public class eHealthGUI extends JFrame {
 		updatePatientIdCB.setBounds(11, 23, 149, 22);
 		updatePatientRecord.add(updatePatientIdCB);
 		
-	/*	
-	 * Unary method searchPatient - listener on combo box for when user selects a patient ID, calls actionPerformed method
-	 * fetches patient info and update text fields with the patient data
-	 */
 		
+		
+		// Unary method addPatient - enter patientID, press Add Patient button, output to TextArea
+		searchPatientBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String patientId = searchPatientIdTF.getText();
+		        String result = EHRManagementClient.searchPatientRecord(patientId);
+		        searchPatientOutputTA.setText(result);
+		    }
+		});
+		
+		
+		
+	 // Unary method updatePatient - listener on combo box for when user selects a patient ID, calls actionPerformed method
+	 //  fetches patient info and update text fields with the patient data
+		final String[] patientIds = {"AB001", "AB002"};
+		// for loop to traverse list of patient ID's (only two hard coded) and add them to the combo box
 		for (String patientId : patientIds) {
 		    updatePatientIdCB.addItem(patientId);
 		}
-
+		// triggered if user selected from patient ID list, updates fields with info
 		updatePatientIdCB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        String selectedPatientId = (String) updatePatientIdCB.getSelectedItem();
@@ -670,7 +646,6 @@ public class eHealthGUI extends JFrame {
 		        }
 		    }
 		});
-		
 		
 		updatePatientBt.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -695,254 +670,275 @@ public class eHealthGUI extends JFrame {
 		});
 		
 		
+		
+		// Client streaming gRPC method - sharePatientRecords
+		// enter the number of records to share and then choose the mock location they would be shared/stored, button calls method to print in TA
+		sharePatientBt.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        int numRecords = Integer.parseInt(sharePatientNumRecordsTF.getText());
+		        sharePatientOutputTA.setText(""); 
+		        EHRManagementClient.sharePatientRecord(numRecords, new sharePatientListener() {
+		            @Override
+		            public void onSharePatientEvent(String recordContent) {
+		                // Update the output text area with the received record content
+		                sharePatientOutputTA.append(recordContent);
+		                sharePatientOutputTA.append("\n"); 
+		            }
+		        });
+		    }
+		});
+		
+		
+		
+		
+		
+		/*
+		 * MEDICATION MANAGER SERVICE 3 METHODS - addMedicine, confirmMedicine, adjustDosage
+		 * Unary, Server-streaming, Bi-directional, respectively
+		 */
 		JPanel MedicationManager = new JPanel();
 		tabbedPane.addTab("Medication Manager", null, MedicationManager, null);
 		MedicationManager.setLayout(null);
-		
-		// third tab Medication Manager w/ three methods - add medicine, medicine schedule, and confirm medicine
+
 		JTabbedPane medicationManagerTabsContainer = new JTabbedPane(JTabbedPane.TOP);
 		medicationManagerTabsContainer.setBounds(10, 11, 811, 343);
 		MedicationManager.add(medicationManagerTabsContainer);
-		
+
+		// ***************************** COMPONENTS OF ADD MEDICINE TAB *****************************
 		JPanel addMedicineTabbedPane = new JPanel();
 		medicationManagerTabsContainer.addTab("Add Medication", null, addMedicineTabbedPane, null);
 		addMedicineTabbedPane.setLayout(null);
-		
+
 		JLabel addMedicineMedicationSideEffectsLb = new JLabel("Medication Side Effects:");
 		addMedicineMedicationSideEffectsLb.setBounds(10, 179, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationSideEffectsLb);
-		
+
 		JLabel addMedicineMedicationNameLb = new JLabel("Medication Name:");
 		addMedicineMedicationNameLb.setBounds(10, 69, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationNameLb);
-		
+
 		JLabel addMedicineMedicationDosageLb = new JLabel("Medication Dosage:");
 		addMedicineMedicationDosageLb.setBounds(10, 128, 154, 14);
 		addMedicineTabbedPane.add(addMedicineMedicationDosageLb);
-		
+
 		JLabel addMedicinePatientIdLb = new JLabel("Patient ID:");
 		addMedicinePatientIdLb.setBounds(10, 22, 136, 12);
 		addMedicineTabbedPane.add(addMedicinePatientIdLb);
-		
+
 		addMedicinePatientIdTF = new JTextField();
 		addMedicinePatientIdTF.setBounds(10, 34, 154, 24);
 		addMedicineTabbedPane.add(addMedicinePatientIdTF);
 		addMedicinePatientIdTF.setColumns(10);
-		
+
 		addMedicineMedicationNameTF = new JTextField();
 		addMedicineMedicationNameTF.setColumns(10);
 		addMedicineMedicationNameTF.setBounds(10, 87, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationNameTF);
-		
+
 		addMedicineMedicationDosageTF = new JTextField();
 		addMedicineMedicationDosageTF.setColumns(10);
 		addMedicineMedicationDosageTF.setBounds(10, 142, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationDosageTF);
-		
+
 		addMedicineMedicationSideEffectsTF = new JTextField();
 		addMedicineMedicationSideEffectsTF.setColumns(10);
 		addMedicineMedicationSideEffectsTF.setBounds(10, 197, 154, 24);
 		addMedicineTabbedPane.add(addMedicineMedicationSideEffectsTF);
-		
-		// add medicine button
+
 		JButton addMedicineBt = new JButton("Add Medicine");
 		addMedicineBt.setBounds(23, 243, 123, 34);
 		addMedicineTabbedPane.add(addMedicineBt);
-		
+
 		JLabel addMedicineOutputLb = new JLabel("Output:");
 		addMedicineOutputLb.setBounds(191, 21, 79, 14);
 		addMedicineTabbedPane.add(addMedicineOutputLb);
-		
+
 		JScrollPane scrollPane_6 = new JScrollPane();
 		scrollPane_6.setBounds(191, 36, 605, 268);
 		addMedicineTabbedPane.add(scrollPane_6);
-		
+
 		JTextArea addMedicineOutputTA = new JTextArea();
 		scrollPane_6.setViewportView(addMedicineOutputTA);
-		
-		
-		// add medicine unary method
-		addMedicineBt.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        String patientId = addMedicinePatientIdTF.getText();
-		        String medicationName = addMedicineMedicationNameTF.getText();
-		        String medicationDosage = addMedicineMedicationDosageTF.getText();
-		        String medicationSideEffects = addMedicineMedicationSideEffectsTF.getText();
-
-		        try {
-		            String addMedicineMessage = patientMedicationClient.addMedication(patientId, medicationName, medicationDosage, medicationSideEffects);
-		            addMedicineOutputTA.append(addMedicineMessage);
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(null, "Error while adding medicine. Please check the input values.");
-		        }
-		    }
-		});
-		
 
 		JPanel confirmMedication = new JPanel();
 		medicationManagerTabsContainer.addTab("Confirm Medication", null, confirmMedication, null);
 		confirmMedication.setLayout(null);
-		
+
 		JLabel medicationName1Lb = new JLabel("Medication Name 1:");
 		medicationName1Lb.setBounds(10, 11, 134, 14);
 		confirmMedication.add(medicationName1Lb);
-		
+
 		JLabel medicationName2Lb = new JLabel("Medication Name 2:");
 		medicationName2Lb.setBounds(10, 97, 134, 14);
 		confirmMedication.add(medicationName2Lb);
-		
+
 		JLabel medicationName3Lb = new JLabel("Medication Name 3:");
 		medicationName3Lb.setBounds(10, 182, 134, 14);
 		confirmMedication.add(medicationName3Lb);
-		
+
 		medicationName1TF = new JTextField();
 		medicationName1TF.setBounds(10, 26, 134, 20);
 		confirmMedication.add(medicationName1TF);
 		medicationName1TF.setColumns(10);
-		
+
 		medicationName2TF = new JTextField();
 		medicationName2TF.setColumns(10);
 		medicationName2TF.setBounds(10, 111, 134, 20);
 		confirmMedication.add(medicationName2TF);
-		
+
 		medicationName3TF = new JTextField();
 		medicationName3TF.setColumns(10);
 		medicationName3TF.setBounds(10, 197, 134, 20);
 		confirmMedication.add(medicationName3TF);
-		
+
 		JLabel medicationDosage1Lb = new JLabel("Medication Dosage 1:");
 		medicationDosage1Lb.setBounds(10, 50, 134, 14);
 		confirmMedication.add(medicationDosage1Lb);
-		
+
 		JLabel medicationDosage3Lb = new JLabel("Medication Dosage 3:");
 		medicationDosage3Lb.setBounds(10, 222, 134, 14);
 		confirmMedication.add(medicationDosage3Lb);
-		
+
 		JLabel medicationDosage2Lb = new JLabel("Medication Dosage 2:");
 		medicationDosage2Lb.setBounds(10, 134, 134, 14);
 		confirmMedication.add(medicationDosage2Lb);
-		
+
 		medicationDosage1TF = new JTextField();
 		medicationDosage1TF.setBounds(10, 66, 134, 20);
 		confirmMedication.add(medicationDosage1TF);
 		medicationDosage1TF.setColumns(10);
-		
+
 		medicationDosage2TF = new JTextField();
 		medicationDosage2TF.setColumns(10);
 		medicationDosage2TF.setBounds(10, 151, 134, 20);
 		confirmMedication.add(medicationDosage2TF);
-		
+
 		medicationDosage3TF = new JTextField();
 		medicationDosage3TF.setColumns(10);
 		medicationDosage3TF.setBounds(10, 239, 134, 20);
 		confirmMedication.add(medicationDosage3TF);
-		
+
 		JLabel confirmMedicationOutputLb = new JLabel("Output:");
 		confirmMedicationOutputLb.setBounds(191, 21, 60, 14);
 		confirmMedication.add(confirmMedicationOutputLb);
-		
+
 		JButton confirmMedicationBt = new JButton("Confirm Medication");
 		confirmMedicationBt.setBounds(20, 270, 153, 34);
 		confirmMedication.add(confirmMedicationBt);
-		
+
 		JScrollPane scrollPane_7 = new JScrollPane();
 		scrollPane_7.setBounds(191, 36, 605, 268);
 		confirmMedication.add(scrollPane_7);
-		
+
 		JTextArea confirmMedicationOutputTA = new JTextArea();
 		scrollPane_7.setViewportView(confirmMedicationOutputTA);
-		
-		confirmMedicationBt.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            String medicationName1 = medicationName1TF.getText();
-		            String medicationDosage1 = medicationDosage1TF.getText();
-		            String medicationName2 = medicationName2TF.getText();
-		            String medicationDosage2 = medicationDosage2TF.getText();
-		            String medicationName3 = medicationName3TF.getText();
-		            String medicationDosage3 = medicationDosage3TF.getText();
-		            
-		            MedicationConfirmationOutputListener callback = new MedicationConfirmationOutputListener() {
-		                @Override
-		                public void onNewConfirmationEvent(String message) {
-		                    confirmMedicationOutputTA.append(message);
-		                }
-		            };
 
-		            patientMedicationClient.confirmMedication(medicationName1, medicationDosage1, callback);
-		            patientMedicationClient.confirmMedication(medicationName2, medicationDosage2, callback);
-		            patientMedicationClient.confirmMedication(medicationName3, medicationDosage3, callback);
-
-
-
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(null, "Error while confirming medication. Please check the input values.");
-		        }
-		    }
-		});
-		
-		
-		
-		// ------------------ COMPONENTS OF MEDICINE MANAGER TAB -----------------------------------------
 		JPanel adjustDosage = new JPanel();
 		medicationManagerTabsContainer.addTab("Adjust Dosage Service", null, adjustDosage, null);
 		adjustDosage.setLayout(null);
-		
+
 		JLabel adjustDosageOutputLb = new JLabel("Output:");
 		adjustDosageOutputLb.setBounds(191, 21, 47, 14);
 		adjustDosage.add(adjustDosageOutputLb);
-		
+
 		JLabel bloodSugarLb = new JLabel("Enter initial Blood Sugar value:");
 		bloodSugarLb.setBounds(10, 38, 191, 22);
 		adjustDosage.add(bloodSugarLb);
-		
+
 		bloodSugarTF = new JTextField();
 		bloodSugarTF.setBounds(10, 60, 86, 20);
 		adjustDosage.add(bloodSugarTF);
 		bloodSugarTF.setColumns(10);
-		
+
 		JLabel bloodSugarUnitLb = new JLabel("mmol/L");
 		bloodSugarUnitLb.setBounds(98, 67, 46, 14);
 		adjustDosage.add(bloodSugarUnitLb);
-		
+
 		JButton adjustDosageStreamBt = new JButton("Stream Dynamic Dose");
 		adjustDosageStreamBt.setBounds(20, 105, 146, 30);
 		adjustDosage.add(adjustDosageStreamBt);
-		
+
 		JScrollPane scrollPane_8 = new JScrollPane();
 		scrollPane_8.setBounds(191, 36, 605, 268);
 		adjustDosage.add(scrollPane_8);
-		
+
 		JTextArea adjustDosageOutputTA = new JTextArea();
 		scrollPane_8.setViewportView(adjustDosageOutputTA);
-		
-		
-// Adjust dosage bi-directional stream using callback
-		adjustDosageStreamBt.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            float bloodSugarLevel = Float.parseFloat(bloodSugarTF.getText());
-		            patientMedicationClient.adjustDosage(bloodSugarLevel, message -> {
-		                adjustDosageOutputTA.append(message);
-		            });
-		        } catch (NumberFormatException ex) {
-		            JOptionPane.showMessageDialog(null, "Invalid blood sugar level value. Please enter a valid number.");
-		        }
+
+		// add medicine unary method
+		// user enters patient ID, Name, Dosage, and side effects, press add medicine and receive output to text field
+		addMedicineBt.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+		    String patientId = addMedicinePatientIdTF.getText();
+		    String medicationName = addMedicineMedicationNameTF.getText();
+		    String medicationDosage = addMedicineMedicationDosageTF.getText();
+		    String medicationSideEffects = addMedicineMedicationSideEffectsTF.getText();
+
+		    try {
+		      String addMedicineMessage = patientMedicationClient.addMedication(patientId, medicationName, medicationDosage, medicationSideEffects);
+		      addMedicineOutputTA.append(addMedicineMessage);
+		    } catch (Exception ex) {
+		      JOptionPane.showMessageDialog(null, "Error while adding medicine. Please check the input values.");
 		    }
+		  }
 		});
+
+		// confirm medication unary method
+		// enter medication name and dosage for 1-3 medicines, press add medicine, receive output in text area
+		confirmMedicationBt.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+		    try {
+		      String medicationName1 = medicationName1TF.getText();
+		      String medicationDosage1 = medicationDosage1TF.getText();
+		      String medicationName2 = medicationName2TF.getText();
+		      String medicationDosage2 = medicationDosage2TF.getText();
+		      String medicationName3 = medicationName3TF.getText();
+		      String medicationDosage3 = medicationDosage3TF.getText();
+
+		      MedicationConfirmationOutputListener callback = new MedicationConfirmationOutputListener() {
+		        @Override
+		        public void onNewConfirmationEvent(String message) {
+		          confirmMedicationOutputTA.append(message);
+		        }
+		      };
+
+		      patientMedicationClient.confirmMedication(medicationName1, medicationDosage1, callback);
+		      patientMedicationClient.confirmMedication(medicationName2, medicationDosage2, callback);
+		      patientMedicationClient.confirmMedication(medicationName3, medicationDosage3, callback);
+
+		    } catch (Exception ex) {
+		      JOptionPane.showMessageDialog(null, "Error while confirming medication. Please check the input values.");
+		    }
+		  }
+		});
+
+		// Adjust dosage bi-directional stream using callback
+		adjustDosageStreamBt.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e) {
+		    try {
+		      float bloodSugarLevel = Float.parseFloat(bloodSugarTF.getText());
+		      patientMedicationClient.adjustDosage(bloodSugarLevel, message -> {
+		        adjustDosageOutputTA.append(message);
+		      });
+		    } catch (NumberFormatException ex) {
+		      JOptionPane.showMessageDialog(null, "Invalid blood sugar level value. Please enter a valid number.");
+		    }
+		  }
+		});
+
 		
-	
-	
-	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-	    public void run() {
-	        try {
-	            patientMedicationClient.shutdown();
-	            patientMonitorClient.shutdown();
-	            EHRManagementClient.shutdown();
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}));
-}
-}
+		
+		// shutdown
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		  public void run() {
+		    try {
+		      patientMedicationClient.shutdown();
+		      patientMonitorClient.shutdown();
+		      EHRManagementClient.shutdown();
+		    } catch (InterruptedException e) {
+		      e.printStackTrace();
+		    }
+		  }
+		}));
+		}
+		}

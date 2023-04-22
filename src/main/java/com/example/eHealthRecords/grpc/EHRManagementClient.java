@@ -55,9 +55,9 @@ public class EHRManagementClient {
 
     //close channel
     EHRManagementChannel.shutdown();
-
   }
 
+  
   // method to discover employee health record server using jmDNS
   private void discoverEHRManagementService(String service_type) {
     // use local host inetaddress to create instance of jmDNS
@@ -69,7 +69,6 @@ public class EHRManagementClient {
         // when service is discovered + resolved, extract port, host, and give brief print out of info of service 
         @Override
         public void serviceResolved(ServiceEvent event) {
-
           EHRManagementServiceInfo = event.getInfo();
           int port = EHRManagementServiceInfo.getPort();
           String host = EHRManagementServiceInfo.getHostAddresses()[0];
@@ -80,17 +79,16 @@ public class EHRManagementClient {
           System.out.println("name: " + event.getName());
           System.out.println("host: " + host);
         }
-
+        
         @Override
         public void serviceRemoved(ServiceEvent event) {
           // TODO Auto-generated method stub	
         }
-
         @Override
         public void serviceAdded(ServiceEvent event) {
           // TODO Auto-generated method stub	
-
         }
+        
       });
       // close jmDNS service, service info already obtained and stored
       jmdns.close();
@@ -105,9 +103,8 @@ public class EHRManagementClient {
   
   
   /*
-   * UNARY SEARCH PATIENT METHOD - Single request sent to server, single response returned
-   * searchPatientRecord and getPatientRecord send grpc requests to server and return the info in different formats
-   * one as String, one as searchPatientRequestResponse obj
+   * Unary gRPC method - searchPatientRecords - handles request from client, searches patient in patientRecords list
+   * sends response to client with patient info if found / empty response if not
    */
   public String searchPatientRecord(String patientId) {
     // create a request using the user entered patientID

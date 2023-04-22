@@ -88,12 +88,10 @@ public class PatientMedicationClient {
         @Override
         public void serviceAdded(ServiceEvent event) {
           // TODO Auto-generated method stub    
-
         }
       });
-      // close jmDNS service, service info already obtained and stored
+      // close jmDNS service, service info already obtained and stored plus exception handling + messages
       jmdns.close();
-      // exception handling + messages
     } catch (UnknownHostException e) {
       System.out.println(e.getMessage());
     } catch (IOException e) {
@@ -101,6 +99,9 @@ public class PatientMedicationClient {
     }
   }
 
+  
+  
+  
   /* 
    * Unary gRPC method - addMedication Client sends single AddMedicationRequest to server. receives single AddMedicationResponse back
    */
@@ -129,6 +130,9 @@ public class PatientMedicationClient {
     }
   }
 
+  
+  
+  
   /*
    * Server Streaming gRPC method - confirmMedication. Client sending single request, receiving streamed response
    * ConfirmMedicationRequest received multiple ConfirmMedicationResponse
@@ -167,12 +171,14 @@ public class PatientMedicationClient {
         System.out.println("Confirm medication completed.");
       }
     });
-
     // Send medication request and confirm that requests are finished sending to server
     requestObserver.onNext(request);
     requestObserver.onCompleted();
   }
 
+  
+  
+  
   /*
    * Bi-directional gRPC adjustDosage method -  client sends multiple adjust dosage requests to server
    * server processes and multipled adjusted dosage responses, one for each request.

@@ -2,12 +2,12 @@ package com.example.MedicationManagement.grpc;
 
 import java.io.IOException;
 
+
 import java.net.InetAddress;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
@@ -25,7 +25,6 @@ public class PatientMedicationServer {
   public static void main(String[] args) throws IOException, InterruptedException {
     PatientMedicationServer server = new PatientMedicationServer();
     server.start();
-
   }
 
   // start() initialises the server, starts the jmDNS discovery service, and block main thread until server is shut down
@@ -57,11 +56,15 @@ public class PatientMedicationServer {
     }
   }
 
+  
   // logic handling  methods for patient medication management service
   static class MedicationManagementImpl extends MedicationManagementGrpc.MedicationManagementImplBase {
     //ArrayList to 'store' the medications added to each patient in addMedication method
     List < AddMedicationRequest > medications = new ArrayList < > ();
 
+    
+    
+    
     /* 
      *  Unary gRPC method - addMedication Client sends single AddMedicationRequest to server. receives single AddMedicationResponse back
      */
@@ -83,6 +86,9 @@ public class PatientMedicationServer {
       responseObserver.onCompleted();
     }
 
+    
+    
+    
     /*
      * Server Streaming gRPC method - confirmMedication. Client sending single request, receiving streamed response
      * ConfirmMedicationRequest received multiple ConfirmMedicationResponse
@@ -100,7 +106,7 @@ public class PatientMedicationServer {
           String dosage = request.getDosage();
           // mock contraindication and instructions for medicines
           String contraindications = "For " + medicationName + ": Do not mix with Calpol!";
-          String administrationInstructions = "For " + medicationName + ": Take morning noon and night with food";
+          String administrationInstructions = "For " + medicationName + ": Take " + dosage + " morning noon and night with food";
 
           // build a response with the mock info
           ConfirmMedicationResponse response = ConfirmMedicationResponse.newBuilder()
@@ -124,6 +130,9 @@ public class PatientMedicationServer {
       };
     }
 
+    
+    
+    
     /*
      * Bi-directional gRPC adjustDosage method -  client sends multiple adjust dosage requests to server
      * server processes and multipled adjusted dosage responses, one for each request.
@@ -163,7 +172,6 @@ public class PatientMedicationServer {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-
         }
         //  error handling
         @Override

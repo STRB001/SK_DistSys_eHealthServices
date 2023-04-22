@@ -58,11 +58,11 @@ public class PatientMonitoringClient {
     // asynchronous grpc stub when no wait is needed for response. Server responds and a callback handles the response (streaming)
     blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
     asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
-
     // close channel
     patientMonitorChannel.shutdown();
   }
 
+  
   // jmDNS service discovery - method takes service_type as param
   // service type is a string representing type of service to be discovered
   private void discoverPatientMonitoringService(String service_type) {
@@ -79,7 +79,6 @@ public class PatientMonitoringClient {
           patientMonitoringServiceInfo = event.getInfo();
           int port = patientMonitoringServiceInfo.getPort();
           String host = patientMonitoringServiceInfo.getHostAddresses()[0];
-
           System.out.println("resolving " + service_type + " with properties ...");
           System.out.println("port: " + port);
           System.out.println("type:" + event.getType());
@@ -91,16 +90,14 @@ public class PatientMonitoringClient {
         public void serviceAdded(ServiceEvent event) {
           // TODO Auto-generated method stub - No current use needed for this	
         }
-
+        
         @Override
         public void serviceRemoved(ServiceEvent event) {
           // TODO Auto-generated method stub  - No current use needed for this	
         }
       });
-
-      // close jmDNS service, service info already obtained and stored
+      // close jmDNS service, service info already obtained and stored + exception handling
       jmdns.close();
-      // exception handling + messages
     } catch (UnknownHostException e) {
       System.out.println(e.getMessage());
     } catch (IOException e) {
@@ -108,6 +105,7 @@ public class PatientMonitoringClient {
     }
   }
 
+  
   
   /*
    * Unary gRPC method - addPatient - Single request and single response
@@ -121,11 +119,9 @@ public class PatientMonitoringClient {
       .setPatientAge(patientAge)
       .setPatientId(patientId)
       .build();
-    // declare a response obj
+    // declare a response obj and pass request to the server using blockingStub to make call, block thread until server response  obtained
     AddPatientResponse response;
     try {
-      // pass request to the server using blockingStub to make call
-      // block thread until server response  obtained
       response = blockingStub.addPatient(request);
       // if successful return formatted response
       return "Add patient response: " + response.getMessage() + "\n";

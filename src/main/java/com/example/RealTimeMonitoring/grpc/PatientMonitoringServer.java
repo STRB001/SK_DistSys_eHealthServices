@@ -26,9 +26,9 @@ public class PatientMonitoringServer {
     server.start();
   }
 
+  
   // start() initialises the server, starts the jmDNS discovery service, and block main thread until server is shut down
   private void start() throws IOException {
-
     try {
       int port = 50051;
       server = ServerBuilder.forPort(port)
@@ -54,14 +54,16 @@ public class PatientMonitoringServer {
       System.err.println("Error while running the server: " + e.getMessage());
     }
   }
+  
+  
+  
   // logic handling  methods for patient monitoring service
   private class PatientMonitoringServiceImpl extends PatientMonitoringGrpc.PatientMonitoringImplBase {
 
-	  
-	  
-	  /*
-	   * Unary gRPC method - addPatient - Single request and single response
-	   */  
+
+	 /*
+	  * Unary gRPC method - addPatient - Single request and single response
+	  */  
 
     @Override
     // take in a request as param, StreamObserver allows for communication back to the client
@@ -83,7 +85,7 @@ public class PatientMonitoringServer {
     
     
     /*
-     * Server Streaming gRPC method - streamPatientInfo - client sends a single request to server, receives stream in return
+     *  Server Streaming gRPC method - streamPatientInfo - client sends a single request to server, receives stream in return
      */
     
     @Override
@@ -117,6 +119,7 @@ public class PatientMonitoringServer {
     }
 
 
+    
     /*
      * Server Streaming gRPC method - streamMedicalAlerts - client sends single request with patientID
      * server responds with asynchronous alert stream handled by client response observer
@@ -141,7 +144,6 @@ public class PatientMonitoringServer {
             .setTreatment("Deliver Adrenaline ASAP!")
             .build();
         }
-
         responseObserver.onNext(response);
         // another TimeUnit.sleep to try and generate a 'stream' of data rather than text block
         try {
@@ -155,6 +157,7 @@ public class PatientMonitoringServer {
     }
   }
 
+  
   // simple patient class declaration with variables defined and constructor allows for patients to be added to List Patients using addPatient()
   private static class Patient {
     private String name;
