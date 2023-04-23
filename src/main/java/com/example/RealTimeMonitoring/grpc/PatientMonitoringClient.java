@@ -181,7 +181,7 @@ public class PatientMonitoringClient {
       // completion message formatted plus call to onNewPatientInfo
       @Override
       public void onCompleted() {
-        String completedMessage = "Finished receiving medical alerts.\n";
+        String completedMessage = "Finished receiving real time patient vital signs.\n";
         callback.onNewPatientInfo(completedMessage);
       }
     };
