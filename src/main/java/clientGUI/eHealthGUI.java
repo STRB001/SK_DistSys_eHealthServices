@@ -553,7 +553,7 @@ public class eHealthGUI extends JFrame {
         searchPatientBt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String patientId = searchPatientIdTF.getText();
-                if (patientId == null || patientId.trim().isEmpty()) {
+                if (patientId == null || patientId.isEmpty()) {
                 	JOptionPane.showMessageDialog(null, "Error! Patient ID cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
