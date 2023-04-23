@@ -52,8 +52,20 @@ public class PatientMedicationClient {
     blockingStub = MedicationManagementGrpc.newBlockingStub(channel);
     asyncStub = MedicationManagementGrpc.newStub(channel);
 
-    // close channel
     channel.shutdown();
+    try {
+        if (!channel.awaitTermination(5, TimeUnit.SECONDS)) {
+            System.err.println("Channel did not terminate in the given time.");
+            channel.shutdownNow();
+
+            if (!channel.awaitTermination(5, TimeUnit.SECONDS)) {
+                System.err.println("Channel did not forcibly terminate.");
+            }
+        }
+    } catch (InterruptedException e) {
+    	channel.shutdownNow();
+        Thread.currentThread().interrupt();
+    }
   }
 
   // jmDNS service discovery - method takes service_type as param

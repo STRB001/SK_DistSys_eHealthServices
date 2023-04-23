@@ -94,14 +94,9 @@ public class EHRManagementServer {
         if (record.getPatientId().equals(request.getPatientId())) {
           response = record;
 
-          // two simple printlines in terminal to confirm if patient was found or not
+          // simple printline in terminal to confirm if patient was found or not
           System.out.println("Patient ID " + request.getPatientId() + " was found!");
         }
-      }
-
-      if (response == null) {
-        System.out.println("Patient ID " + request.getPatientId() + " was searched for but no match was found.");
-        response = SearchPatientRecordResponse.getDefaultInstance();
       }
       // send response back to client and inform server that request is complete
       responseObserver.onNext(response);

@@ -53,8 +53,20 @@ public class EHRManagementClient {
     blockingStub = EHRManagementGrpc.newBlockingStub(EHRManagementChannel);
     asyncStub = EHRManagementGrpc.newStub(EHRManagementChannel);
 
-    //close channel
     EHRManagementChannel.shutdown();
+    try {
+        if (!EHRManagementChannel.awaitTermination(5, TimeUnit.SECONDS)) {
+            System.err.println("Channel did not terminate in the given time.");
+            EHRManagementChannel.shutdownNow();
+
+            if (!EHRManagementChannel.awaitTermination(5, TimeUnit.SECONDS)) {
+                System.err.println("Channel did not forcibly terminate.");
+            }
+        }
+    } catch (InterruptedException e) {
+    	EHRManagementChannel.shutdownNow();
+        Thread.currentThread().interrupt();
+    }
   }
 
   
@@ -126,6 +138,7 @@ public class EHRManagementClient {
         // return message to indicate patient not found if no matching ID
       } else {
         return "Patient ID " + patientId + " was searched but no matching ID found.";
+        
       }
       // error handling
     } catch (StatusRuntimeException e) {

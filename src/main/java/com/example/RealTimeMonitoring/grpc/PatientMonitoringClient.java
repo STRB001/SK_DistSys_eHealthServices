@@ -58,9 +58,23 @@ public class PatientMonitoringClient {
     // asynchronous grpc stub when no wait is needed for response. Server responds and a callback handles the response (streaming)
     blockingStub = PatientMonitoringGrpc.newBlockingStub(patientMonitorChannel);
     asyncStub = PatientMonitoringGrpc.newStub(patientMonitorChannel);
-    // close channel
+    
     patientMonitorChannel.shutdown();
+    try {
+        if (!patientMonitorChannel.awaitTermination(5, TimeUnit.SECONDS)) {
+            System.err.println("Channel did not terminate in the given time.");
+            patientMonitorChannel.shutdownNow();
+
+            if (!patientMonitorChannel.awaitTermination(5, TimeUnit.SECONDS)) {
+                System.err.println("Channel did not forcibly terminate.");
+            }
+        }
+    } catch (InterruptedException e) {
+    	patientMonitorChannel.shutdownNow();
+        Thread.currentThread().interrupt();
+    }
   }
+
 
   
   // jmDNS service discovery - method takes service_type as param

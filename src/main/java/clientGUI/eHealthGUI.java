@@ -3,6 +3,8 @@ package clientGUI;
 import java.awt.event.ActionEvent;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import com.example.MedicationManagement.grpc.PatientMedicationClient;
 import com.example.MedicationManagement.grpc.PatientMedicationClient.MedicationConfirmationOutputListener;
@@ -35,6 +37,9 @@ import javax.jmdns.ServiceListener;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class eHealthGUI extends JFrame {
@@ -79,6 +84,9 @@ public class eHealthGUI extends JFrame {
     private JTextField updateOperationTF;
     private JTextField sharePatientNumRecordsTF;
 
+    private List<ManagedChannel> managedChannels = new ArrayList<>();
+    
+    
     public static void main(String[] args) {
     	// schedules a Runnable to be executed, create instance of eHealthGUI and make it visible
         EventQueue.invokeLater(new Runnable() {
@@ -96,15 +104,14 @@ public class eHealthGUI extends JFrame {
         });
     }
 
+    
+    
     // Discovery of Patient Medication Management Service using jmDNS
     private void discoverPatientMedicationService(String service_type) throws IOException {
-
         //Get local host address
         InetAddress localHost = InetAddress.getLocalHost();
-
         //create a JmDNS instance
         JmDNS jmdns = JmDNS.create(localHost);
-
         //create ServiceListener
         ServiceListener listener = new ServiceListener() {
             @Override
@@ -117,13 +124,12 @@ public class eHealthGUI extends JFrame {
                 // Create the PatientMedicationClient instance with the host and port
                 ManagedChannel patientMedicationChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
                 patientMedicationClient = new PatientMedicationClient(patientMedicationChannel);
+                managedChannels.add(patientMedicationChannel);
             }
-
             @Override
             public void serviceAdded(ServiceEvent event) {
                 jmdns.requestServiceInfo(event.getType(), event.getName(), 1000);
             }
-
             @Override
             public void serviceRemoved(ServiceEvent event) {}
         };
@@ -131,15 +137,15 @@ public class eHealthGUI extends JFrame {
         jmdns.addServiceListener(service_type, listener);
     }
 
+    
+    
+    
     // Discovery of Real-Time Monitoring Service using jmDNS
     private void discoverRealTimeMonitoringService(String service_type) throws IOException {
-
         // get the local host address
         InetAddress localHost = InetAddress.getLocalHost();
-
         // create a JmDNS instance
         JmDNS jmdns = JmDNS.create(localHost);
-
         // create a ServiceListener
         ServiceListener listener = new ServiceListener() {
             @Override
@@ -152,13 +158,12 @@ public class eHealthGUI extends JFrame {
                 //create PatientMonitoringClient instance with the host and port
                 ManagedChannel patientMonitorChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
                 patientMonitorClient = new PatientMonitoringClient(patientMonitorChannel);
+                managedChannels.add(patientMonitorChannel);
             }
-
             @Override
             public void serviceAdded(ServiceEvent event) {
                 jmdns.requestServiceInfo(event.getType(), event.getName(), 1000);
             }
-
             @Override
             public void serviceRemoved(ServiceEvent event) {}
         };
@@ -187,6 +192,7 @@ public class eHealthGUI extends JFrame {
                 // Create the EHRManagementClient instance with the host and port
                 ManagedChannel ehrManagementChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
                 EHRManagementClient = new EHRManagementClient(ehrManagementChannel);
+                managedChannels.add(ehrManagementChannel);
             }
 
             @Override
@@ -203,6 +209,20 @@ public class eHealthGUI extends JFrame {
         // Register the listener and start the service discovery
         jmdns.addServiceListener(service_type, listener);
     }
+    
+    
+    
+    private void shutdownChannels() {
+        for (ManagedChannel channel : managedChannels) {
+            try {
+                channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
 
     // creatE GUI
     public eHealthGUI() throws IOException {
@@ -216,6 +236,14 @@ public class eHealthGUI extends JFrame {
         setBounds(100, 100, 849, 447);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        
+        // Call shutdownChannels to properly close all channels - STOP annoying shutdown error
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                shutdownChannels();
+            }
+        });
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -875,5 +903,6 @@ public class eHealthGUI extends JFrame {
                 }
             }
         });
+        
     }
 }
