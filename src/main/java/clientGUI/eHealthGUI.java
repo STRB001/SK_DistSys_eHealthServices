@@ -213,7 +213,7 @@ public class eHealthGUI extends JFrame {
 
         setTitle("eHealthServices Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 862, 446);
+        setBounds(100, 100, 849, 447);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -221,7 +221,7 @@ public class eHealthGUI extends JFrame {
         contentPane.setLayout(null);
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(10, 14, 835, 393);
+        tabbedPane.setBounds(10, 14, 822, 387);
         contentPane.add(tabbedPane);
 
         /*
@@ -233,7 +233,7 @@ public class eHealthGUI extends JFrame {
         patientMonitoringManager.setLayout(null);
 
         JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane_1.setBounds(0, 11, 845, 343);
+        tabbedPane_1.setBounds(0, 11, 815, 343);
         patientMonitoringManager.add(tabbedPane_1);
 
         JPanel addPatientService = new JPanel();
