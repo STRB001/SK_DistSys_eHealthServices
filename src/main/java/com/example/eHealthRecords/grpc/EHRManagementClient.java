@@ -230,10 +230,9 @@ public class EHRManagementClient {
     // loop  through the number of patients entered and increment +1 to the end of each to simulate the number of patient records shared
     try {
       for (int i = 1; i <= numPatients; i++) {
-        String recordContent = "PatientName" + i + "\nPatientAge" + i + "\nPatientAddress" + i;
+        String recordContent = "PatientID" + i + "\nPatientName" + i + "\nPatientAge" + i + "\nPatientAddress" + i;
         requestObserver.onNext(SharePatientRecordRequest.newBuilder()
           .setPatientId("patient" + i)
-          .setRecordPart("Part " + i)
           .setRecordContent(recordContent)
           .build());
         //call the callback with the record content - this updates call with current patient record

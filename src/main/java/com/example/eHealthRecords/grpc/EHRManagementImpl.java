@@ -73,21 +73,21 @@ public final class EHRManagementImpl {
       "n\030\005 \001(\t\022\021\n\toperation\030\006 \001(\t\"p\n\033UpdatePati" +
       "entRecordResponse\022\017\n\007success\030\001 \001(\010\022\017\n\007me" +
       "ssage\030\002 \001(\t\022/\n\017updated_patient\030\003 \001(\0132\026.E" +
-      "HRManagement.Patient\"\\\n\031SharePatientReco" +
-      "rdRequest\022\022\n\npatient_id\030\001 \001(\t\022\023\n\013record_" +
-      "part\030\002 \001(\t\022\026\n\016record_content\030\003 \001(\t\">\n\032Sh" +
-      "arePatientRecordResponse\022\017\n\007success\030\001 \001(" +
-      "\010\022\017\n\007message\030\002 \001(\t2\336\002\n\rEHRManagement\022n\n\023" +
-      "SearchPatientRecord\022).EHRManagement.Sear" +
-      "chPatientRecordRequest\032*.EHRManagement.S" +
-      "earchPatientRecordResponse\"\000\022n\n\023UpdatePa" +
-      "tientRecord\022).EHRManagement.UpdatePatien" +
-      "tRecordRequest\032*.EHRManagement.UpdatePat" +
-      "ientRecordResponse\"\000\022m\n\022SharePatientReco" +
-      "rd\022(.EHRManagement.SharePatientRecordReq" +
-      "uest\032).EHRManagement.SharePatientRecordR" +
-      "esponse\"\000(\001B6\n\037com.example.eHealthRecord" +
-      "s.grpcB\021EHRManagementImplP\001b\006proto3"
+      "HRManagement.Patient\"G\n\031SharePatientReco" +
+      "rdRequest\022\022\n\npatient_id\030\001 \001(\t\022\026\n\016record_" +
+      "content\030\002 \001(\t\">\n\032SharePatientRecordRespo" +
+      "nse\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t2\336\002" +
+      "\n\rEHRManagement\022n\n\023SearchPatientRecord\022)" +
+      ".EHRManagement.SearchPatientRecordReques" +
+      "t\032*.EHRManagement.SearchPatientRecordRes" +
+      "ponse\"\000\022n\n\023UpdatePatientRecord\022).EHRMana" +
+      "gement.UpdatePatientRecordRequest\032*.EHRM" +
+      "anagement.UpdatePatientRecordResponse\"\000\022" +
+      "m\n\022SharePatientRecord\022(.EHRManagement.Sh" +
+      "arePatientRecordRequest\032).EHRManagement." +
+      "SharePatientRecordResponse\"\000(\001B6\n\037com.ex" +
+      "ample.eHealthRecords.grpcB\021EHRManagement" +
+      "ImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -136,7 +136,7 @@ public final class EHRManagementImpl {
     internal_static_EHRManagement_SharePatientRecordRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EHRManagement_SharePatientRecordRequest_descriptor,
-        new java.lang.String[] { "PatientId", "RecordPart", "RecordContent", });
+        new java.lang.String[] { "PatientId", "RecordContent", });
     internal_static_EHRManagement_SharePatientRecordResponse_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_EHRManagement_SharePatientRecordResponse_fieldAccessorTable = new

@@ -57,8 +57,7 @@ message UpdatePatientRecordResponse {
 
 message SharePatientRecordRequest {
   string patient_id = 1;
-  string record_part = 2;
-  string record_content = 3;
+  string record_content = 2;
 }
 
 message SharePatientRecordResponse {

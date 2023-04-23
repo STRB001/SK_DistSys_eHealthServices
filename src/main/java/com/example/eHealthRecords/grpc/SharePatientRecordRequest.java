@@ -17,7 +17,6 @@ private static final long serialVersionUID = 0L;
   }
   private SharePatientRecordRequest() {
     patientId_ = "";
-    recordPart_ = "";
     recordContent_ = "";
   }
 
@@ -52,12 +51,6 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 18: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            recordPart_ = s;
-            break;
-          }
-          case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
             recordContent_ = s;
@@ -129,44 +122,10 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int RECORD_PART_FIELD_NUMBER = 2;
-  private volatile java.lang.Object recordPart_;
-  /**
-   * <code>string record_part = 2;</code>
-   */
-  public java.lang.String getRecordPart() {
-    java.lang.Object ref = recordPart_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      recordPart_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string record_part = 2;</code>
-   */
-  public com.google.protobuf.ByteString
-      getRecordPartBytes() {
-    java.lang.Object ref = recordPart_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      recordPart_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int RECORD_CONTENT_FIELD_NUMBER = 3;
+  public static final int RECORD_CONTENT_FIELD_NUMBER = 2;
   private volatile java.lang.Object recordContent_;
   /**
-   * <code>string record_content = 3;</code>
+   * <code>string record_content = 2;</code>
    */
   public java.lang.String getRecordContent() {
     java.lang.Object ref = recordContent_;
@@ -181,7 +140,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string record_content = 3;</code>
+   * <code>string record_content = 2;</code>
    */
   public com.google.protobuf.ByteString
       getRecordContentBytes() {
@@ -214,11 +173,8 @@ private static final long serialVersionUID = 0L;
     if (!getPatientIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, patientId_);
     }
-    if (!getRecordPartBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, recordPart_);
-    }
     if (!getRecordContentBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, recordContent_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, recordContent_);
     }
     unknownFields.writeTo(output);
   }
@@ -232,11 +188,8 @@ private static final long serialVersionUID = 0L;
     if (!getPatientIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, patientId_);
     }
-    if (!getRecordPartBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, recordPart_);
-    }
     if (!getRecordContentBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, recordContent_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, recordContent_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -256,8 +209,6 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && getPatientId()
         .equals(other.getPatientId());
-    result = result && getRecordPart()
-        .equals(other.getRecordPart());
     result = result && getRecordContent()
         .equals(other.getRecordContent());
     result = result && unknownFields.equals(other.unknownFields);
@@ -273,8 +224,6 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
     hash = (53 * hash) + getPatientId().hashCode();
-    hash = (37 * hash) + RECORD_PART_FIELD_NUMBER;
-    hash = (53 * hash) + getRecordPart().hashCode();
     hash = (37 * hash) + RECORD_CONTENT_FIELD_NUMBER;
     hash = (53 * hash) + getRecordContent().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -412,8 +361,6 @@ private static final long serialVersionUID = 0L;
       super.clear();
       patientId_ = "";
 
-      recordPart_ = "";
-
       recordContent_ = "";
 
       return this;
@@ -443,7 +390,6 @@ private static final long serialVersionUID = 0L;
     public com.example.eHealthRecords.grpc.SharePatientRecordRequest buildPartial() {
       com.example.eHealthRecords.grpc.SharePatientRecordRequest result = new com.example.eHealthRecords.grpc.SharePatientRecordRequest(this);
       result.patientId_ = patientId_;
-      result.recordPart_ = recordPart_;
       result.recordContent_ = recordContent_;
       onBuilt();
       return result;
@@ -495,10 +441,6 @@ private static final long serialVersionUID = 0L;
       if (other == com.example.eHealthRecords.grpc.SharePatientRecordRequest.getDefaultInstance()) return this;
       if (!other.getPatientId().isEmpty()) {
         patientId_ = other.patientId_;
-        onChanged();
-      }
-      if (!other.getRecordPart().isEmpty()) {
-        recordPart_ = other.recordPart_;
         onChanged();
       }
       if (!other.getRecordContent().isEmpty()) {
@@ -603,78 +545,9 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object recordPart_ = "";
-    /**
-     * <code>string record_part = 2;</code>
-     */
-    public java.lang.String getRecordPart() {
-      java.lang.Object ref = recordPart_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        recordPart_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string record_part = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getRecordPartBytes() {
-      java.lang.Object ref = recordPart_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        recordPart_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string record_part = 2;</code>
-     */
-    public Builder setRecordPart(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      recordPart_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string record_part = 2;</code>
-     */
-    public Builder clearRecordPart() {
-      
-      recordPart_ = getDefaultInstance().getRecordPart();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string record_part = 2;</code>
-     */
-    public Builder setRecordPartBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      recordPart_ = value;
-      onChanged();
-      return this;
-    }
-
     private java.lang.Object recordContent_ = "";
     /**
-     * <code>string record_content = 3;</code>
+     * <code>string record_content = 2;</code>
      */
     public java.lang.String getRecordContent() {
       java.lang.Object ref = recordContent_;
@@ -689,7 +562,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string record_content = 3;</code>
+     * <code>string record_content = 2;</code>
      */
     public com.google.protobuf.ByteString
         getRecordContentBytes() {
@@ -705,7 +578,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string record_content = 3;</code>
+     * <code>string record_content = 2;</code>
      */
     public Builder setRecordContent(
         java.lang.String value) {
@@ -718,7 +591,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string record_content = 3;</code>
+     * <code>string record_content = 2;</code>
      */
     public Builder clearRecordContent() {
       
@@ -727,7 +600,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string record_content = 3;</code>
+     * <code>string record_content = 2;</code>
      */
     public Builder setRecordContentBytes(
         com.google.protobuf.ByteString value) {

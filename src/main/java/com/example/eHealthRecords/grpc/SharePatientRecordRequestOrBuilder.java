@@ -18,21 +18,11 @@ public interface SharePatientRecordRequestOrBuilder extends
       getPatientIdBytes();
 
   /**
-   * <code>string record_part = 2;</code>
-   */
-  java.lang.String getRecordPart();
-  /**
-   * <code>string record_part = 2;</code>
-   */
-  com.google.protobuf.ByteString
-      getRecordPartBytes();
-
-  /**
-   * <code>string record_content = 3;</code>
+   * <code>string record_content = 2;</code>
    */
   java.lang.String getRecordContent();
   /**
-   * <code>string record_content = 3;</code>
+   * <code>string record_content = 2;</code>
    */
   com.google.protobuf.ByteString
       getRecordContentBytes();
