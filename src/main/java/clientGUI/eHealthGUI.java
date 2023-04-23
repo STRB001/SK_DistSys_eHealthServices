@@ -551,8 +551,13 @@ public class eHealthGUI extends JFrame {
         
         // UNARY METHOD addPatient - enter patientID, press Add Patient button, output to TextArea
         searchPatientBt.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String patientId = searchPatientIdTF.getText();
+        	public void actionPerformed(ActionEvent e) {
+        	String patientId = searchPatientIdTF.getText();
+
+        	String searchResult = EHRManagementClient.searchPatientRecord(patientId);
+        	
+        	searchPatientOutputTA.setText(searchResult);
+
                 if (patientId == null || patientId.isEmpty()) {
                 	JOptionPane.showMessageDialog(null, "Error! Patient ID cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;

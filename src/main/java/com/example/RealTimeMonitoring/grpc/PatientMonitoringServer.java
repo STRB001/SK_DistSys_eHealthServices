@@ -81,6 +81,7 @@ public class PatientMonitoringServer {
       // return that response back to the client with onNext and inform server that request is complete with onCompleted()
       responseObserver.onNext(response);
       responseObserver.onCompleted();
+      System.out.println("Patient has been added successfully");
     }
 
     
